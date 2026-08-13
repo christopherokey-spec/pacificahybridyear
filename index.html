@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pacifica PHEV — Real-World Cost Tracker</title>
+<style>
+:root{
+  --midnight:#0C2340; --lake:#236192; --aurora:#78BE20; --ink:#152336;
+  --muted:#647286; --bg:#eef3f7; --panel:#fff; --line:#d9e2ea;
+  --shadow:0 10px 28px rgba(12,35,64,.08);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--ink);background:linear-gradient(180deg,#e9eff4,#f7f9fb)
+}
+.wrap{max-width:1180px;margin:0 auto;background:#fff;min-height:100vh;box-shadow:0 24px 80px rgba(12,35,64,.12)}
+.hero{
+  position:relative;overflow:hidden;background:linear-gradient(120deg,#071a30 0,var(--midnight) 52%,#123d67 100%);
+  color:#fff;border-bottom:5px solid var(--aurora)
+}
+.skyline{position:absolute;left:0;bottom:0;width:48%;height:100%;opacity:.42;pointer-events:none}
+.hero-inner{position:relative;z-index:2;padding:34px 38px 28px;display:grid;grid-template-columns:1fr auto;gap:28px;align-items:end}
+.kicker{color:#b9d8ee;font-weight:900;text-transform:uppercase;letter-spacing:.08em;font-size:.8rem}
+h1{font-size:clamp(2.25rem,5vw,4.8rem);line-height:.93;letter-spacing:-.045em;margin:7px 0 8px}
+.hero-sub{color:var(--aurora);font-size:clamp(1.05rem,2vw,1.5rem);font-weight:900}
+.hero-note{color:#d5e1eb;font-weight:700;margin-top:5px}
+.hero-meta{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:flex-end}
+.tank-badge{display:inline-flex;align-items:center;gap:10px;background:var(--aurora);color:#fff;border-radius:12px;padding:11px 16px;font-size:1.2rem;font-weight:950}
+.date-badge{font-weight:850;color:#edf4f9}
+
+.j1772{width:28px;height:28px;display:inline-block;vertical-align:middle}
+.j1772 svg{width:100%;height:100%;display:block}
+
+.tabs input[type=radio]{position:absolute;opacity:0;pointer-events:none}
+.tabbar{
+  position:sticky;top:0;z-index:20;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);padding:12px 16px;display:flex;gap:8px;overflow:auto
+}
+.tabbar label{
+  border-radius:999px;padding:10px 15px;background:#edf2f6;color:var(--midnight);
+  font-weight:850;cursor:pointer;white-space:nowrap;user-select:none
+}
+.panels{padding:24px}
+.panel{display:none;animation:fade .18s ease}
+@keyframes fade{from{opacity:.2;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+#tab-overview:checked ~ .tabbar label[for=tab-overview],
+#tab-tank1:checked ~ .tabbar label[for=tab-tank1],
+#tab-tank2:checked ~ .tabbar label[for=tab-tank2],
+#tab-costs:checked ~ .tabbar label[for=tab-costs],
+#tab-compare:checked ~ .tabbar label[for=tab-compare],
+#tab-year:checked ~ .tabbar label[for=tab-year],
+#tab-method:checked ~ .tabbar label[for=tab-method]{background:var(--midnight);color:#fff}
+
+#tab-overview:checked ~ .panels #overview,
+#tab-tank1:checked ~ .panels #tank1,
+#tab-tank2:checked ~ .panels #tank2,
+#tab-costs:checked ~ .panels #costs,
+#tab-compare:checked ~ .panels #compare,
+#tab-year:checked ~ .panels #year,
+#tab-method:checked ~ .panels #method{display:block}
+
+.section-title{color:var(--midnight);font-size:.95rem;font-weight:950;text-transform:uppercase;letter-spacing:.07em;margin:0 0 12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:19px;box-shadow:var(--shadow)}
+.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.metric{min-height:140px;display:flex;flex-direction:column;justify-content:space-between}
+.metric-icon{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--lake);color:white;font-weight:950}
+.metric.green .metric-icon{background:var(--aurora)}
+.metric strong{font-size:clamp(2rem,4vw,3.55rem);line-height:.96;color:var(--midnight);letter-spacing:-.04em}
+.metric.green strong{color:#347a1d}
+.metric span{font-weight:850;color:#3a4654}
+.hero-stat{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;background:linear-gradient(135deg,var(--midnight),#123b63);color:#fff;border-radius:20px;padding:27px;margin-bottom:18px}
+.hero-stat .big{font-size:clamp(3.3rem,8vw,6.6rem);font-weight:950;letter-spacing:-.05em;line-height:.88;color:var(--aurora)}
+.hero-stat .label{font-size:1.2rem;font-weight:900}
+.hero-stat .subcopy{margin-top:5px;color:#c9d7e4;font-weight:700}
+.hero-j1772{width:78px;height:78px;border:2px solid rgba(255,255,255,.25);border-radius:20px;display:grid;place-items:center;background:rgba(255,255,255,.07)}
+.hero-j1772 .j1772{width:52px;height:52px}
+.progress{height:25px;display:flex;border-radius:999px;overflow:hidden;background:#e6edf3;margin:12px 0 8px}
+.progress .ev{width:82.6%;background:var(--aurora)}
+.progress .gas{width:17.4%;background:var(--lake)}
+.legend{display:flex;gap:18px;flex-wrap:wrap;color:#536174;font-weight:800;font-size:.93rem}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:6px}
+.dot.ev{background:var(--aurora)} .dot.gas{background:var(--lake)}
+.savings{background:linear-gradient(180deg,#fbfff7,#edf8e5);border-color:#cde4b4}
+.savings .amount{font-size:4.1rem;line-height:1;color:#347a1d;font-weight:950;letter-spacing:-.04em}
+.savings .pct{font-size:2rem;color:var(--midnight);font-weight:950;margin-top:5px}
+.rows .row{display:grid;grid-template-columns:1fr auto;gap:10px;padding:11px 0;border-bottom:1px dashed #d4dde5}
+.rows .row:last-child{border-bottom:0}
+.rows .row b{color:var(--midnight)}
+.total{margin-top:16px;padding-top:13px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:end;font-weight:900;color:#566274}
+.total strong{font-size:2.4rem;color:var(--midnight);letter-spacing:-.03em}
+.compare{width:100%;border-collapse:collapse}
+.compare th,.compare td{padding:14px 11px;border-bottom:1px solid var(--line);text-align:right}
+.compare th:first-child,.compare td:first-child{text-align:left}
+.compare thead th{background:#f1f5f8;color:var(--midnight);text-transform:uppercase;letter-spacing:.05em;font-size:.8rem}
+.compare .phev{color:#347a1d;font-weight:950}.compare .old{color:var(--midnight);font-weight:900}
+.tank-strip{display:flex;gap:10px;overflow:auto;padding-bottom:8px}
+.tank-mini{min-width:158px;border:1px solid var(--line);border-radius:15px;padding:14px;background:#fff}
+.tank-mini.current{border:2px solid var(--aurora);background:#fbfff8}.tank-mini.future{opacity:.55;border-style:dashed}
+.tank-mini h3{margin:0 0 8px;color:var(--midnight);font-size:1rem}.mini-copy{font-size:.9rem;color:var(--muted);line-height:1.55}
+.method-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.method{border:1px solid var(--line);border-radius:14px;padding:16px;background:#fff}
+.method .symbol{font-size:1.8rem;margin-bottom:8px}.method strong{display:block;color:var(--midnight);margin-bottom:5px}.method p{margin:0;color:#586679;line-height:1.5;font-size:.92rem}
+.note{background:#f7fafc;border-left:4px solid var(--lake);padding:14px 16px;border-radius:10px;color:#556275;line-height:1.55}
+.big-number{font-size:5rem;line-height:.95;font-weight:950;color:var(--aurora);letter-spacing:-.045em}
+.nextrow{display:flex;justify-content:flex-end;margin-top:18px}
+.nextrow label{background:var(--aurora);color:#fff;font-weight:900;border-radius:12px;padding:12px 17px;cursor:pointer}
+.footer{padding:0 24px 28px;color:#798594;font-size:.82rem}
+@media(max-width:850px){
+  .hero-inner{grid-template-columns:1fr}.hero-meta{justify-content:flex-start}.skyline{width:100%;opacity:.18}
+  .grid4{grid-template-columns:repeat(2,1fr)}.grid3,.grid2,.method-grid{grid-template-columns:1fr}.hero-stat{grid-template-columns:1fr}.hero-j1772{display:none}
+}
+@media(max-width:520px){
+  .hero-inner{padding:28px 20px 23px}.panels{padding:17px}.grid4{grid-template-columns:1fr}.tabbar{padding:10px}.date-badge{font-size:.9rem}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+  <svg class="skyline" viewBox="0 0 700 340" aria-hidden="true">
+    <g fill="none" stroke="#9ad7ff" stroke-width="5">
+      <path d="M0 272H34V196H66V150H104V182H142V104H166V48H190V164H226V120H250V72H274V188H316V137H342V83H370V214H410V168H438V128H466V230H503V178H531V145H560V236H600V194H630V154H660V272H700"/>
+      <path d="M0 292 C115 242 255 310 407 264 C506 233 591 242 700 220"/>
+      <path d="M0 310 C145 260 315 332 503 284 C586 262 650 271 700 260"/>
+    </g>
+  </svg>
+  <div class="hero-inner">
+    <div>
+      <div class="kicker">2025 Chrysler Pacifica Plug‑In Hybrid</div>
+      <h1>Our Year of<br>Real‑World Costs</h1>
+      <div class="hero-sub">A tank‑by‑tank ownership experiment</div>
+      <div class="hero-note">Real miles. Real charging. Real gas. Real costs.</div>
+    </div>
+    <div class="hero-meta">
+      <div class="date-badge">Tracked through August 12, 2026</div>
+    </div>
+  </div>
+</header>
+
+<div class="tabs">
+  <input checked type="radio" name="tabs" id="tab-overview">
+  <input type="radio" name="tabs" id="tab-tank1">
+  <input type="radio" name="tabs" id="tab-tank2">
+  <input type="radio" name="tabs" id="tab-costs">
+  <input type="radio" name="tabs" id="tab-compare">
+  <input type="radio" name="tabs" id="tab-year">
+  <input type="radio" name="tabs" id="tab-method">
+
+  <div class="tabbar">
+    <label for="tab-overview">Overview</label>
+    <label for="tab-tank1">Tank #1</label>
+    <label for="tab-tank2">Tank #2</label>
+    <label for="tab-costs">Costs</label>
+    <label for="tab-compare">vs. 2018</label>
+    <label for="tab-year">Year to Date</label>
+    <label for="tab-method">Methodology</label>
+  </div>
+
+  <div class="panels">
+    <section class="panel" id="overview">
+      <div class="hero-stat">
+        <div><div class="big">2,542.3</div><div class="label">tracked miles so far</div><div class="subcopy">71.1% of the driving has been electric through Tank #2.</div></div>
+        <div class="hero-j1772">
+          <span class="j1772"><svg viewBox="0 0 64 64"><path d="M19 10h26a8 8 0 0 1 8 8v14a21 21 0 0 1-42 0V18a8 8 0 0 1 8-8Z" fill="none" stroke="currentColor" stroke-width="5"/><circle cx="24" cy="24" r="4" fill="currentColor"/><circle cx="40" cy="24" r="4" fill="currentColor"/><circle cx="32" cy="34" r="4" fill="currentColor"/><circle cx="24" cy="39" r="3" fill="currentColor"/><circle cx="40" cy="39" r="3" fill="currentColor"/><path d="M32 53v9" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg></span>
+        </div>
+      </div>
+      <div class="grid4">
+        <div class="card metric"><div class="metric-icon">🛣</div><strong>2,542.3</strong><span>Total tracked miles</span></div>
+        <div class="card metric green"><div class="metric-icon">⚡</div><strong>71.1%</strong><span>Electric driving</span></div>
+        <div class="card metric"><div class="metric-icon">$</div><strong>$214.24</strong><span>Total energy cost</span></div>
+        <div class="card metric green"><div class="metric-icon">¢</div><strong>8.43¢</strong><span>Average cost per mile</span></div>
+      </div>
+      <div style="height:18px"></div>
+      <div class="grid2">
+        <div class="card"><div class="section-title">Year-to-date driving mix</div><div class="progress"><div class="ev" style="width:71.1%"></div><div class="gas" style="width:28.9%"></div></div><div class="legend"><span><i class="dot ev"></i>1,808.8 electric miles</span><span><i class="dot gas"></i>733.5 gas‑engine miles</span></div></div>
+        <div class="card savings"><div class="section-title">Savings so far</div><div class="amount">$233 saved</div><div class="pct">52% lower energy cost</div><div style="margin-top:6px;color:#596574">vs. the 2018 Pacifica benchmark through Tank #2</div></div>
+      </div>
+      <div class="nextrow"><label for="tab-year">See year-to-date details →</label></div>
+    </section>
+
+    <section class="panel" id="tank1">
+      <div class="section-title">Tank #1 — June 18 to August 10, 2026</div>
+      <div class="grid3">
+        <div class="card rows"><h3 style="margin-top:0;color:var(--midnight)">Driving</h3><div class="row"><span>Electric miles</span><b>1,668.7</b></div><div class="row"><span>Gas‑engine miles</span><b>351.4</b></div><div class="row"><span>Total miles</span><b>2,020.1</b></div><div class="row"><span>Electric share</span><b>82.6%</b></div></div>
+        <div class="card rows"><h3 style="margin-top:0;color:var(--midnight)">Energy</h3><div class="row"><span>Gasoline used</span><b>13.893 gal</b></div><div class="row"><span>Total charging</span><b>617.320 kWh</b></div><div class="row"><span>Home charging</span><b>557.621 kWh</b></div><div class="row"><span>Public charging</span><b>59.699 kWh</b></div></div>
+        <div class="card"><div class="section-title">Tank highlight</div><div class="big-number">1</div><div style="font-size:1.3rem;font-weight:950;color:var(--midnight)">gas fill‑up</div><p style="color:var(--muted);line-height:1.55">One fill‑up covered all 2,020.1 miles in this first tracked segment.</p></div>
+      </div>
+      <div style="height:20px"></div>
+      <div class="section-title">Tank history</div>
+      <div class="tank-strip">
+        <div class="tank-mini current"><h3>Tank #1</h3><div class="mini-copy">2,020.1 mi<br>82.6% EV<br>$152.62<br>7.56¢/mi</div></div>
+        <div class="tank-mini"><h3>Tank #2</h3><div class="mini-copy">522.2 mi<br>26.8% EV<br>$61.62<br>11.80¢/mi</div></div>
+        <div class="tank-mini future"><h3>Tank #3</h3><div class="mini-copy">Awaiting data<br>—<br>—<br>—</div></div>
+        <div class="tank-mini future"><h3>Tank #4</h3><div class="mini-copy">Awaiting data<br>—<br>—<br>—</div></div>
+      </div>
+      <div class="nextrow"><label for="tab-tank2">See Tank #2 →</label></div>
+    </section>
+
+
+    <section class="panel" id="tank2">
+      <div class="section-title">Tank #2 — Road Trip Edition • August 10 to August 12, 2026</div>
+      <div class="grid3">
+        <div class="card rows">
+          <h3 style="margin-top:0;color:var(--midnight)">Driving</h3>
+          <div class="row"><span>Electric miles</span><b>140.1</b></div>
+          <div class="row"><span>Gas‑engine miles</span><b>382.1</b></div>
+          <div class="row"><span>Total miles</span><b>522.2</b></div>
+          <div class="row"><span>Electric share</span><b>26.8%</b></div>
+        </div>
+        <div class="card rows">
+          <h3 style="margin-top:0;color:var(--midnight)">Energy & charging</h3>
+          <div class="row"><span>Gasoline purchased</span><b>15.329 gal</b></div>
+          <div class="row"><span>Home charging total</span><b>16.2977 kWh</b></div>
+          <div class="row"><span>Home charging cost</span><b>$2.62</b></div>
+          <div class="row"><span>Public lunch charge</span><b>FREE</b></div>
+        </div>
+        <div class="card">
+          <div class="section-title">Road‑trip result</div>
+          <div class="big-number">11.80¢</div>
+          <div style="font-size:1.25rem;font-weight:950;color:var(--midnight)">per mile</div>
+          <p style="color:var(--muted);line-height:1.55">Even with limited charging opportunity and mostly highway driving, Tank #2 still came in below the 2018 Pacifica benchmark.</p>
+        </div>
+      </div>
+
+      <div style="height:18px"></div>
+      <div class="grid2">
+        <div class="card rows">
+          <div class="section-title">Total energy cost</div>
+          <div class="row"><span>Gasoline</span><b>$59.00</b></div>
+          <div class="row"><span>Home charging</span><b>$2.62</b></div>
+          <div class="row"><span>Free public charging</span><b>$0.00</b></div>
+          <div class="total"><span>TOTAL</span><strong>$61.62</strong></div>
+        </div>
+        <div class="card savings">
+          <div class="section-title">Compared with 2018 Pacifica</div>
+          <div class="amount">$34.28 saved</div>
+          <div class="pct">36% lower energy cost</div>
+          <p style="color:#596574;line-height:1.55;margin-bottom:0">2018 benchmark: $95.90 total, or 18.37¢/mile, using 22 MPG and the Twin Cities gas-price benchmark for August 10–12.</p>
+        </div>
+      </div>
+
+      <div style="height:18px"></div>
+      <div class="note"><strong>Tank #2 context:</strong> Longer drives, more highway miles, minimal charging on the road, and more regen as traffic, rolling hills, and town slowdowns increased closer to home. The free lunch charge reduced actual cost without adding anything to the paid charging total.</div>
+
+      <div style="height:20px"></div>
+      <div class="section-title">Tank history</div>
+      <div class="tank-strip">
+        <div class="tank-mini"><h3>Tank #1</h3><div class="mini-copy">2,020.1 mi<br>82.6% EV<br>$152.62<br>7.56¢/mi</div></div>
+        <div class="tank-mini current"><h3>Tank #2</h3><div class="mini-copy">522.2 mi<br>26.8% EV<br>$61.62<br>11.80¢/mi</div></div>
+        <div class="tank-mini future"><h3>Tank #3</h3><div class="mini-copy">Awaiting data<br>—<br>—<br>—</div></div>
+        <div class="tank-mini future"><h3>Tank #4</h3><div class="mini-copy">Awaiting data<br>—<br>—<br>—</div></div>
+      </div>
+      <div class="nextrow"><label for="tab-costs">See cumulative costs →</label></div>
+    </section>
+
+    <section class="panel" id="costs">
+      <div class="section-title">Cumulative real‑world energy cost — Tanks #1 + #2</div>
+      <div class="grid2">
+        <div class="card rows">
+          <div class="row"><span>Tank #1</span><b>$152.62</b></div>
+          <div class="row"><span>Tank #2</span><b>$61.62</b></div>
+          <div class="total"><span>TRACKED TOTAL</span><strong>$214.24</strong></div>
+        </div>
+        <div class="card">
+          <div class="section-title">Average cost per mile</div>
+          <div class="big-number">8.43¢</div>
+          <p style="font-size:1.15rem;font-weight:900;color:var(--midnight)">across 2,542.3 tracked miles</p>
+          <p style="color:var(--muted);line-height:1.6">Tank #1 was local and plug‑heavy; Tank #2 was a short road‑trip tank with limited charging. Together they already show how usage pattern changes the cost profile.</p>
+        </div>
+      </div>
+      <div style="height:18px"></div>
+      <div class="grid3">
+        <div class="card"><div class="section-title">Tank #1</div><div style="font-size:2.4rem;font-weight:950;color:var(--lake)">$152.62</div><p style="color:var(--muted)">2,020.1 miles • 7.56¢/mi</p></div>
+        <div class="card"><div class="section-title">Tank #2</div><div style="font-size:2.4rem;font-weight:950;color:var(--lake)">$61.62</div><p style="color:var(--muted)">522.2 miles • 11.80¢/mi</p></div>
+        <div class="card savings"><div class="section-title">Savings so far</div><div style="font-size:2.4rem;font-weight:950;color:#347a1d">$233.28</div><p style="color:var(--muted)">vs. combined 2018 Pacifica benchmarks</p></div>
+      </div>
+      <div class="nextrow"><label for="tab-compare">Compare with the 2018 Pacifica →</label></div>
+    </section>
+
+    <section class="panel" id="compare">
+      <div class="section-title">Two tanks — same mileage, two cost profiles</div>
+      <div class="card">
+        <table class="compare">
+          <thead><tr><th>Metric</th><th>2025 PHEV</th><th>2018 Pacifica benchmark</th></tr></thead>
+          <tbody>
+            <tr><td>Tracked miles</td><td class="phev">2,542.3</td><td class="old">2,542.3</td></tr>
+            <tr><td>Total energy / fuel cost</td><td class="phev">$214.24</td><td class="old">$447.57</td></tr>
+            <tr><td>Average cost per mile</td><td class="phev">8.43¢</td><td class="old">17.61¢</td></tr>
+            <tr><td>Tracked PHEV fill‑ups</td><td class="phev">2</td><td class="old">about 6</td></tr>
+            <tr><td>Difference</td><td class="phev">$233.28 saved</td><td class="old">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="height:18px"></div>
+      <div class="grid2">
+        <div class="card savings"><div class="amount">$233.28</div><div class="pct">saved through Tank #2</div></div>
+        <div class="card"><div class="big-number">52%</div><p style="font-size:1.2rem;font-weight:950;margin:.4rem 0;color:var(--midnight)">lower energy cost</p><p style="color:var(--muted);margin:0">than the combined 2018 Pacifica benchmark across the same 2,542.3 miles.</p></div>
+      </div>
+      <div class="nextrow"><label for="tab-year">See the year‑to‑date view →</label></div>
+    </section>
+
+    <section class="panel" id="year">
+      <div class="section-title">Year to Date — Through Tank #2</div>
+      <div class="note">Two very different tanks are now in the book: a long local/plug‑heavy Tank #1 and a road‑trip‑heavy Tank #2. That contrast is exactly what the year‑long tracker is designed to capture.</div>
+      <div style="height:18px"></div>
+      <div class="grid4">
+        <div class="card metric"><div class="metric-icon">2</div><strong>2,542.3</strong><span>Tracked miles</span></div>
+        <div class="card metric green"><div class="metric-icon">⚡</div><strong>71.1%</strong><span>Electric miles</span></div>
+        <div class="card metric"><div class="metric-icon">$</div><strong>$214.24</strong><span>Total energy cost</span></div>
+        <div class="card metric green"><div class="metric-icon">↘</div><strong>$233.28</strong><span>Estimated savings</span></div>
+      </div>
+      <div style="height:18px"></div>
+      <div class="grid2">
+        <div class="card rows">
+          <div class="section-title">Driving totals</div>
+          <div class="row"><span>Electric miles</span><b>1,808.8</b></div>
+          <div class="row"><span>Gas‑engine miles</span><b>733.5</b></div>
+          <div class="row"><span>Gasoline purchased</span><b>29.222 gal</b></div>
+          <div class="row"><span>Average cost per mile</span><b>8.43¢</b></div>
+        </div>
+        <div class="card">
+          <div class="section-title">Tank board</div>
+          <div class="tank-strip">
+            <div class="tank-mini"><h3>Tank #1</h3><div class="mini-copy">Jun 18–Aug 10<br>2,020.1 mi<br>82.6% EV<br>$152.62</div></div>
+            <div class="tank-mini current"><h3>Tank #2</h3><div class="mini-copy">Aug 10–Aug 12<br>522.2 mi<br>26.8% EV<br>$61.62</div></div>
+            <div class="tank-mini future"><h3>Tank #3</h3><div class="mini-copy">Future tank<br>—<br>—<br>—</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="nextrow"><label for="tab-method">How the math works →</label></div>
+    </section>
+
+    <section class="panel" id="method">
+      <div class="section-title">Methodology</div>
+      <div class="method-grid">
+        <div class="method"><div class="symbol">⛽</div><strong>Gas</strong><p>Actual receipt: $50.00 for 13.893 gallons.</p></div>
+        <div class="method"><div class="symbol">🏠</div><strong>Home charging</strong><p>557.621 kWh valued at the Xcel residential rate of 16.06¢/kWh.</p></div>
+        <div class="method"><div class="symbol"><span class="j1772" style="width:34px;height:34px;color:var(--lake)"><svg viewBox="0 0 64 64"><path d="M19 10h26a8 8 0 0 1 8 8v14a21 21 0 0 1-42 0V18a8 8 0 0 1 8-8Z" fill="none" stroke="currentColor" stroke-width="5"/><circle cx="24" cy="24" r="4" fill="currentColor"/><circle cx="40" cy="24" r="4" fill="currentColor"/><circle cx="32" cy="34" r="4" fill="currentColor"/><circle cx="24" cy="39" r="3" fill="currentColor"/><circle cx="40" cy="39" r="3" fill="currentColor"/><path d="M32 53v9" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg></span></div><strong>Public charging</strong><p>Actual ChargePoint cost: $13.06 for 59.699 kWh.</p></div>
+        <div class="method"><div class="symbol">📊</div><strong>2018 benchmark</strong><p>22 MPG, using the Twin Cities average gas-price benchmark for each tank period.</p></div>
+      </div>
+      <div style="height:20px"></div>
+      <div class="card"><div class="section-title">Seasonal electricity rates</div><p style="margin:0;color:var(--muted);line-height:1.65">When a future tank overlaps Xcel rate seasons, home-charging cost can be split by charge date so each session is valued at the rate in effect when it occurred.</p></div>
+      <div style="height:18px"></div>
+      <div class="card"><div class="section-title">What this project is measuring</div><p style="margin:0;color:var(--muted);line-height:1.65">The focus is operating energy cost: actual gasoline plus actual paid public charging plus home electricity valued at the applicable residential rate. Free public charging is counted at its actual $0 cost. The dashboard MPG display is intentionally not used as the core efficiency metric.</p></div>
+      <div class="nextrow"><label for="tab-overview">← Back to overview</label></div>
+    </section>
+  </div>
+</div>
+
+<div class="footer">Pacifica PHEV real‑world cost tracker • Tanks #1–2 through August 12, 2026 • CSS-only tabs, no links or JavaScript</div>
+</div>
+</body>
+</html>
