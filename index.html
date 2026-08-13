@@ -6,29 +6,29 @@
 <title>Pacifica PHEV — Real-World Cost Tracker</title>
 <style>
 :root{
-  --midnight:#0C2340; --lake:#236192; --aurora:#78BE20; --ink:#152336;
-  --muted:#647286; --bg:#eef3f7; --panel:#fff; --line:#d9e2ea;
-  --shadow:0 10px 28px rgba(12,35,64,.08);
+  --midnight:#5B3FA3; --lake:#3B82F6; --aurora:#F2B300; --ink:#27233A;
+  --muted:#6A6781; --bg:#F8F7FC; --panel:#FFFFFF; --line:#DDD8EE;
+  --shadow:0 10px 28px rgba(91,63,163,.10);
 }
 *{box-sizing:border-box}
 body{
   margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  color:var(--ink);background:linear-gradient(180deg,#e9eff4,#f7f9fb)
+  color:var(--ink);background:linear-gradient(180deg,#F7F4FF,#FFFDF7)
 }
-.wrap{max-width:1180px;margin:0 auto;background:#fff;min-height:100vh;box-shadow:0 24px 80px rgba(12,35,64,.12)}
+.wrap{max-width:1180px;margin:0 auto;background:#FFFFFF;min-height:100vh;box-shadow:0 24px 80px rgba(91,63,163,.14)}
 .hero{
-  position:relative;overflow:hidden;background:linear-gradient(120deg,#071a30 0,var(--midnight) 52%,#123d67 100%);
+  position:relative;overflow:hidden;background:linear-gradient(120deg,#38235F 0,var(--midnight) 48%,#2457C5 100%);
   color:#fff;border-bottom:5px solid var(--aurora)
 }
 .skyline{position:absolute;left:0;bottom:0;width:48%;height:100%;opacity:.42;pointer-events:none}
 .hero-inner{position:relative;z-index:2;padding:34px 38px 28px;display:grid;grid-template-columns:1fr auto;gap:28px;align-items:end}
-.kicker{color:#b9d8ee;font-weight:900;text-transform:uppercase;letter-spacing:.08em;font-size:.8rem}
+.kicker{color:#FFE49A;font-weight:900;text-transform:uppercase;letter-spacing:.08em;font-size:.8rem}
 h1{font-size:clamp(2.25rem,5vw,4.8rem);line-height:.93;letter-spacing:-.045em;margin:7px 0 8px}
 .hero-sub{color:var(--aurora);font-size:clamp(1.05rem,2vw,1.5rem);font-weight:900}
-.hero-note{color:#d5e1eb;font-weight:700;margin-top:5px}
+.hero-note{color:#E9E2FF;font-weight:700;margin-top:5px}
 .hero-meta{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:flex-end}
 .tank-badge{display:inline-flex;align-items:center;gap:10px;background:var(--aurora);color:#fff;border-radius:12px;padding:11px 16px;font-size:1.2rem;font-weight:950}
-.date-badge{font-weight:850;color:#edf4f9}
+.date-badge{font-weight:850;color:#EAF7F8}
 
 .j1772{width:28px;height:28px;display:inline-block;vertical-align:middle}
 .j1772 svg{width:100%;height:100%;display:block}
@@ -39,7 +39,7 @@ h1{font-size:clamp(2.25rem,5vw,4.8rem);line-height:.93;letter-spacing:-.045em;ma
   border-bottom:1px solid var(--line);padding:12px 16px;display:flex;gap:8px;overflow:auto
 }
 .tabbar label{
-  border-radius:999px;padding:10px 15px;background:#edf2f6;color:var(--midnight);
+  border-radius:999px;padding:10px 15px;background:#F0ECFB;color:var(--midnight);
   font-weight:850;cursor:pointer;white-space:nowrap;user-select:none
 }
 .panels{padding:24px}
@@ -71,22 +71,22 @@ h1{font-size:clamp(2.25rem,5vw,4.8rem);line-height:.93;letter-spacing:-.045em;ma
 .metric-icon{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--lake);color:white;font-weight:950}
 .metric.green .metric-icon{background:var(--aurora)}
 .metric strong{font-size:clamp(2rem,4vw,3.55rem);line-height:.96;color:var(--midnight);letter-spacing:-.04em}
-.metric.green strong{color:#347a1d}
+.metric.green strong{color:#CC8E00}
 .metric span{font-weight:850;color:#3a4654}
-.hero-stat{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;background:linear-gradient(135deg,var(--midnight),#123b63);color:#fff;border-radius:20px;padding:27px;margin-bottom:18px}
+.hero-stat{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;background:linear-gradient(135deg,#4A3290,#2E6CE6);color:#fff;border-radius:20px;padding:27px;margin-bottom:18px}
 .hero-stat .big{font-size:clamp(3.3rem,8vw,6.6rem);font-weight:950;letter-spacing:-.05em;line-height:.88;color:var(--aurora)}
 .hero-stat .label{font-size:1.2rem;font-weight:900}
-.hero-stat .subcopy{margin-top:5px;color:#c9d7e4;font-weight:700}
+.hero-stat .subcopy{margin-top:5px;color:#E0D8FA;font-weight:700}
 .hero-j1772{width:78px;height:78px;border:2px solid rgba(255,255,255,.25);border-radius:20px;display:grid;place-items:center;background:rgba(255,255,255,.07)}
 .hero-j1772 .j1772{width:52px;height:52px}
-.progress{height:25px;display:flex;border-radius:999px;overflow:hidden;background:#e6edf3;margin:12px 0 8px}
+.progress{height:25px;display:flex;border-radius:999px;overflow:hidden;background:#E2ECEF;margin:12px 0 8px}
 .progress .ev{width:82.6%;background:var(--aurora)}
 .progress .gas{width:17.4%;background:var(--lake)}
 .legend{display:flex;gap:18px;flex-wrap:wrap;color:#536174;font-weight:800;font-size:.93rem}
 .dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:6px}
 .dot.ev{background:var(--aurora)} .dot.gas{background:var(--lake)}
-.savings{background:linear-gradient(180deg,#fbfff7,#edf8e5);border-color:#cde4b4}
-.savings .amount{font-size:4.1rem;line-height:1;color:#347a1d;font-weight:950;letter-spacing:-.04em}
+.savings{background:linear-gradient(180deg,#FFF8DB,#FFF1B3);border-color:#F2D36E}
+.savings .amount{font-size:4.1rem;line-height:1;color:#CC8E00;font-weight:950;letter-spacing:-.04em}
 .savings .pct{font-size:2rem;color:var(--midnight);font-weight:950;margin-top:5px}
 .rows .row{display:grid;grid-template-columns:1fr auto;gap:10px;padding:11px 0;border-bottom:1px dashed #d4dde5}
 .rows .row:last-child{border-bottom:0}
@@ -96,17 +96,24 @@ h1{font-size:clamp(2.25rem,5vw,4.8rem);line-height:.93;letter-spacing:-.045em;ma
 .compare{width:100%;border-collapse:collapse}
 .compare th,.compare td{padding:14px 11px;border-bottom:1px solid var(--line);text-align:right}
 .compare th:first-child,.compare td:first-child{text-align:left}
-.compare thead th{background:#f1f5f8;color:var(--midnight);text-transform:uppercase;letter-spacing:.05em;font-size:.8rem}
-.compare .phev{color:#347a1d;font-weight:950}.compare .old{color:var(--midnight);font-weight:900}
+.compare thead th{background:#EDF4F5;color:var(--midnight);text-transform:uppercase;letter-spacing:.05em;font-size:.8rem}
+.compare .phev{color:#CC8E00;font-weight:950}.compare .old{color:var(--lake);font-weight:900}
 .tank-strip{display:flex;gap:10px;overflow:auto;padding-bottom:8px}
 .tank-mini{min-width:158px;border:1px solid var(--line);border-radius:15px;padding:14px;background:#fff}
-.tank-mini.current{border:2px solid var(--aurora);background:#fbfff8}.tank-mini.future{opacity:.55;border-style:dashed}
+.tank-mini.current{border:2px solid var(--aurora);background:#FFF8DB}.tank-mini.future{opacity:.55;border-style:dashed}
 .tank-mini h3{margin:0 0 8px;color:var(--midnight);font-size:1rem}.mini-copy{font-size:.9rem;color:var(--muted);line-height:1.55}
+.tank-link{display:block;min-width:158px;border:1px solid var(--line);border-radius:15px;padding:14px;background:#fff;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease;text-decoration:none}
+.tank-link:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(31,41,51,.12);border-color:var(--lake)}
+.tank-link.tank1{border-top:5px solid var(--lake)}
+.tank-link.tank2{border-top:5px solid var(--aurora)}
+.tank-link.current{background:#FFF8DB;box-shadow:inset 0 0 0 2px var(--aurora)}
+.tank-link h3{margin:0 0 8px;color:var(--midnight);font-size:1rem}.tank-link .mini-copy{font-size:.9rem;color:var(--muted);line-height:1.55}
+
 .method-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
 .method{border:1px solid var(--line);border-radius:14px;padding:16px;background:#fff}
 .method .symbol{font-size:1.8rem;margin-bottom:8px}.method strong{display:block;color:var(--midnight);margin-bottom:5px}.method p{margin:0;color:#586679;line-height:1.5;font-size:.92rem}
-.note{background:#f7fafc;border-left:4px solid var(--lake);padding:14px 16px;border-radius:10px;color:#556275;line-height:1.55}
-.big-number{font-size:5rem;line-height:.95;font-weight:950;color:var(--aurora);letter-spacing:-.045em}
+.note{background:#F4F1FD;border-left:4px solid var(--lake);padding:14px 16px;border-radius:10px;color:#556275;line-height:1.55}
+.big-number{font-size:5rem;line-height:.95;font-weight:950;color:var(--aurora);letter-spacing:-.045em;text-shadow:0 1px 0 rgba(255,255,255,.4)}
 .nextrow{display:flex;justify-content:flex-end;margin-top:18px}
 .nextrow label{background:var(--aurora);color:#fff;font-weight:900;border-radius:12px;padding:12px 17px;cursor:pointer}
 .footer{padding:0 24px 28px;color:#798594;font-size:.82rem}
@@ -123,7 +130,7 @@ h1{font-size:clamp(2.25rem,5vw,4.8rem);line-height:.93;letter-spacing:-.045em;ma
 <div class="wrap">
 <header class="hero">
   <svg class="skyline" viewBox="0 0 700 340" aria-hidden="true">
-    <g fill="none" stroke="#9ad7ff" stroke-width="5">
+    <g fill="none" stroke="#8BB0FF" stroke-width="5">
       <path d="M0 272H34V196H66V150H104V182H142V104H166V48H190V164H226V120H250V72H274V188H316V137H342V83H370V214H410V168H438V128H466V230H503V178H531V145H560V236H600V194H630V154H660V272H700"/>
       <path d="M0 292 C115 242 255 310 407 264 C506 233 591 242 700 220"/>
       <path d="M0 310 C145 260 315 332 503 284 C586 262 650 271 700 260"/>
@@ -193,8 +200,8 @@ h1{font-size:clamp(2.25rem,5vw,4.8rem);line-height:.93;letter-spacing:-.045em;ma
       <div style="height:20px"></div>
       <div class="section-title">Tank history</div>
       <div class="tank-strip">
-        <div class="tank-mini current"><h3>Tank #1</h3><div class="mini-copy">2,020.1 mi<br>82.6% EV<br>$152.62<br>7.56¢/mi</div></div>
-        <div class="tank-mini"><h3>Tank #2</h3><div class="mini-copy">522.2 mi<br>26.8% EV<br>$61.62<br>11.80¢/mi</div></div>
+        <label class="tank-link tank1 current" for="tab-tank1" title="Open Tank #1"><h3>Tank #1 →</h3><div class="mini-copy">2,020.1 mi<br>82.6% EV<br>$152.62<br>7.56¢/mi</div></label>
+        <label class="tank-link tank2" for="tab-tank2" title="Open Tank #2"><h3>Tank #2 →</h3><div class="mini-copy">522.2 mi<br>26.8% EV<br>$61.62<br>11.80¢/mi</div></label>
         <div class="tank-mini future"><h3>Tank #3</h3><div class="mini-copy">Awaiting data<br>—<br>—<br>—</div></div>
         <div class="tank-mini future"><h3>Tank #4</h3><div class="mini-copy">Awaiting data<br>—<br>—<br>—</div></div>
       </div>
@@ -250,8 +257,8 @@ h1{font-size:clamp(2.25rem,5vw,4.8rem);line-height:.93;letter-spacing:-.045em;ma
       <div style="height:20px"></div>
       <div class="section-title">Tank history</div>
       <div class="tank-strip">
-        <div class="tank-mini"><h3>Tank #1</h3><div class="mini-copy">2,020.1 mi<br>82.6% EV<br>$152.62<br>7.56¢/mi</div></div>
-        <div class="tank-mini current"><h3>Tank #2</h3><div class="mini-copy">522.2 mi<br>26.8% EV<br>$61.62<br>11.80¢/mi</div></div>
+        <label class="tank-link tank1" for="tab-tank1" title="Open Tank #1"><h3>Tank #1 →</h3><div class="mini-copy">2,020.1 mi<br>82.6% EV<br>$152.62<br>7.56¢/mi</div></label>
+        <label class="tank-link tank2 current" for="tab-tank2" title="Open Tank #2"><h3>Tank #2 →</h3><div class="mini-copy">522.2 mi<br>26.8% EV<br>$61.62<br>11.80¢/mi</div></label>
         <div class="tank-mini future"><h3>Tank #3</h3><div class="mini-copy">Awaiting data<br>—<br>—<br>—</div></div>
         <div class="tank-mini future"><h3>Tank #4</h3><div class="mini-copy">Awaiting data<br>—<br>—<br>—</div></div>
       </div>
@@ -277,7 +284,7 @@ h1{font-size:clamp(2.25rem,5vw,4.8rem);line-height:.93;letter-spacing:-.045em;ma
       <div class="grid3">
         <div class="card"><div class="section-title">Tank #1</div><div style="font-size:2.4rem;font-weight:950;color:var(--lake)">$152.62</div><p style="color:var(--muted)">2,020.1 miles • 7.56¢/mi</p></div>
         <div class="card"><div class="section-title">Tank #2</div><div style="font-size:2.4rem;font-weight:950;color:var(--lake)">$61.62</div><p style="color:var(--muted)">522.2 miles • 11.80¢/mi</p></div>
-        <div class="card savings"><div class="section-title">Savings so far</div><div style="font-size:2.4rem;font-weight:950;color:#347a1d">$233.28</div><p style="color:var(--muted)">vs. combined 2018 Pacifica benchmarks</p></div>
+        <div class="card savings"><div class="section-title">Savings so far</div><div style="font-size:2.4rem;font-weight:950;color:#CC8E00">$233.28</div><p style="color:var(--muted)">vs. combined 2018 Pacifica benchmarks</p></div>
       </div>
       <div class="nextrow"><label for="tab-compare">Compare with the 2018 Pacifica →</label></div>
     </section>
@@ -326,8 +333,8 @@ h1{font-size:clamp(2.25rem,5vw,4.8rem);line-height:.93;letter-spacing:-.045em;ma
         <div class="card">
           <div class="section-title">Tank board</div>
           <div class="tank-strip">
-            <div class="tank-mini"><h3>Tank #1</h3><div class="mini-copy">Jun 18–Aug 10<br>2,020.1 mi<br>82.6% EV<br>$152.62</div></div>
-            <div class="tank-mini current"><h3>Tank #2</h3><div class="mini-copy">Aug 10–Aug 12<br>522.2 mi<br>26.8% EV<br>$61.62</div></div>
+            <label class="tank-link tank1" for="tab-tank1" title="Open Tank #1"><h3>Tank #1 →</h3><div class="mini-copy">Jun 18–Aug 10<br>2,020.1 mi<br>82.6% EV<br>$152.62</div></label>
+            <label class="tank-link tank2" for="tab-tank2" title="Open Tank #2"><h3>Tank #2 →</h3><div class="mini-copy">Aug 10–Aug 12<br>522.2 mi<br>26.8% EV<br>$61.62</div></label>
             <div class="tank-mini future"><h3>Tank #3</h3><div class="mini-copy">Future tank<br>—<br>—<br>—</div></div>
           </div>
         </div>
@@ -338,13 +345,13 @@ h1{font-size:clamp(2.25rem,5vw,4.8rem);line-height:.93;letter-spacing:-.045em;ma
     <section class="panel" id="method">
       <div class="section-title">Methodology</div>
       <div class="method-grid">
-        <div class="method"><div class="symbol">⛽</div><strong>Gas</strong><p>Actual receipt: $50.00 for 13.893 gallons.</p></div>
-        <div class="method"><div class="symbol">🏠</div><strong>Home charging</strong><p>557.621 kWh valued at the Xcel residential rate of 16.06¢/kWh.</p></div>
-        <div class="method"><div class="symbol"><span class="j1772" style="width:34px;height:34px;color:var(--lake)"><svg viewBox="0 0 64 64"><path d="M19 10h26a8 8 0 0 1 8 8v14a21 21 0 0 1-42 0V18a8 8 0 0 1 8-8Z" fill="none" stroke="currentColor" stroke-width="5"/><circle cx="24" cy="24" r="4" fill="currentColor"/><circle cx="40" cy="24" r="4" fill="currentColor"/><circle cx="32" cy="34" r="4" fill="currentColor"/><circle cx="24" cy="39" r="3" fill="currentColor"/><circle cx="40" cy="39" r="3" fill="currentColor"/><path d="M32 53v9" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg></span></div><strong>Public charging</strong><p>Actual ChargePoint cost: $13.06 for 59.699 kWh.</p></div>
-        <div class="method"><div class="symbol">📊</div><strong>2018 benchmark</strong><p>22 MPG, using the Twin Cities average gas-price benchmark for each tank period.</p></div>
+        <div class="method"><div class="symbol">⛽</div><strong>Gas</strong><p>Actual gallons and dollars from each fill receipt are assigned to that tank.</p></div>
+        <div class="method"><div class="symbol">🏠</div><strong>Home charging</strong><p>ChargePoint home-session kWh are valued at the applicable Xcel residential energy rate for the date of each charge.</p></div>
+        <div class="method"><div class="symbol"><span class="j1772" style="width:34px;height:34px;color:var(--lake)"><svg viewBox="0 0 64 64"><path d="M19 10h26a8 8 0 0 1 8 8v14a21 21 0 0 1-42 0V18a8 8 0 0 1 8-8Z" fill="none" stroke="currentColor" stroke-width="5"/><circle cx="24" cy="24" r="4" fill="currentColor"/><circle cx="40" cy="24" r="4" fill="currentColor"/><circle cx="32" cy="34" r="4" fill="currentColor"/><circle cx="24" cy="39" r="3" fill="currentColor"/><circle cx="40" cy="39" r="3" fill="currentColor"/><path d="M32 53v9" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg></span></div><strong>Public charging</strong><p>Paid public sessions use the actual ChargePoint cost; free charging is recorded at its actual $0 cost.</p></div>
+        <div class="method"><div class="symbol">📊</div><strong>2018 benchmark</strong><p>The same miles are modeled at 22 MPG using the Twin Cities average gas-price benchmark for each tank period.</p></div>
       </div>
       <div style="height:20px"></div>
-      <div class="card"><div class="section-title">Seasonal electricity rates</div><p style="margin:0;color:var(--muted);line-height:1.65">When a future tank overlaps Xcel rate seasons, home-charging cost can be split by charge date so each session is valued at the rate in effect when it occurred.</p></div>
+      <div class="card"><div class="section-title">Seasonal electricity rates</div><p style="margin:0;color:var(--muted);line-height:1.65">When a tank overlaps Xcel rate seasons, home-charging cost is split by charge date so each session is valued at the rate in effect when it occurred.</p></div>
       <div style="height:18px"></div>
       <div class="card"><div class="section-title">What this project is measuring</div><p style="margin:0;color:var(--muted);line-height:1.65">The focus is operating energy cost: actual gasoline plus actual paid public charging plus home electricity valued at the applicable residential rate. Free public charging is counted at its actual $0 cost. The dashboard MPG display is intentionally not used as the core efficiency metric.</p></div>
       <div class="nextrow"><label for="tab-overview">← Back to overview</label></div>
@@ -352,7 +359,7 @@ h1{font-size:clamp(2.25rem,5vw,4.8rem);line-height:.93;letter-spacing:-.045em;ma
   </div>
 </div>
 
-<div class="footer">Pacifica PHEV real‑world cost tracker • Tanks #1–2 through August 12, 2026 • CSS-only tabs, no links or JavaScript</div>
+<div class="footer">Pacifica PHEV real‑world cost tracker • Tanks #1–2 through August 12, 2026</div>
 </div>
 </body>
 </html>
