@@ -75,7 +75,7 @@ h1{font-size:clamp(2.25rem,5vw,4.8rem);line-height:.93;letter-spacing:-.045em;ma
 .metric span{font-weight:850;color:#3a4654}
 .hero-stat{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;background:linear-gradient(135deg,#4A3290,#2E6CE6);color:#fff;border-radius:20px;padding:27px;margin-bottom:18px}
 .hero-stat .big{font-size:clamp(3.3rem,8vw,6.6rem);font-weight:950;letter-spacing:-.05em;line-height:.88;color:var(--aurora)}
-.hero-stat .label{font-size:1.2rem;font-weight:900}
+.hero-stat .label{font-size:1.45rem;font-weight:900;line-height:1.15}
 .hero-stat .subcopy{margin-top:5px;color:#E0D8FA;font-weight:700}
 .hero-j1772{width:78px;height:78px;border:2px solid rgba(255,255,255,.25);border-radius:20px;display:grid;place-items:center;background:rgba(255,255,255,.07)}
 .hero-j1772 .j1772{width:52px;height:52px}
@@ -200,7 +200,7 @@ h1{font-size:clamp(2.25rem,5vw,4.8rem);line-height:.93;letter-spacing:-.045em;ma
   <div class="panels">
     <section class="panel" id="overview">
       <div class="hero-stat">
-        <div><div class="big">2,542.3</div><div class="label">tracked miles so far</div><div class="subcopy">71.1% of the driving has been electric through Tank #2.</div></div>
+        <div><div class="big">2,542.3</div><div class="label">tracked miles so far</div></div>
         <div class="hero-j1772">
           <span class="j1772"><svg viewBox="0 0 64 64"><path d="M19 10h26a8 8 0 0 1 8 8v14a21 21 0 0 1-42 0V18a8 8 0 0 1 8-8Z" fill="none" stroke="currentColor" stroke-width="5"/><circle cx="24" cy="24" r="4" fill="currentColor"/><circle cx="40" cy="24" r="4" fill="currentColor"/><circle cx="32" cy="34" r="4" fill="currentColor"/><circle cx="24" cy="39" r="3" fill="currentColor"/><circle cx="40" cy="39" r="3" fill="currentColor"/><path d="M32 53v9" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg></span>
         </div>
@@ -298,7 +298,7 @@ h1{font-size:clamp(2.25rem,5vw,4.8rem);line-height:.93;letter-spacing:-.045em;ma
           <div class="row"><span>Gasoline purchased</span><b>15.329 gal</b></div>
           <div class="row"><span>Home charging total</span><b>16.2977 kWh</b></div>
           <div class="row"><span>Home charging cost</span><b>$2.62</b></div>
-          <div class="row"><span>Public lunch charge</span><b>FREE</b></div>
+          <div class="row"><span>Public charging total</span><b>0</b></div>
         </div>
         <div class="card">
           <div class="section-title">Road‑trip result</div>
@@ -314,7 +314,7 @@ h1{font-size:clamp(2.25rem,5vw,4.8rem);line-height:.93;letter-spacing:-.045em;ma
           <div class="section-title">Total energy cost</div>
           <div class="row"><span>Gasoline</span><b>$59.00</b></div>
           <div class="row"><span>Home charging</span><b>$2.62</b></div>
-          <div class="row"><span>Free public charging</span><b>$0.00</b></div>
+          <div class="row"><span>Public charging</span><b>$0.00</b></div>
           <div class="total"><span>TOTAL</span><strong>$61.62</strong></div>
         </div>
         <div class="card savings">
@@ -326,7 +326,7 @@ h1{font-size:clamp(2.25rem,5vw,4.8rem);line-height:.93;letter-spacing:-.045em;ma
       </div>
 
       <div style="height:18px"></div>
-      <div class="note"><strong>Tank #2 context:</strong> Longer drives, more highway miles, minimal charging on the road, and more regen as traffic, rolling hills, and town slowdowns increased closer to home. The free lunch charge reduced actual cost without adding anything to the paid charging total.</div>
+      <div class="note"><strong>Tank #2 context:</strong> Longer drives, more highway miles, minimal charging on the road, and more regenerative braking closer to home as traffic, rolling hills, and town slowdowns increased. The free charge during lunch reduced actual cost without adding anything to the paid charging total.</div>
 
       <div style="height:20px"></div>
       <div class="section-title">Tank history</div>
@@ -351,7 +351,7 @@ h1{font-size:clamp(2.25rem,5vw,4.8rem);line-height:.93;letter-spacing:-.045em;ma
           <div class="section-title">Average cost per mile</div>
           <div class="big-number">8.43¢</div>
           <p style="font-size:1.15rem;font-weight:900;color:var(--midnight)">across 2,542.3 tracked miles</p>
-          <p style="color:var(--muted);line-height:1.6">Tank #1 was local and plug‑heavy; Tank #2 was a short road‑trip tank with limited charging. Together they already show how usage pattern changes the cost profile.</p>
+          <p style="color:var(--muted);line-height:1.6">Tank #1 was local and plug‑heavy; Tank #2 was a short road‑trip tank with limited charging. Together they already show how the driving profile changes the energy costs.</p>
         </div>
       </div>
       <div style="height:18px"></div>
@@ -370,7 +370,7 @@ h1{font-size:clamp(2.25rem,5vw,4.8rem);line-height:.93;letter-spacing:-.045em;ma
           <thead><tr><th>Metric</th><th>2025 PHEV</th><th>2018 Pacifica benchmark</th></tr></thead>
           <tbody>
             <tr><td>Tracked miles</td><td class="phev">2,542.3</td><td class="old">2,542.3</td></tr>
-            <tr><td>Total energy / fuel cost</td><td class="phev">$214.24</td><td class="old">$447.57<span class="est">*</span></td></tr>
+            <tr><td>Total energy cost</td><td class="phev">$214.24</td><td class="old">$447.57<span class="est">*</span></td></tr>
             <tr><td>Average cost per mile</td><td class="phev">8.43¢</td><td class="old">17.61¢<span class="est">*</span></td></tr>
             <tr><td>Gas fill‑ups</td><td class="phev">2</td><td class="old">about 6</td></tr>
             <tr><td>Difference</td><td class="phev">$233.33 saved</td><td class="old">—</td></tr>
@@ -425,14 +425,14 @@ h1{font-size:clamp(2.25rem,5vw,4.8rem);line-height:.93;letter-spacing:-.045em;ma
       <div class="section-title">Methodology</div>
       <div class="method-grid">
         <div class="method"><div class="symbol" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M10 7h10a2 2 0 0 1 2 2v16H8V9a2 2 0 0 1 2-2Z"/><path d="M22 12h3a2 2 0 0 1 2 2v10"/><path d="M12 12h6"/><path d="M15 17v4"/><circle class="fill" cx="16" cy="25.5" r="1.8"/></svg></div><strong>Gas</strong><p>Actual gallons and dollars from each fill receipt are assigned to that tank.</p></div>
-        <div class="method"><div class="symbol" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M5 14.5 16 6l11 8.5"/><path d="M8 13.5V26h16V13.5"/><path d="M13 26v-7h6v7"/></svg></div><strong>Home charging</strong><p>ChargePoint home-session kWh are valued at the applicable Xcel residential energy rate for the date of each charge.</p></div>
+        <div class="method"><div class="symbol" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M5 14.5 16 6l11 8.5"/><path d="M8 13.5V26h16V13.5"/><path d="M13 26v-7h6v7"/></svg></div><strong>Home charging</strong><p>Home charging is valued using the recorded kWh and the applicable Xcel residential energy rate for the date of each charge.</p></div>
         <div class="method"><div class="symbol" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M9.5 7h13a4 4 0 0 1 4 4v7a10.5 10.5 0 0 1-21 0v-7a4 4 0 0 1 4-4Z"/><circle class="fill" cx="12.5" cy="14" r="1.8"/><circle class="fill" cx="19.5" cy="14" r="1.8"/><circle class="fill" cx="16" cy="19" r="1.8"/><circle class="fill" cx="12.5" cy="20.8" r="1.3"/><circle class="fill" cx="19.5" cy="20.8" r="1.3"/><path d="M16 25.5V30"/></svg></div><strong>Public charging</strong><p>Paid public sessions use the actual ChargePoint cost; free charging is recorded at its actual $0 cost.</p></div>
         <div class="method"><div class="symbol" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M7 25V10"/><path d="M14 25V6"/><path d="M21 25V14"/><path d="M28 25V9"/><path d="M5 25h24"/></svg></div><strong>2018 benchmark</strong><p>The same miles are modeled at 22 MPG using the Twin Cities average gas-price benchmark for each tank period.</p></div>
       </div>
       <div style="height:20px"></div>
       <div class="card"><div class="section-title">Seasonal electricity rates</div><p style="margin:0;color:var(--muted);line-height:1.65">When a tank overlaps Xcel rate seasons, home-charging cost is split by charge date so each session is valued at the rate in effect when it occurred.</p></div>
       <div style="height:18px"></div>
-      <div class="card"><div class="section-title">What this project is measuring</div><p style="margin:0;color:var(--muted);line-height:1.65">The focus is operating energy cost: actual gasoline plus actual paid public charging plus home electricity valued at the applicable residential rate. Free public charging is counted at its actual $0 cost. The dashboard MPG display is intentionally not used as the core efficiency metric.</p></div>
+      <div class="card"><div class="section-title">What this project is measuring</div><p style="margin:0;color:var(--muted);line-height:1.65">The focus is operating energy cost: actual gasoline plus actual paid public charging plus home electricity valued at the applicable residential rate. Public charging is counted at its actual $0 cost. The dashboard MPG display is intentionally not used as the core efficiency metric.</p></div>
       <div class="nextrow"><label for="tab-overview">← Back to overview</label></div>
     </section>
   </div>
