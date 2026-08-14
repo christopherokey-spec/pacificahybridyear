@@ -98,6 +98,7 @@ h1{font-size:clamp(2.25rem,5vw,4.8rem);line-height:.93;letter-spacing:-.045em;ma
 .compare th:first-child,.compare td:first-child{text-align:left}
 .compare thead th{background:#EDF4F5;color:var(--midnight);text-transform:uppercase;letter-spacing:.05em;font-size:.8rem}
 .compare .phev{color:#CC8E00;font-weight:950}.compare .old{color:var(--lake);font-weight:900}
+.est{font-size:.95em;vertical-align:super;line-height:0;margin-left:2px;font-weight:950}.table-footnote{margin-top:10px;font-size:.9rem;color:var(--muted);text-align:right;padding-right:10px}
 .tank-strip{display:flex;gap:10px;overflow:auto;padding-bottom:8px}
 .tank-mini{min-width:158px;border:1px solid var(--line);border-radius:15px;padding:14px;background:#fff}
 .tank-mini.current{border:2px solid var(--aurora);background:#FFF8DB}.tank-mini.future{opacity:.55;border-style:dashed}
@@ -150,6 +151,7 @@ h1{font-size:clamp(2.25rem,5vw,4.8rem);line-height:.93;letter-spacing:-.045em;ma
 .metric-icon svg{width:26px;height:26px;display:block}
 .metric-icon.road svg{width:28px;height:28px}
 .metric-icon.bolt svg{width:30px;height:30px}
+.metric-icon.money{font-size:28px;line-height:1}
 
 </style>
 </head>
@@ -206,8 +208,8 @@ h1{font-size:clamp(2.25rem,5vw,4.8rem);line-height:.93;letter-spacing:-.045em;ma
       <div class="grid4">
         <div class="card metric"><div class="metric-icon road" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M10 3 5 29M22 3l5 26" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/><path d="M16 5v4m0 5v4m0 5v4" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/></svg></div><strong>2,542.3</strong><span>Total tracked miles</span></div>
         <div class="card metric green"><div class="metric-icon bolt" aria-hidden="true"><svg viewBox="0 0 32 32" fill="currentColor"><path d="M18.6 2 7.8 17h7.3L12.8 30 24.5 13h-7.1L18.6 2Z"/></svg></div><strong>71.1%</strong><span>Electric driving</span></div>
-        <div class="card metric"><div class="metric-icon">$</div><strong>$214.24</strong><span>Total energy cost</span></div>
-        <div class="card metric green"><div class="metric-icon">¢</div><strong>8.43¢</strong><span>Average cost per mile</span></div>
+        <div class="card metric"><div class="metric-icon money">$</div><strong>$214.24</strong><span>Total energy cost</span></div>
+        <div class="card metric green"><div class="metric-icon money">¢</div><strong>8.43¢</strong><span>Average cost per mile</span></div>
       </div>
       <div style="height:18px"></div>
       <div class="grid2">
@@ -368,12 +370,13 @@ h1{font-size:clamp(2.25rem,5vw,4.8rem);line-height:.93;letter-spacing:-.045em;ma
           <thead><tr><th>Metric</th><th>2025 PHEV</th><th>2018 Pacifica benchmark</th></tr></thead>
           <tbody>
             <tr><td>Tracked miles</td><td class="phev">2,542.3</td><td class="old">2,542.3</td></tr>
-            <tr><td>Total energy / fuel cost</td><td class="phev">$214.24</td><td class="old">$447.57</td></tr>
-            <tr><td>Average cost per mile</td><td class="phev">8.43¢</td><td class="old">17.61¢</td></tr>
+            <tr><td>Total energy / fuel cost</td><td class="phev">$214.24</td><td class="old">$447.57<span class="est">*</span></td></tr>
+            <tr><td>Average cost per mile</td><td class="phev">8.43¢</td><td class="old">17.61¢<span class="est">*</span></td></tr>
             <tr><td>Gas fill‑ups</td><td class="phev">2</td><td class="old">about 6</td></tr>
             <tr><td>Difference</td><td class="phev">$233.33 saved</td><td class="old">—</td></tr>
           </tbody>
         </table>
+        <div class="table-footnote"><span class="est">*</span> estimates</div>
       </div>
       <div style="height:18px"></div>
       <div class="grid2">
@@ -390,7 +393,7 @@ h1{font-size:clamp(2.25rem,5vw,4.8rem);line-height:.93;letter-spacing:-.045em;ma
       <div class="grid4">
         <div class="card metric"><div class="metric-icon road" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M10 3 5 29M22 3l5 26" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/><path d="M16 5v4m0 5v4m0 5v4" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/></svg></div><strong>2,542.3</strong><span>Tracked miles</span></div>
         <div class="card metric green"><div class="metric-icon bolt" aria-hidden="true"><svg viewBox="0 0 32 32" fill="currentColor"><path d="M18.6 2 7.8 17h7.3L12.8 30 24.5 13h-7.1L18.6 2Z"/></svg></div><strong>71.1%</strong><span>Electric driving</span></div>
-        <div class="card metric"><div class="metric-icon">$</div><strong>$214.24</strong><span>Total energy cost</span></div>
+        <div class="card metric"><div class="metric-icon money">$</div><strong>$214.24</strong><span>Total energy cost</span></div>
         <div class="card metric green"><div class="metric-icon">↘</div><strong>$233.33</strong><span>Estimated savings</span></div>
       </div>
       <div style="height:18px"></div>
