@@ -8,14 +8,26 @@
 :root{
   --midnight:#5B3FA3; --lake:#3B82F6; --aurora:#F2B300; --ink:#27233A;
   --muted:#6A6781; --bg:#F8F7FC; --panel:#FFFFFF; --line:#DDD8EE;
+  --body-a:#F7F4FF; --body-b:#FFFDF7; --wrap:#FFFFFF;
+  --tabbar-bg:rgba(255,255,255,.97); --tab-pill:#F0ECFB;
+  --text-secondary:#3A4654; --legend:#536174; --soft-text:#596574;
+  --row-line:#D4DDE5; --total-text:#566274; --thead:#EDF4F5;
+  --current-bg:#FFF8DB; --method-text:#586679; --note-bg:#F4F1FD; --note-text:#556275;
+  --footer-text:#798594; --quick-bg:#FFFDF8; --quick-hover:#FFF9EE;
+  --quick-lake:#2F7DF6; --quick-purple:#5B3FA3;
+  --tank1:#3B82F6; --tank2:#A78BFA; --tank3:#3B82F6; --tank4:#5B3FA3;
+  --actual-gas:#A78BFA;
+  --gold-text:#CC8E00; --green:#138A4B; --progress-bg:#E2ECEF;
+  --savings-a:#FFF8DB; --savings-b:#FFF1B3; --savings-border:#F2D36E;
+  --hero-stat-sub:#E0D8FA; --chart-grid:#E6E1F1; --chart-axis:#6A6781; --chart-label:#27233A;
   --shadow:0 10px 28px rgba(91,63,163,.10);
 }
 *{box-sizing:border-box}
 body{
   margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  color:var(--ink);background:linear-gradient(180deg,#F7F4FF,#FFFDF7)
+  color:var(--ink);background:linear-gradient(180deg,var(--body-a),var(--body-b))
 }
-.wrap{max-width:1180px;margin:0 auto;background:#FFFFFF;min-height:100vh;box-shadow:0 24px 80px rgba(91,63,163,.14)}
+.wrap{max-width:1180px;margin:0 auto;background:var(--wrap);min-height:100vh;box-shadow:0 24px 80px rgba(91,63,163,.14)}
 .hero{
   position:relative;overflow:hidden;background:linear-gradient(120deg,#38235F 0,var(--midnight) 48%,#2457C5 100%);
   color:#fff;border-bottom:5px solid var(--aurora)
@@ -35,11 +47,11 @@ h1{font-size:clamp(2.25rem,5vw,4.8rem);line-height:.93;letter-spacing:-.045em;ma
 
 .tabs input[type=radio]{position:absolute;opacity:0;pointer-events:none}
 .tabbar{
-  position:sticky;top:0;z-index:20;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);
+  position:sticky;top:0;z-index:20;background:var(--tabbar-bg);backdrop-filter:blur(12px);
   border-bottom:1px solid var(--line);padding:12px 16px;display:flex;gap:8px;overflow:auto
 }
 .tabbar label{
-  border-radius:999px;padding:10px 15px;background:#F0ECFB;color:var(--midnight);
+  border-radius:999px;padding:10px 15px;background:var(--tab-pill);color:var(--midnight);
   font-weight:850;cursor:pointer;white-space:nowrap;user-select:none
 }
 .panels{padding:24px}
@@ -75,54 +87,63 @@ h1{font-size:clamp(2.25rem,5vw,4.8rem);line-height:.93;letter-spacing:-.045em;ma
 .metric-icon{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--lake);color:white;font-weight:950}
 .metric.green .metric-icon{background:var(--aurora)}
 .metric strong{font-size:clamp(2rem,4vw,3.55rem);line-height:.96;color:var(--midnight);letter-spacing:-.04em}
-.metric.green strong{color:#CC8E00}
-.metric span{font-weight:850;color:#3a4654}
+.metric.green strong{color:var(--gold-text)}
+.metric span{font-weight:850;color:var(--text-secondary)}
 .hero-stat{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;background:linear-gradient(135deg,#4A3290,#2E6CE6);color:#fff;border-radius:20px;padding:27px;margin-bottom:18px}
 .hero-stat .big{font-size:clamp(3.3rem,8vw,6.6rem);font-weight:950;letter-spacing:-.05em;line-height:.88;color:var(--aurora)}
 .hero-stat .label{font-size:1.45rem;font-weight:900;line-height:1.15}
-.hero-stat .subcopy{margin-top:5px;color:#E0D8FA;font-weight:700}
+.hero-stat .subcopy{margin-top:5px;color:var(--hero-stat-sub);font-weight:700}
 .hero-j1772{width:78px;height:78px;border:2px solid rgba(255,255,255,.25);border-radius:20px;display:grid;place-items:center;background:rgba(255,255,255,.07)}
 .hero-j1772 .j1772{width:52px;height:52px}
-.progress{height:25px;display:flex;border-radius:999px;overflow:hidden;background:#E2ECEF;margin:12px 0 8px}
+.progress{height:25px;display:flex;border-radius:999px;overflow:hidden;background:var(--progress-bg);margin:12px 0 8px}
 .progress .ev{width:82.6%;background:var(--aurora)}
 .progress .gas{width:17.4%;background:var(--lake)}
-.legend{display:flex;gap:18px;flex-wrap:wrap;color:#536174;font-weight:800;font-size:.93rem}
+.legend{display:flex;gap:18px;flex-wrap:wrap;color:var(--legend);font-weight:800;font-size:.93rem}
 .dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:6px}
 .dot.ev{background:var(--aurora)} .dot.gas{background:var(--lake)}
-.savings{background:linear-gradient(180deg,#FFF8DB,#FFF1B3);border-color:#F2D36E}
-.savings .amount{font-size:4.1rem;line-height:1;color:#CC8E00;font-weight:950;letter-spacing:-.04em}
+.savings{background:linear-gradient(180deg,var(--savings-a),var(--savings-b));border-color:var(--savings-border)}
+.savings .amount{font-size:4.1rem;line-height:1;color:var(--gold-text);font-weight:950;letter-spacing:-.04em}
 .savings .pct{font-size:2rem;color:var(--midnight);font-weight:950;margin-top:5px}
-.rows .row{display:grid;grid-template-columns:1fr auto;gap:10px;padding:11px 0;border-bottom:1px dashed #d4dde5}
+.rows .row{display:grid;grid-template-columns:1fr auto;gap:10px;padding:11px 0;border-bottom:1px dashed var(--row-line)}
 .rows .row:last-child{border-bottom:0}
 .rows .row b{color:var(--midnight)}
-.total{margin-top:16px;padding-top:13px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:end;font-weight:900;color:#566274}
+.total{margin-top:16px;padding-top:13px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:end;font-weight:900;color:var(--total-text)}
 .total strong{font-size:2.4rem;color:var(--midnight);letter-spacing:-.03em}
 .compare{width:100%;border-collapse:collapse}
 .compare th,.compare td{padding:14px 11px;border-bottom:1px solid var(--line);text-align:right}
 .compare th:first-child,.compare td:first-child{text-align:left}
-.compare thead th{background:#EDF4F5;color:var(--midnight);text-transform:uppercase;letter-spacing:.05em;font-size:.8rem}
-.compare .phev{color:#CC8E00;font-weight:950}.compare .old{color:var(--lake);font-weight:900}
+.compare thead th{background:var(--thead);color:var(--midnight);text-transform:uppercase;letter-spacing:.05em;font-size:.8rem}
+.compare .phev{color:var(--gold-text);font-weight:950}.compare .old{color:var(--lake);font-weight:900}
 .est{font-size:1.02em;vertical-align:super;line-height:0;margin-right:1px;font-weight:500}.table-footnote{margin-top:3px;font-size:.9rem;color:var(--muted);text-align:right;padding-right:10px}.table-footnote em{font-style:italic}.foot-star{font-size:1em;font-weight:500;margin-right:1px}
 .tank-strip{display:flex;gap:10px;overflow:auto;padding-bottom:8px}
-.tank-mini{min-width:158px;border:1px solid var(--line);border-radius:15px;padding:14px;background:#fff}
-.tank-mini.current{border:2px solid var(--aurora);background:#FFF8DB}.tank-mini.future{opacity:.55;border-style:dashed}
+.tank-mini{min-width:158px;border:1px solid var(--line);border-radius:15px;padding:14px;background:var(--panel)}
+.tank-mini.current{border:2px solid var(--aurora);background:var(--current-bg)}.tank-mini.future{opacity:.55;border-style:dashed}
 .tank-mini h3{margin:0 0 8px;color:var(--midnight);font-size:1rem}.mini-copy{font-size:.9rem;color:var(--muted);line-height:1.55}
-.tank-link{display:block;min-width:158px;border:1px solid var(--line);border-radius:15px;padding:14px;background:#fff;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease;text-decoration:none}
-.tank-link:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(31,41,51,.12);border-color:var(--lake)}
-.tank-link.tank1{border-top:5px solid var(--lake)}
-.tank-link.tank2{border-top:5px solid var(--aurora)}
-.tank-link.tank3{border-top:5px solid var(--midnight)}
-.tank-link.current{background:#FFF8DB;box-shadow:inset 0 0 0 2px var(--aurora)}
+.tank-link{display:block;min-width:158px;border:1px solid var(--line);border-radius:15px;padding:14px;background:var(--panel);cursor:pointer;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease;text-decoration:none}
+.tank-link:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(31,41,51,.12)}
+.tank-link.tank1:hover{border-color:var(--tank1)}
+.tank-link.tank2:hover{border-color:var(--tank2)}
+.tank-link.tank3:hover{border-color:var(--tank3)}
+.tank-link.tank4:hover{border-color:var(--tank4)}
+.tank-link.tank1{border-top:5px solid var(--tank1)}
+.tank-link.tank2{border-top:5px solid var(--tank2)}
+.tank-link.tank3{border-top:5px solid var(--tank3)}
+.tank-link.current{background:var(--current-bg);border-left:2px solid var(--aurora);border-right:2px solid var(--aurora);border-bottom:2px solid var(--aurora)}
+.tank-link.current:hover{border-left-color:var(--aurora);border-right-color:var(--aurora);border-bottom-color:var(--aurora)}
 .tank-link h3{margin:0 0 8px;color:var(--midnight);font-size:1rem}.tank-link .mini-copy{font-size:.9rem;color:var(--muted);line-height:1.55}
 
 .method-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.method{border:1px solid var(--line);border-radius:14px;padding:16px;background:#fff}
-.method .symbol{width:40px;height:40px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;color:var(--midnight)}.method .symbol svg{width:34px;height:34px;display:block;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}.method .symbol svg .fill{fill:currentColor;stroke:none}.method strong{display:block;color:var(--midnight);margin-bottom:5px}.method p{margin:0;color:#586679;line-height:1.5;font-size:.92rem}
-.note{background:#F4F1FD;border-left:4px solid var(--lake);padding:14px 16px;border-radius:10px;color:#556275;line-height:1.55}
+.method{border:1px solid var(--line);border-radius:14px;padding:16px;background:var(--panel)}
+.method .symbol{width:40px;height:40px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;color:var(--midnight)}.method .symbol svg{width:34px;height:34px;display:block;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}.method .symbol svg .fill{fill:currentColor;stroke:none}.method strong{display:block;color:var(--midnight);margin-bottom:5px}.method p{margin:0;color:var(--method-text);line-height:1.5;font-size:.92rem}
+.note{background:var(--note-bg);border-left:4px solid var(--lake);padding:14px 16px;border-radius:10px;color:var(--note-text);line-height:1.55}
+.note.tank1-context{border-left-color:var(--tank1)}
+.note.tank2-context{border-left-color:var(--tank2)}
+.note.tank3-context{border-left-color:var(--tank3)}
+.note.tank4-context{border-left-color:var(--tank4)}
 .big-number{font-size:5rem;line-height:.95;font-weight:950;color:var(--aurora);letter-spacing:-.045em;text-shadow:0 1px 0 rgba(255,255,255,.4)}
 .nextrow{display:flex;justify-content:flex-end;margin-top:18px}
 .nextrow label{background:var(--aurora);color:#fff;font-weight:900;border-radius:12px;padding:12px 17px;cursor:pointer}
-.footer{padding:0 24px 28px;color:#798594;font-size:.82rem}
+.footer{padding:0 24px 28px;color:var(--footer-text);font-size:.82rem}
 @media(max-width:850px){
   .hero-inner{grid-template-columns:1fr}.hero-meta{justify-content:flex-start}.skyline{width:100%;opacity:.18}
   .grid4{grid-template-columns:repeat(2,1fr)}.grid3,.grid2,.method-grid{grid-template-columns:1fr}.hero-stat{grid-template-columns:1fr}.hero-j1772{display:none}
@@ -154,16 +175,16 @@ h1{font-size:clamp(2.25rem,5vw,4.8rem);line-height:.93;letter-spacing:-.045em;ma
 .quick-btn{
   display:flex;align-items:center;justify-content:center;gap:10px;
   min-height:48px;padding:10px 14px;border-radius:12px;
-  background:#FFFDF8;font-weight:900;cursor:pointer;
+  background:var(--quick-bg);font-weight:900;cursor:pointer;
   transition:transform .15s ease,box-shadow .15s ease,background .15s ease;
   box-shadow:0 2px 6px rgba(91,63,163,.05)
 }
-.quick-btn:hover{transform:translateY(-1px);box-shadow:0 7px 15px rgba(91,63,163,.12);background:#FFF9EE}
-.quick-btn.tank{border:2px solid #2F7DF6;color:var(--midnight);min-height:64px;padding:7px 10px;gap:9px}
-.quick-btn.detail{border:2px solid #5B3FA3;color:var(--midnight)}
+.quick-btn:hover{transform:translateY(-1px);box-shadow:0 7px 15px rgba(91,63,163,.12);background:var(--quick-hover)}
+.quick-btn.tank{border:2px solid var(--quick-lake);color:var(--midnight);min-height:64px;padding:7px 10px;gap:9px}
+.quick-btn.detail{border:2px solid var(--quick-purple);color:var(--midnight)}
 .quick-btn .ico{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;color:#fff;flex:0 0 auto}
-.quick-btn.tank .ico{width:40px;height:40px;background:#2F7DF6}
-.quick-btn.detail .ico{background:#5B3FA3}
+.quick-btn.tank .ico{width:40px;height:40px;background:var(--quick-lake)}
+.quick-btn.detail .ico{background:var(--quick-purple)}
 .quick-btn .ico svg{width:18px;height:18px;display:block}
 .quick-btn.tank .ico svg{width:23px;height:23px}
 .tank-label{display:flex;flex-direction:column;align-items:flex-start;line-height:1.02;text-align:left}
@@ -178,7 +199,7 @@ h1{font-size:clamp(2.25rem,5vw,4.8rem);line-height:.93;letter-spacing:-.045em;ma
 html,body{max-width:100%;overflow-x:hidden}
 .wrap,.panels,.panel,.card{min-width:0}
 .tabbar{max-width:100%;overflow-x:auto;overscroll-behavior-inline:contain;-webkit-overflow-scrolling:touch}
-.tank-link.tank4{border-top:5px solid #8B5CF6}
+.tank-link.tank4{border-top:5px solid var(--tank4)}
 .history-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));overflow:visible;padding-bottom:0}
 .history-strip .tank-link,.history-strip .tank-mini{min-width:0;width:100%}
 .tank-board{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;overflow:visible;padding-bottom:0}
@@ -198,6 +219,86 @@ html,body{max-width:100%;overflow-x:hidden}
   .ytd-quick{grid-template-columns:1fr}
   .quick-details{grid-template-columns:1fr}
   .nextrow label{max-width:100%;text-align:center}
+}
+
+
+/* Automatic dark color scheme — Tank #4 dark-mode prototype */
+html{color-scheme:light}
+@media (prefers-color-scheme: dark){
+  html{color-scheme:dark}
+  :root{
+    --midnight:#B8A5FF;
+    --lake:#73A9FF;
+    --aurora:#F4C84A;
+    --ink:#F3F0FA;
+    --muted:#B8B2C8;
+    --bg:#11131C;
+    --panel:#1B1E2B;
+    --line:#383C50;
+    --body-a:#0D1020;
+    --body-b:#141018;
+    --wrap:#141722;
+    --tabbar-bg:rgba(20,23,34,.96);
+    --tab-pill:#28263A;
+    --text-secondary:#D8D3E2;
+    --legend:#C5C0D3;
+    --soft-text:#BCB6C8;
+    --row-line:#3B4053;
+    --total-text:#C8C3D2;
+    --thead:#242A37;
+    --current-bg:#363842;
+    --method-text:#CAC5D5;
+    --note-bg:#242335;
+    --note-text:#D0CADB;
+    --footer-text:#9E99AA;
+    --quick-bg:#202331;
+    --quick-hover:#292D3D;
+    --quick-lake:#5D9CFF;
+    --quick-purple:#765DCE;
+    --tank1:#73A9FF;
+    --tank2:#B8A5FF;
+    --tank3:#73A9FF;
+    --tank4:#8C6DE0;
+    --actual-gas:#B8A5FF;
+    --gold-text:#F4C84A;
+    --green:#67D894;
+    --progress-bg:#313746;
+    --savings-a:#36274F;
+    --savings-b:#36274F;
+    --savings-border:#6D5B28;
+    --hero-stat-sub:#DDD5F7;
+    --chart-grid:#343849;
+    --chart-axis:#AFA9BC;
+    --chart-label:#ECE8F4;
+    --shadow:0 10px 28px rgba(0,0,0,.24);
+  }
+  body{background:linear-gradient(180deg,var(--body-a),var(--body-b))}
+  .wrap{background:var(--wrap);box-shadow:0 24px 80px rgba(0,0,0,.35)}
+  .hero{background:linear-gradient(120deg,#241638 0,#45306F 48%,#193B78 100%)}
+  .hero-stat{background:linear-gradient(135deg,#39286E,#2252A7)}
+  .tabbar{border-bottom-color:var(--line)}
+  #tab-overview:checked ~ .tabbar label[for=tab-overview],
+  #tab-tank1:checked ~ .tabbar label[for=tab-tank1],
+  #tab-tank2:checked ~ .tabbar label[for=tab-tank2],
+  #tab-tank3:checked ~ .tabbar label[for=tab-tank3],
+  #tab-tank4:checked ~ .tabbar label[for=tab-tank4],
+  #tab-costs:checked ~ .tabbar label[for=tab-costs],
+  #tab-compare:checked ~ .tabbar label[for=tab-compare],
+  #tab-year:checked ~ .tabbar label[for=tab-year],
+  #tab-method:checked ~ .tabbar label[for=tab-method]{background:#6B52C4;color:#fff}
+  .metric-icon{background:#4D82D7}
+  .metric.green .metric-icon{background:#B98919;color:#fff}
+  .tank-badge,.nextrow label{color:#241B06}
+  .savings .pct{color:#C8B9FF}
+  .tank-link:hover{box-shadow:0 8px 20px rgba(0,0,0,.28)}
+  .tank-link.current:hover{box-shadow:0 8px 20px rgba(0,0,0,.28)}
+  .tank-mini.future{opacity:.68}
+  .quick-btn{box-shadow:0 2px 6px rgba(0,0,0,.20)}
+  .quick-btn:hover{box-shadow:0 7px 15px rgba(0,0,0,.30)}
+  .quick-btn.detail .ico{background:#6B52C4}
+  .quick-btn.tank .ico{background:#4D82D7}
+  .hero-j1772{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.18)}
+  .big-number{text-shadow:none}
 }
 
 </style>
@@ -278,7 +379,7 @@ html,body{max-width:100%;overflow-x:hidden}
             </div>
           </div>
         </div>
-        <div class="card savings"><div class="section-title">Savings so far</div><div class="amount">$400.87 saved</div><div class="pct">50.2% lower energy cost</div><div style="margin-top:6px;color:#596574">vs. the 2018 Pacifica benchmark through Tank #4</div></div>
+        <div class="card savings"><div class="section-title">Savings so far</div><div class="amount">$400.87 saved</div><div class="pct">50.2% lower energy cost</div><div style="margin-top:6px;color:var(--soft-text)">vs. the 2018 Pacifica benchmark through Tank #4</div></div>
       </div>
       <div class="nextrow"><label for="tab-year">See project-to-date details →</label></div>
     </section>
@@ -322,12 +423,12 @@ html,body{max-width:100%;overflow-x:hidden}
           <div class="section-title">Compared with 2018 Pacifica</div>
           <div class="amount">$199.05 saved</div>
           <div class="pct">57% lower energy cost</div>
-          <p style="color:#596574;line-height:1.55;margin-bottom:0">2018 benchmark: $351.67 total, or 17.41¢/mile, using 22 MPG and the Twin Cities gas-price benchmark for June 18–August 10.</p>
+          <p style="color:var(--soft-text);line-height:1.55;margin-bottom:0">2018 benchmark: $351.67 total, or 17.41¢/mile, using 22 MPG and the Twin Cities gas-price benchmark for June 18–August 10.</p>
         </div>
       </div>
 
       <div style="height:18px"></div>
-      <div class="note"><strong>Tank #1 context:</strong> Mostly local driving with frequent charging opportunities and a high electric share. One gasoline fill‑up covered the full 2,020.1‑mile tank period.</div>
+      <div class="note tank1-context"><strong>Tank #1 context:</strong> Mostly local driving with frequent charging opportunities and a high electric share. One gasoline fill‑up covered the full 2,020.1‑mile tank period.</div>
 
       <div style="height:18px"></div>
       <div class="section-title">Tank history</div>
@@ -381,12 +482,12 @@ html,body{max-width:100%;overflow-x:hidden}
           <div class="section-title">Compared with 2018 Pacifica</div>
           <div class="amount">$34.28 saved</div>
           <div class="pct">36% lower energy cost</div>
-          <p style="color:#596574;line-height:1.55;margin-bottom:0">2018 benchmark: $95.90 total, or 18.37¢/mile, using 22 MPG and the Twin Cities gas-price benchmark for August 10–12.</p>
+          <p style="color:var(--soft-text);line-height:1.55;margin-bottom:0">2018 benchmark: $95.90 total, or 18.37¢/mile, using 22 MPG and the Twin Cities gas-price benchmark for August 10–12.</p>
         </div>
       </div>
 
       <div style="height:18px"></div>
-      <div class="note"><strong>Tank #2 context:</strong> Longer drives, more highway miles, minimal charging on the road, and more regenerative braking closer to home as traffic, rolling hills, and town slowdowns increased.</div>
+      <div class="note tank2-context"><strong>Tank #2 context:</strong> Longer drives, more highway miles, minimal charging on the road, and more regenerative braking closer to home as traffic, rolling hills, and town slowdowns increased.</div>
 
       <div style="height:20px"></div>
       <div class="section-title">Tank history</div>
@@ -438,11 +539,11 @@ html,body{max-width:100%;overflow-x:hidden}
           <div class="section-title">Compared with 2018 Pacifica</div>
           <div class="amount">$98.79 saved</div>
           <div class="pct">51.5% lower energy cost</div>
-          <p style="color:#596574;line-height:1.55;margin-bottom:0">2018 benchmark: $191.79 total, or 18.41¢/mile, using 22 MPG and the Twin Cities gas-price benchmark for August 12–30.</p>
+          <p style="color:var(--soft-text);line-height:1.55;margin-bottom:0">2018 benchmark: $191.79 total, or 18.41¢/mile, using 22 MPG and the Twin Cities gas-price benchmark for August 12–30.</p>
         </div>
       </div>
       <div style="height:18px"></div>
-      <div class="note"><strong>Tank #3 context:</strong> A mixed-use tank with regular home charging and no public charging. The period also included several higher-mileage day trips alongside normal local driving.</div>
+      <div class="note tank3-context"><strong>Tank #3 context:</strong> A mixed-use tank with regular home charging and no public charging. The period also included several higher-mileage day trips alongside normal local driving.</div>
       <div style="height:20px"></div>
       <div class="section-title">Tank history</div>
       <div class="tank-strip history-strip">
@@ -493,11 +594,11 @@ html,body{max-width:100%;overflow-x:hidden}
           <div class="section-title">Compared with 2018 Pacifica</div>
           <div class="amount">$68.75 saved</div>
           <div class="pct">43.3% lower energy cost</div>
-          <p style="color:#596574;line-height:1.55;margin-bottom:0">2018 benchmark: $158.82 total, or 18.64¢/mile, using 22 MPG and the Twin Cities gas-price benchmark for August 30–September 13.</p>
+          <p style="color:var(--soft-text);line-height:1.55;margin-bottom:0">2018 benchmark: $158.82 total, or 18.64¢/mile, using 22 MPG and the Twin Cities gas-price benchmark for August 30–September 13.</p>
         </div>
       </div>
       <div style="height:18px"></div>
-      <div class="note"><strong>Tank #4 context:</strong> EV-heavy local driving dominated the first part of the tank before a weekend road trip to Madison shifted the mix toward highway gasoline use. Public charging in Madison kept all 43 miles of local driving there electric.</div>
+      <div class="note tank4-context"><strong>Tank #4 context:</strong> EV-heavy local driving dominated the first part of the tank before a weekend road trip to Madison shifted the mix toward highway gasoline use. Public charging in Madison kept all 43 miles of local driving there electric.</div>
       <div style="height:20px"></div>
       <div class="section-title">Tank history</div>
       <div class="tank-strip history-strip">
@@ -532,17 +633,17 @@ html,body{max-width:100%;overflow-x:hidden}
       <div class="grid3">
         <div class="card">
           <div class="section-title">Gasoline purchased</div>
-          <div style="font-size:2.4rem;font-weight:950;color:var(--lake)">59.136 <span style="font-size:1.15rem">gal</span></div>
+          <div style="font-size:2.4rem;font-weight:950;color:var(--actual-gas)">59.136 <span style="font-size:1.15rem">gal</span></div>
           <p style="color:var(--muted);margin-bottom:0">Actual gasoline purchased across all four completed tanks.</p>
         </div>
         <div class="card">
-          <div class="section-title" style="color:#138A4B">Estimated 2018 gasoline</div>
-          <div style="font-size:2.4rem;font-weight:950;color:#138A4B">201.7 <span style="font-size:1.15rem">gal</span></div>
+          <div class="section-title" style="color:var(--lake)">Estimated 2018 gasoline</div>
+          <div style="font-size:2.4rem;font-weight:950;color:var(--lake)">201.7 <span style="font-size:1.15rem">gal</span></div>
           <p style="color:var(--muted);margin-bottom:0">Estimated gasoline a 2018 Pacifica at 22 MPG would have used across the same 4,436.3 miles.</p>
         </div>
         <div class="card savings">
           <div class="section-title">Estimated gallons avoided</div>
-          <div style="font-size:2.4rem;font-weight:950;color:#CC8E00">142.5 <span style="font-size:1.15rem">gal</span></div>
+          <div style="font-size:2.4rem;font-weight:950;color:var(--gold-text)">142.5 <span style="font-size:1.15rem">gal</span></div>
           <p style="color:var(--muted);margin-bottom:0">Estimated difference between the 2018 benchmark and actual PHEV gasoline purchased.</p>
         </div>
       </div>
@@ -598,18 +699,18 @@ html,body{max-width:100%;overflow-x:hidden}
           <div class="section-title">Energy cost per mile by tank</div>
           <div class="chart-wrap">
             <svg viewBox="0 0 620 270" role="img" aria-label="Line chart showing PHEV and 2018 benchmark energy cost per mile for Tanks 1 through 4">
-              <g stroke="#E6E1F1" stroke-width="1">
+              <g stroke="var(--chart-grid)" stroke-width="1">
                 <line x1="58" y1="40" x2="590" y2="40"/><line x1="58" y1="90" x2="590" y2="90"/><line x1="58" y1="140" x2="590" y2="140"/><line x1="58" y1="190" x2="590" y2="190"/><line x1="58" y1="240" x2="590" y2="240"/>
               </g>
-              <g fill="#6A6781" font-size="12" font-family="Inter,system-ui,sans-serif">
+              <g fill="var(--chart-axis)" font-size="12" font-family="Inter,system-ui,sans-serif">
                 <text x="47" y="244" text-anchor="end">5¢</text><text x="47" y="194" text-anchor="end">9¢</text><text x="47" y="144" text-anchor="end">13¢</text><text x="47" y="94" text-anchor="end">17¢</text><text x="47" y="44" text-anchor="end">21¢</text>
                 <text x="85" y="260" text-anchor="middle">Tank #1</text><text x="250" y="260" text-anchor="middle">Tank #2</text><text x="415" y="260" text-anchor="middle">Tank #3</text><text x="575" y="260" text-anchor="middle">Tank #4</text>
               </g>
-              <polyline points="85,207.9 250,154.9 415,190.9 575,170.4" fill="none" stroke="#F2B300" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-              <polyline points="85,84.9 250,72.9 415,72.4 575,69.5" fill="none" stroke="#3B82F6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-              <g fill="#F2B300" stroke="#fff" stroke-width="3"><circle cx="85" cy="207.9" r="7"/><circle cx="250" cy="154.9" r="7"/><circle cx="415" cy="190.9" r="7"/><circle cx="575" cy="170.4" r="7"/></g>
-              <g fill="#3B82F6" stroke="#fff" stroke-width="3"><circle cx="85" cy="84.9" r="6"/><circle cx="250" cy="72.9" r="6"/><circle cx="415" cy="72.4" r="6"/><circle cx="575" cy="69.5" r="6"/></g>
-              <g fill="#27233A" font-size="12" font-weight="800" font-family="Inter,system-ui,sans-serif">
+              <polyline points="85,207.9 250,154.9 415,190.9 575,170.4" fill="none" stroke="var(--aurora)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+              <polyline points="85,84.9 250,72.9 415,72.4 575,69.5" fill="none" stroke="var(--lake)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              <g fill="var(--aurora)" stroke="var(--panel)" stroke-width="3"><circle cx="85" cy="207.9" r="7"/><circle cx="250" cy="154.9" r="7"/><circle cx="415" cy="190.9" r="7"/><circle cx="575" cy="170.4" r="7"/></g>
+              <g fill="var(--lake)" stroke="var(--panel)" stroke-width="3"><circle cx="85" cy="84.9" r="6"/><circle cx="250" cy="72.9" r="6"/><circle cx="415" cy="72.4" r="6"/><circle cx="575" cy="69.5" r="6"/></g>
+              <g fill="var(--chart-label)" font-size="12" font-weight="800" font-family="Inter,system-ui,sans-serif">
                 <text x="85" y="195" text-anchor="middle">7.56¢</text><text x="250" y="142" text-anchor="middle">11.80¢</text><text x="415" y="178" text-anchor="middle">8.93¢</text><text x="575" y="158" text-anchor="middle">10.57¢</text>
               </g>
             </svg>
