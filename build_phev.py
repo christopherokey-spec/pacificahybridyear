@@ -163,10 +163,10 @@ def main():
  for x,t in zip(xs,tanks):svg_tag('text',{'x':x,'y':f'{y(t["cpmi"])-13:.1f}','text-anchor':'middle','fill':'var(--chart-label)','font-size':12,'font-weight':800},string=cents(t['cpmi']))
  # costs
  costs=soup.select_one('#costs');set_text(costs.select_one('.section-title'),f'Cumulative real‑world energy cost — Through Tank #{n}')
- first=costs.select_one('.card.rows');totaldiv=first.select_one('.total');
- for r in first.select('.row'):r.decompose()
+ first=costs.select_one('.card.rows');totaldiv=first.select_one('.total');scroll=first.select_one('.cost-tank-scroll');
+ for r in scroll.select('.row'):r.decompose()
  for t in tanks:
-  r=soup.new_tag('div',attrs={'class':'row'});sp=soup.new_tag('span');sp.string=f"Tank #{t['tank']}";b=soup.new_tag('b');b.string=money(t['cost']);r.extend([sp,b]);totaldiv.insert_before(r)
+  r=soup.new_tag('div',attrs={'class':'row'});sp=soup.new_tag('span');sp.string=f"Tank #{t['tank']}";b=soup.new_tag('b');b.string=money(t['cost']);r.extend([sp,b]);scroll.append(r)
  set_text(totaldiv.select_one('strong'),money(cost));set_text(costs.select_one('.big-number'),cents(cpmi))
  for p in costs.select('p'):
   if 'PHEV:' in p.get_text():set_text(p,f'PHEV: {money(cost)} energy cost ÷ {fmt(miles,1)} tracked miles')

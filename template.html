@@ -110,6 +110,9 @@ h1{font-size:clamp(2.25rem,5vw,4.8rem);line-height:.93;letter-spacing:-.045em;ma
 .savings .amount{font-size:4.1rem;line-height:1;color:var(--gold-text);font-weight:950;letter-spacing:-.04em}
 .savings .estimate-qualifier{display:block;font-size:.78rem;line-height:1;color:var(--ink);font-style:italic;font-weight:650;letter-spacing:0;margin-top:0;margin-bottom:36px}
 .savings .pct{font-size:2rem;color:var(--midnight);font-weight:950;margin-top:5px}
+.cost-tank-scroll{max-height:410px;overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:stable;padding-right:8px}
+.cost-tank-card{display:flex;flex-direction:column;align-self:stretch}
+.cost-tank-card .total{flex-shrink:0}
 .rows .row{display:grid;grid-template-columns:1fr auto;gap:10px;padding:11px 0;border-bottom:1px dashed var(--row-line)}
 .rows .row:last-child{border-bottom:0}
 .rows .row b{color:var(--midnight)}
@@ -729,13 +732,14 @@ html{color-scheme:light}
 <section class="panel" id="costs">
 <div class="section-title">Cumulative real‑world energy cost — Through Tank #6</div>
 <div class="grid2">
-<div class="card rows">
+<div class="card rows cost-tank-card">
+<div class="cost-tank-scroll">
 <div class="row"><span>Tank #1</span><b>$152.62</b></div>
 <div class="row"><span>Tank #2</span><b>$61.62</b></div>
 <div class="row"><span>Tank #3</span><b>$93.00</b></div>
 <div class="row"><span>Tank #4</span><b>$92.61</b></div>
 <div class="row"><span>Tank #5</span><b>$103.00</b></div>
-<div class="row"><span>Tank #6</span><b>$87.53</b></div><div class="total"><span>TRACKED TOTAL</span><strong>$590.38</strong></div>
+<div class="row"><span>Tank #6</span><b>$87.53</b></div></div><div class="total"><span>TRACKED TOTAL</span><strong>$590.38</strong></div>
 </div>
 <div class="card">
 <div class="section-title">Average energy cost per mile</div>
