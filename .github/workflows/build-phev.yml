@@ -1,0 +1,43 @@
+
+name: Build Pacifica PHEV website
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tanks.csv'
+      - 'narratives.csv'
+      - 'template.html'
+      - 'build_phev.py'
+      - '.github/workflows/build-phev.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Python dependencies
+        run: python3 -m pip install beautifulsoup4
+      - name: Generate website
+        run: python3 build_phev.py
+
+      - name: Commit updated website
+        run: |
+          if ! git diff --quiet -- index.html; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add index.html
+            git commit -m "Automatically update PHEV website"
+            git push
+          fi
