@@ -1,6 +1,4 @@
-# Pacifica PHEV website — automation test
-
-This is a **test copy**. Do not replace the live site until you've reviewed the generated `index.html` against the existing Tank 6 site.
+# Pacifica PHEV website 
 
 ## Tank update
 
