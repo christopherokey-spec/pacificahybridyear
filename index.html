@@ -170,12 +170,22 @@ h1{font-size:clamp(2.25rem,5vw,4.8rem);line-height:.93;letter-spacing:-.045em;ma
   display:flex;
   flex-wrap:wrap;
   justify-content:center;
+  align-content:flex-start;
   gap:10px 14px;
+  max-height:138px; /* Two 64px rows, with a 10px gap */
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  scrollbar-gutter:stable;
+  padding-right:6px;
 }
 .quick-tanks .quick-btn.tank{
   flex:0 0 138px;
   width:138px;
 }
+/* Only show the cue when tank navigation has more rows below. */
+.quick-scroll-cue{display:none;text-align:center;color:var(--muted);font-size:.77rem;font-weight:750;line-height:1.4;margin:4px 0 0;}
+.quick-scroll-cue.is-visible{display:block;}
+
 .quick-details{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
@@ -218,8 +228,8 @@ html,body{max-width:100%;overflow-x:hidden}
 .tank-board .tank-link{min-width:0;width:100%}
 .ytd-main{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:18px}
 .chart-card{overflow:hidden}
-.chart-wrap{width:100%;margin-top:4px}
-.chart-wrap svg{display:block;width:100%;height:auto;overflow:visible}
+.chart-wrap{width:100%;margin-top:4px;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;scrollbar-width:thin;padding-bottom:7px}
+.chart-wrap svg{display:block;width:100%;max-width:none;height:auto;overflow:visible}
 .chart-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;font-size:.86rem;color:var(--muted);font-weight:800}
 .chart-key{display:inline-flex;align-items:center;gap:6px}.chart-line{width:22px;height:3px;border-radius:999px;display:inline-block}.chart-line.phev{background:var(--aurora)}.chart-line.old{background:var(--lake)}
 .chart-foot{font-size:.76rem;color:var(--muted);font-style:italic;margin-top:8px;line-height:1.4}
@@ -327,35 +337,7 @@ html{color-scheme:light}
 .note.tank6-context{border-left-color:var(--tank6)}
 
 /* Generated tank navigation and accent rules */
-.tank-link.tank7{border-top:5px solid var(--tank1)}
-.note.tank7-context{border-left-color:var(--tank1)}
-#tab-tank7:checked ~ .tabbar label[for=tab-tank7]{background:var(--midnight);color:#fff}
-#tab-tank7:checked ~ .panels #tank7{display:block}
-.tank-link.tank8{border-top:5px solid var(--tank2)}
-.note.tank8-context{border-left-color:var(--tank2)}
-#tab-tank8:checked ~ .tabbar label[for=tab-tank8]{background:var(--midnight);color:#fff}
-#tab-tank8:checked ~ .panels #tank8{display:block}
-.tank-link.tank9{border-top:5px solid var(--tank1)}
-.note.tank9-context{border-left-color:var(--tank1)}
-#tab-tank9:checked ~ .tabbar label[for=tab-tank9]{background:var(--midnight);color:#fff}
-#tab-tank9:checked ~ .panels #tank9{display:block}
-.tank-link.tank10{border-top:5px solid var(--tank2)}
-.note.tank10-context{border-left-color:var(--tank2)}
-#tab-tank10:checked ~ .tabbar label[for=tab-tank10]{background:var(--midnight);color:#fff}
-#tab-tank10:checked ~ .panels #tank10{display:block}
-.tank-link.tank11{border-top:5px solid var(--tank1)}
-.note.tank11-context{border-left-color:var(--tank1)}
-#tab-tank11:checked ~ .tabbar label[for=tab-tank11]{background:var(--midnight);color:#fff}
-#tab-tank11:checked ~ .panels #tank11{display:block}
-.tank-link.tank12{border-top:5px solid var(--tank2)}
-.note.tank12-context{border-left-color:var(--tank2)}
-#tab-tank12:checked ~ .tabbar label[for=tab-tank12]{background:var(--midnight);color:#fff}
-#tab-tank12:checked ~ .panels #tank12{display:block}
-.tank-link.tank13{border-top:5px solid var(--tank1)}
-.note.tank13-context{border-left-color:var(--tank1)}
-#tab-tank13:checked ~ .tabbar label[for=tab-tank13]{background:var(--midnight);color:#fff}
-#tab-tank13:checked ~ .panels #tank13{display:block}
-@media(max-width:520px){.chart-wrap svg{width:1350px}}</style>
+@media(max-width:520px){.chart-wrap svg{width:650px}}</style>
 </head>
 <body>
 <div class="wrap">
@@ -375,7 +357,7 @@ html{color-scheme:light}
 <div class="hero-note">Real miles. Real charging. Real gas. Real costs.</div>
 </div>
 <div class="hero-meta">
-<div class="date-badge">Tracking since June 18, 2026<br/><span style="font-size:.68em;font-style:italic;font-weight:400">(data through November 10, 2026)</span></div>
+<div class="date-badge">Tracking since June 18, 2026<br/><span style="font-size:.68em;font-style:italic;font-weight:400">(data through October 16, 2026)</span></div>
 </div>
 </div>
 </header>
@@ -390,14 +372,14 @@ html{color-scheme:light}
 <input id="tab-compare" name="tabs" type="radio"/>
 <input id="tab-year" name="tabs" type="radio"/>
 <input id="tab-method" name="tabs" type="radio"/>
-<input id="tab-tank7" name="tabs" type="radio"/><input id="tab-tank8" name="tabs" type="radio"/><input id="tab-tank9" name="tabs" type="radio"/><input id="tab-tank10" name="tabs" type="radio"/><input id="tab-tank11" name="tabs" type="radio"/><input id="tab-tank12" name="tabs" type="radio"/><input id="tab-tank13" name="tabs" type="radio"/><div class="tabbar">
+<div class="tabbar">
 <label for="tab-overview">Overview</label>
 <label for="tab-tank1">Tank #1</label>
 <label for="tab-tank2">Tank #2</label>
 <label for="tab-tank3">Tank #3</label>
 <label for="tab-tank4">Tank #4</label>
 <label for="tab-tank5">Tank #5</label><label for="tab-tank6">Tank #6</label>
-<label for="tab-tank7">Tank #7</label><label for="tab-tank8">Tank #8</label><label for="tab-tank9">Tank #9</label><label for="tab-tank10">Tank #10</label><label for="tab-tank11">Tank #11</label><label for="tab-tank12">Tank #12</label><label for="tab-tank13">Tank #13</label><label for="tab-year">Project to Date</label>
+<label for="tab-year">Project to Date</label>
 <label for="tab-compare">vs. 2018</label>
 <label for="tab-costs">Costs</label>
 <label for="tab-method">Methodology</label>
@@ -405,29 +387,30 @@ html{color-scheme:light}
 <div class="panels">
 <section class="panel" id="overview">
 <div class="hero-stat">
-<div><div class="big">13,731.1</div><div class="label">tracked miles so far</div></div>
+<div><div class="big">6,274.9</div><div class="label">tracked miles so far</div></div>
 <div class="hero-j1772">
 <span class="j1772"><svg viewbox="0 0 64 64"><path d="M19 10h26a8 8 0 0 1 8 8v14a21 21 0 0 1-42 0V18a8 8 0 0 1 8-8Z" fill="none" stroke="currentColor" stroke-width="5"></path><circle cx="24" cy="24" fill="currentColor" r="4"></circle><circle cx="40" cy="24" fill="currentColor" r="4"></circle><circle cx="32" cy="34" fill="currentColor" r="4"></circle><circle cx="24" cy="39" fill="currentColor" r="3"></circle><circle cx="40" cy="39" fill="currentColor" r="3"></circle><path d="M32 53v9" stroke="currentColor" stroke-linecap="round" stroke-width="5"></path></svg></span>
 </div>
 </div>
 <div class="grid4">
-<div class="card metric"><div aria-hidden="true" class="metric-icon road"><svg fill="none" viewbox="0 0 32 32"><path d="M10 3 5 29M22 3l5 26" stroke="currentColor" stroke-linecap="round" stroke-width="3.2"></path><path d="M16 5v4m0 5v4m0 5v4" stroke="currentColor" stroke-linecap="round" stroke-width="2.8"></path></svg></div><strong>13,731.1</strong><span>Total tracked miles</span></div>
-<div class="card metric green"><div aria-hidden="true" class="metric-icon bolt"><svg fill="currentColor" viewbox="0 0 32 32"><path d="M18.6 2 7.8 17h7.3L12.8 30 24.5 13h-7.1L18.6 2Z"></path></svg></div><strong>62%</strong><span>Electric driving</span></div>
-<div class="card metric"><div class="metric-icon money">$</div><strong>$1,463.90</strong><span>Total energy cost</span></div>
-<div class="card metric green"><div class="metric-icon money">¢</div><strong>10.66¢</strong><span>Average energy cost per mile</span></div>
+<div class="card metric"><div aria-hidden="true" class="metric-icon road"><svg fill="none" viewbox="0 0 32 32"><path d="M10 3 5 29M22 3l5 26" stroke="currentColor" stroke-linecap="round" stroke-width="3.2"></path><path d="M16 5v4m0 5v4m0 5v4" stroke="currentColor" stroke-linecap="round" stroke-width="2.8"></path></svg></div><strong>6,274.9</strong><span>Total tracked miles</span></div>
+<div class="card metric green"><div aria-hidden="true" class="metric-icon bolt"><svg fill="currentColor" viewbox="0 0 32 32"><path d="M18.6 2 7.8 17h7.3L12.8 30 24.5 13h-7.1L18.6 2Z"></path></svg></div><strong>63.6%</strong><span>Electric driving</span></div>
+<div class="card metric"><div class="metric-icon money">$</div><strong>$590.38</strong><span>Total energy cost</span></div>
+<div class="card metric green"><div class="metric-icon money">¢</div><strong>9.41¢</strong><span>Average energy cost per mile</span></div>
 </div>
 <div style="height:18px"></div>
 <div class="grid2">
-<div class="card"><div class="section-title">Project-to-date driving mix</div><div class="progress"><div class="ev" style="width:62%"></div><div class="gas" style="width:38%"></div></div><div class="legend"><span><i class="dot ev"></i>8,510.5 electric miles</span><span><i class="dot gas"></i>5,220.6 gas‑engine miles</span></div>
+<div class="card"><div class="section-title">Project-to-date driving mix</div><div class="progress"><div class="ev" style="width:63.6%"></div><div class="gas" style="width:36.4%"></div></div><div class="legend"><span><i class="dot ev"></i>3,989.3 electric miles</span><span><i class="dot gas"></i>2,285.6 gas‑engine miles</span></div>
 <div class="quick-grid">
-<div class="quick-tanks"><label class="quick-btn tank" for="tab-tank1"><span class="ico"><svg fill="none" viewbox="0 0 24 24"><path d="M7 3h8a2 2 0 0 1 2 2v16H5V5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2"></path><path d="M8 7h6v5H8V7Zm9 3h2l2 2v5a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg></span><span class="tank-label"><span>Tank</span><span>#1</span></span></label><label class="quick-btn tank" for="tab-tank2"><span class="ico"><svg fill="none" viewbox="0 0 24 24"><path d="M7 3h8a2 2 0 0 1 2 2v16H5V5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2"></path><path d="M8 7h6v5H8V7Zm9 3h2l2 2v5a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg></span><span class="tank-label"><span>Tank</span><span>#2</span></span></label><label class="quick-btn tank" for="tab-tank3"><span class="ico"><svg fill="none" viewbox="0 0 24 24"><path d="M7 3h8a2 2 0 0 1 2 2v16H5V5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2"></path><path d="M8 7h6v5H8V7Zm9 3h2l2 2v5a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg></span><span class="tank-label"><span>Tank</span><span>#3</span></span></label><label class="quick-btn tank" for="tab-tank4"><span class="ico"><svg fill="none" viewbox="0 0 24 24"><path d="M7 3h8a2 2 0 0 1 2 2v16H5V5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2"></path><path d="M8 7h6v5H8V7Zm9 3h2l2 2v5a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg></span><span class="tank-label"><span>Tank</span><span>#4</span></span></label><label class="quick-btn tank" for="tab-tank5"><span class="ico"><svg fill="none" viewbox="0 0 24 24"><path d="M7 3h8a2 2 0 0 1 2 2v16H5V5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2"></path><path d="M8 7h6v5H8V7Zm9 3h2l2 2v5a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg></span><span class="tank-label"><span>Tank</span><span>#5</span></span></label><label class="quick-btn tank" for="tab-tank6"><span class="ico"><svg fill="none" viewbox="0 0 24 24"><path d="M7 3h8a2 2 0 0 1 2 2v16H5V5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2"></path><path d="M8 7h6v5H8V7Zm9 3h2l2 2v5a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg></span><span class="tank-label"><span>Tank</span><span>#6</span></span></label><label class="quick-btn tank" for="tab-tank7"><span class="ico"><svg fill="none" viewbox="0 0 24 24"><path d="M7 3h8a2 2 0 0 1 2 2v16H5V5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2"></path><path d="M8 7h6v5H8V7Zm9 3h2l2 2v5a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg></span><span class="tank-label"><span>Tank</span><span>#7</span></span></label><label class="quick-btn tank" for="tab-tank8"><span class="ico"><svg fill="none" viewbox="0 0 24 24"><path d="M7 3h8a2 2 0 0 1 2 2v16H5V5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2"></path><path d="M8 7h6v5H8V7Zm9 3h2l2 2v5a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg></span><span class="tank-label"><span>Tank</span><span>#8</span></span></label><label class="quick-btn tank" for="tab-tank9"><span class="ico"><svg fill="none" viewbox="0 0 24 24"><path d="M7 3h8a2 2 0 0 1 2 2v16H5V5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2"></path><path d="M8 7h6v5H8V7Zm9 3h2l2 2v5a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg></span><span class="tank-label"><span>Tank</span><span>#9</span></span></label><label class="quick-btn tank" for="tab-tank10"><span class="ico"><svg fill="none" viewbox="0 0 24 24"><path d="M7 3h8a2 2 0 0 1 2 2v16H5V5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2"></path><path d="M8 7h6v5H8V7Zm9 3h2l2 2v5a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg></span><span class="tank-label"><span>Tank</span><span>#10</span></span></label><label class="quick-btn tank" for="tab-tank11"><span class="ico"><svg fill="none" viewbox="0 0 24 24"><path d="M7 3h8a2 2 0 0 1 2 2v16H5V5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2"></path><path d="M8 7h6v5H8V7Zm9 3h2l2 2v5a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg></span><span class="tank-label"><span>Tank</span><span>#11</span></span></label><label class="quick-btn tank" for="tab-tank12"><span class="ico"><svg fill="none" viewbox="0 0 24 24"><path d="M7 3h8a2 2 0 0 1 2 2v16H5V5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2"></path><path d="M8 7h6v5H8V7Zm9 3h2l2 2v5a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg></span><span class="tank-label"><span>Tank</span><span>#12</span></span></label><label class="quick-btn tank" for="tab-tank13"><span class="ico"><svg fill="none" viewbox="0 0 24 24"><path d="M7 3h8a2 2 0 0 1 2 2v16H5V5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2"></path><path d="M8 7h6v5H8V7Zm9 3h2l2 2v5a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg></span><span class="tank-label"><span>Tank</span><span>#13</span></span></label></div>
+<div class="quick-tanks"><label class="quick-btn tank" for="tab-tank1"><span class="ico"><svg fill="none" viewbox="0 0 24 24"><path d="M7 3h8a2 2 0 0 1 2 2v16H5V5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2"></path><path d="M8 7h6v5H8V7Zm9 3h2l2 2v5a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg></span><span class="tank-label"><span>Tank</span><span>#1</span></span></label><label class="quick-btn tank" for="tab-tank2"><span class="ico"><svg fill="none" viewbox="0 0 24 24"><path d="M7 3h8a2 2 0 0 1 2 2v16H5V5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2"></path><path d="M8 7h6v5H8V7Zm9 3h2l2 2v5a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg></span><span class="tank-label"><span>Tank</span><span>#2</span></span></label><label class="quick-btn tank" for="tab-tank3"><span class="ico"><svg fill="none" viewbox="0 0 24 24"><path d="M7 3h8a2 2 0 0 1 2 2v16H5V5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2"></path><path d="M8 7h6v5H8V7Zm9 3h2l2 2v5a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg></span><span class="tank-label"><span>Tank</span><span>#3</span></span></label><label class="quick-btn tank" for="tab-tank4"><span class="ico"><svg fill="none" viewbox="0 0 24 24"><path d="M7 3h8a2 2 0 0 1 2 2v16H5V5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2"></path><path d="M8 7h6v5H8V7Zm9 3h2l2 2v5a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg></span><span class="tank-label"><span>Tank</span><span>#4</span></span></label><label class="quick-btn tank" for="tab-tank5"><span class="ico"><svg fill="none" viewbox="0 0 24 24"><path d="M7 3h8a2 2 0 0 1 2 2v16H5V5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2"></path><path d="M8 7h6v5H8V7Zm9 3h2l2 2v5a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg></span><span class="tank-label"><span>Tank</span><span>#5</span></span></label><label class="quick-btn tank" for="tab-tank6"><span class="ico"><svg fill="none" viewbox="0 0 24 24"><path d="M7 3h8a2 2 0 0 1 2 2v16H5V5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2"></path><path d="M8 7h6v5H8V7Zm9 3h2l2 2v5a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg></span><span class="tank-label"><span>Tank</span><span>#6</span></span></label></div>
+<div aria-hidden="true" class="quick-scroll-cue">Scroll for more tanks ↓</div>
 <div class="quick-details">
 <label class="quick-btn detail" for="tab-compare"><span class="ico"><svg fill="currentColor" viewbox="0 0 24 24"><rect height="8" rx="1" width="3" x="4" y="12"></rect><rect height="12" rx="1" width="3" x="10.5" y="8"></rect><rect height="16" rx="1" width="3" x="17" y="4"></rect></svg></span>vs. 2018</label>
 <label class="quick-btn detail" for="tab-costs"><span class="ico"><svg fill="none" viewbox="0 0 24 24"><path d="M12 3v18M16 7.5c0-1.7-1.8-3-4-3s-4 1.3-4 3 1.8 3 4 3 4 1.3 4 3-1.8 3-4 3-4-1.3-4-3" stroke="currentColor" stroke-linecap="round" stroke-width="2"></path></svg></span>Costs</label>
 </div>
 </div>
 </div>
-<div class="card savings"><div class="section-title">Savings so far</div><span class="estimate-qualifier">(estimated)</span><div class="amount">$1,141.81 saved</div><div class="pct">43.8% lower energy cost</div><div style="margin-top:6px;color:var(--soft-text)">vs. the 2018 Pacifica benchmark through Tank #13</div></div>
+<div class="card savings"><div class="section-title">Savings so far</div><span class="estimate-qualifier">(estimated)</span><div class="amount">$570.35 saved</div><div class="pct">49.1% lower energy cost</div><div style="margin-top:6px;color:var(--soft-text)">vs. the 2018 Pacifica benchmark through Tank #6</div></div>
 </div>
 <div class="nextrow"><label for="tab-year">See project-to-date details →</label></div>
 </section>
@@ -476,7 +459,7 @@ html{color-scheme:light}
 <div class="note tank1-context">Tank #1 context: Mostly local driving with frequent charging opportunities and a high electric share. One gasoline fill‑up covered the full 2,020.1‑mile tank period.</div>
 <div style="height:18px"></div>
 <div class="section-title">Tank history</div>
-<div class="tank-strip history-strip"><label class="tank-link tank1 current" for="tab-tank1" title="Open Tank #1"><h3>Tank #1 →</h3><div class="mini-copy">2,020.1 mi<br/>82.6% EV<br/>$152.62<br/>7.56¢/mi</div></label><label class="tank-link tank2" for="tab-tank2" title="Open Tank #2"><h3>Tank #2 →</h3><div class="mini-copy">522.2 mi<br/>26.8% EV<br/>$61.62<br/>11.80¢/mi</div></label><label class="tank-link tank3" for="tab-tank3" title="Open Tank #3"><h3>Tank #3 →</h3><div class="mini-copy">1,041.8 mi<br/>64% EV<br/>$93.00<br/>8.93¢/mi</div></label><label class="tank-link tank4" for="tab-tank4" title="Open Tank #4"><h3>Tank #4 →</h3><div class="mini-copy">852.2 mi<br/>52% EV<br/>$92.61<br/>10.87¢/mi</div></label><label class="tank-link tank5" for="tab-tank5" title="Open Tank #5"><h3>Tank #5 →</h3><div class="mini-copy">983.2 mi<br/>59% EV<br/>$103.00<br/>10.48¢/mi</div></label><label class="tank-link tank6" for="tab-tank6" title="Open Tank #6"><h3>Tank #6 →</h3><div class="mini-copy">855.4 mi<br/>57.4% EV<br/>$87.53<br/>10.23¢/mi</div></label><label class="tank-link tank7" for="tab-tank7" title="Open Tank #7"><h3>Tank #7 →</h3><div class="mini-copy">1,600.7 mi<br/>68.7% EV<br/>$217.88<br/>13.61¢/mi</div></label><label class="tank-link tank8" for="tab-tank8" title="Open Tank #8"><h3>Tank #8 →</h3><div class="mini-copy">522.2 mi<br/>26.8% EV<br/>$61.62<br/>11.80¢/mi</div></label><label class="tank-link tank9" for="tab-tank9" title="Open Tank #9"><h3>Tank #9 →</h3><div class="mini-copy">1,041.8 mi<br/>64% EV<br/>$93.00<br/>8.93¢/mi</div></label><label class="tank-link tank10" for="tab-tank10" title="Open Tank #10"><h3>Tank #10 →</h3><div class="mini-copy">852.2 mi<br/>52% EV<br/>$92.61<br/>10.87¢/mi</div></label><label class="tank-link tank11" for="tab-tank11" title="Open Tank #11"><h3>Tank #11 →</h3><div class="mini-copy">983.2 mi<br/>59% EV<br/>$103.00<br/>10.48¢/mi</div></label><label class="tank-link tank12" for="tab-tank12" title="Open Tank #12"><h3>Tank #12 →</h3><div class="mini-copy">855.4 mi<br/>57.4% EV<br/>$87.53<br/>10.23¢/mi</div></label><label class="tank-link tank13" for="tab-tank13" title="Open Tank #13"><h3>Tank #13 →</h3><div class="mini-copy">1,600.7 mi<br/>68.7% EV<br/>$217.88<br/>13.61¢/mi</div></label></div>
+<div class="tank-strip history-strip"><label class="tank-link tank1 current" for="tab-tank1" title="Open Tank #1"><h3>Tank #1 →</h3><div class="mini-copy">2,020.1 mi<br/>82.6% EV<br/>$152.62<br/>7.56¢/mi</div></label><label class="tank-link tank2" for="tab-tank2" title="Open Tank #2"><h3>Tank #2 →</h3><div class="mini-copy">522.2 mi<br/>26.8% EV<br/>$61.62<br/>11.80¢/mi</div></label><label class="tank-link tank3" for="tab-tank3" title="Open Tank #3"><h3>Tank #3 →</h3><div class="mini-copy">1,041.8 mi<br/>64% EV<br/>$93.00<br/>8.93¢/mi</div></label><label class="tank-link tank4" for="tab-tank4" title="Open Tank #4"><h3>Tank #4 →</h3><div class="mini-copy">852.2 mi<br/>52% EV<br/>$92.61<br/>10.87¢/mi</div></label><label class="tank-link tank5" for="tab-tank5" title="Open Tank #5"><h3>Tank #5 →</h3><div class="mini-copy">983.2 mi<br/>59% EV<br/>$103.00<br/>10.48¢/mi</div></label><label class="tank-link tank6" for="tab-tank6" title="Open Tank #6"><h3>Tank #6 →</h3><div class="mini-copy">855.4 mi<br/>57.4% EV<br/>$87.53<br/>10.23¢/mi</div></label></div>
 <div class="nextrow"><label for="tab-tank2">See Tank #2 →</label></div>
 </section>
 <section class="panel" id="tank2">
@@ -524,7 +507,7 @@ html{color-scheme:light}
 <div class="note tank2-context">Tank #2 context: Longer drives, more highway miles, minimal charging on the road, and more regenerative braking closer to home as traffic, rolling hills, and town slowdowns increased.</div>
 <div style="height:20px"></div>
 <div class="section-title">Tank history</div>
-<div class="tank-strip history-strip"><label class="tank-link tank1" for="tab-tank1" title="Open Tank #1"><h3>Tank #1 →</h3><div class="mini-copy">2,020.1 mi<br/>82.6% EV<br/>$152.62<br/>7.56¢/mi</div></label><label class="tank-link tank2 current" for="tab-tank2" title="Open Tank #2"><h3>Tank #2 →</h3><div class="mini-copy">522.2 mi<br/>26.8% EV<br/>$61.62<br/>11.80¢/mi</div></label><label class="tank-link tank3" for="tab-tank3" title="Open Tank #3"><h3>Tank #3 →</h3><div class="mini-copy">1,041.8 mi<br/>64% EV<br/>$93.00<br/>8.93¢/mi</div></label><label class="tank-link tank4" for="tab-tank4" title="Open Tank #4"><h3>Tank #4 →</h3><div class="mini-copy">852.2 mi<br/>52% EV<br/>$92.61<br/>10.87¢/mi</div></label><label class="tank-link tank5" for="tab-tank5" title="Open Tank #5"><h3>Tank #5 →</h3><div class="mini-copy">983.2 mi<br/>59% EV<br/>$103.00<br/>10.48¢/mi</div></label><label class="tank-link tank6" for="tab-tank6" title="Open Tank #6"><h3>Tank #6 →</h3><div class="mini-copy">855.4 mi<br/>57.4% EV<br/>$87.53<br/>10.23¢/mi</div></label><label class="tank-link tank7" for="tab-tank7" title="Open Tank #7"><h3>Tank #7 →</h3><div class="mini-copy">1,600.7 mi<br/>68.7% EV<br/>$217.88<br/>13.61¢/mi</div></label><label class="tank-link tank8" for="tab-tank8" title="Open Tank #8"><h3>Tank #8 →</h3><div class="mini-copy">522.2 mi<br/>26.8% EV<br/>$61.62<br/>11.80¢/mi</div></label><label class="tank-link tank9" for="tab-tank9" title="Open Tank #9"><h3>Tank #9 →</h3><div class="mini-copy">1,041.8 mi<br/>64% EV<br/>$93.00<br/>8.93¢/mi</div></label><label class="tank-link tank10" for="tab-tank10" title="Open Tank #10"><h3>Tank #10 →</h3><div class="mini-copy">852.2 mi<br/>52% EV<br/>$92.61<br/>10.87¢/mi</div></label><label class="tank-link tank11" for="tab-tank11" title="Open Tank #11"><h3>Tank #11 →</h3><div class="mini-copy">983.2 mi<br/>59% EV<br/>$103.00<br/>10.48¢/mi</div></label><label class="tank-link tank12" for="tab-tank12" title="Open Tank #12"><h3>Tank #12 →</h3><div class="mini-copy">855.4 mi<br/>57.4% EV<br/>$87.53<br/>10.23¢/mi</div></label><label class="tank-link tank13" for="tab-tank13" title="Open Tank #13"><h3>Tank #13 →</h3><div class="mini-copy">1,600.7 mi<br/>68.7% EV<br/>$217.88<br/>13.61¢/mi</div></label></div>
+<div class="tank-strip history-strip"><label class="tank-link tank1" for="tab-tank1" title="Open Tank #1"><h3>Tank #1 →</h3><div class="mini-copy">2,020.1 mi<br/>82.6% EV<br/>$152.62<br/>7.56¢/mi</div></label><label class="tank-link tank2 current" for="tab-tank2" title="Open Tank #2"><h3>Tank #2 →</h3><div class="mini-copy">522.2 mi<br/>26.8% EV<br/>$61.62<br/>11.80¢/mi</div></label><label class="tank-link tank3" for="tab-tank3" title="Open Tank #3"><h3>Tank #3 →</h3><div class="mini-copy">1,041.8 mi<br/>64% EV<br/>$93.00<br/>8.93¢/mi</div></label><label class="tank-link tank4" for="tab-tank4" title="Open Tank #4"><h3>Tank #4 →</h3><div class="mini-copy">852.2 mi<br/>52% EV<br/>$92.61<br/>10.87¢/mi</div></label><label class="tank-link tank5" for="tab-tank5" title="Open Tank #5"><h3>Tank #5 →</h3><div class="mini-copy">983.2 mi<br/>59% EV<br/>$103.00<br/>10.48¢/mi</div></label><label class="tank-link tank6" for="tab-tank6" title="Open Tank #6"><h3>Tank #6 →</h3><div class="mini-copy">855.4 mi<br/>57.4% EV<br/>$87.53<br/>10.23¢/mi</div></label></div>
 <div class="nextrow"><label for="tab-tank3">See Tank #3 →</label></div>
 </section>
 <section class="panel" id="tank3">
@@ -572,7 +555,7 @@ html{color-scheme:light}
 <div class="note tank3-context">Tank #3 context: A mixed-use tank with regular home charging and no public charging. The period also included several higher-mileage day trips alongside normal local driving.</div>
 <div style="height:20px"></div>
 <div class="section-title">Tank history</div>
-<div class="tank-strip history-strip"><label class="tank-link tank1" for="tab-tank1" title="Open Tank #1"><h3>Tank #1 →</h3><div class="mini-copy">2,020.1 mi<br/>82.6% EV<br/>$152.62<br/>7.56¢/mi</div></label><label class="tank-link tank2" for="tab-tank2" title="Open Tank #2"><h3>Tank #2 →</h3><div class="mini-copy">522.2 mi<br/>26.8% EV<br/>$61.62<br/>11.80¢/mi</div></label><label class="tank-link tank3 current" for="tab-tank3" title="Open Tank #3"><h3>Tank #3 →</h3><div class="mini-copy">1,041.8 mi<br/>64% EV<br/>$93.00<br/>8.93¢/mi</div></label><label class="tank-link tank4" for="tab-tank4" title="Open Tank #4"><h3>Tank #4 →</h3><div class="mini-copy">852.2 mi<br/>52% EV<br/>$92.61<br/>10.87¢/mi</div></label><label class="tank-link tank5" for="tab-tank5" title="Open Tank #5"><h3>Tank #5 →</h3><div class="mini-copy">983.2 mi<br/>59% EV<br/>$103.00<br/>10.48¢/mi</div></label><label class="tank-link tank6" for="tab-tank6" title="Open Tank #6"><h3>Tank #6 →</h3><div class="mini-copy">855.4 mi<br/>57.4% EV<br/>$87.53<br/>10.23¢/mi</div></label><label class="tank-link tank7" for="tab-tank7" title="Open Tank #7"><h3>Tank #7 →</h3><div class="mini-copy">1,600.7 mi<br/>68.7% EV<br/>$217.88<br/>13.61¢/mi</div></label><label class="tank-link tank8" for="tab-tank8" title="Open Tank #8"><h3>Tank #8 →</h3><div class="mini-copy">522.2 mi<br/>26.8% EV<br/>$61.62<br/>11.80¢/mi</div></label><label class="tank-link tank9" for="tab-tank9" title="Open Tank #9"><h3>Tank #9 →</h3><div class="mini-copy">1,041.8 mi<br/>64% EV<br/>$93.00<br/>8.93¢/mi</div></label><label class="tank-link tank10" for="tab-tank10" title="Open Tank #10"><h3>Tank #10 →</h3><div class="mini-copy">852.2 mi<br/>52% EV<br/>$92.61<br/>10.87¢/mi</div></label><label class="tank-link tank11" for="tab-tank11" title="Open Tank #11"><h3>Tank #11 →</h3><div class="mini-copy">983.2 mi<br/>59% EV<br/>$103.00<br/>10.48¢/mi</div></label><label class="tank-link tank12" for="tab-tank12" title="Open Tank #12"><h3>Tank #12 →</h3><div class="mini-copy">855.4 mi<br/>57.4% EV<br/>$87.53<br/>10.23¢/mi</div></label><label class="tank-link tank13" for="tab-tank13" title="Open Tank #13"><h3>Tank #13 →</h3><div class="mini-copy">1,600.7 mi<br/>68.7% EV<br/>$217.88<br/>13.61¢/mi</div></label></div>
+<div class="tank-strip history-strip"><label class="tank-link tank1" for="tab-tank1" title="Open Tank #1"><h3>Tank #1 →</h3><div class="mini-copy">2,020.1 mi<br/>82.6% EV<br/>$152.62<br/>7.56¢/mi</div></label><label class="tank-link tank2" for="tab-tank2" title="Open Tank #2"><h3>Tank #2 →</h3><div class="mini-copy">522.2 mi<br/>26.8% EV<br/>$61.62<br/>11.80¢/mi</div></label><label class="tank-link tank3 current" for="tab-tank3" title="Open Tank #3"><h3>Tank #3 →</h3><div class="mini-copy">1,041.8 mi<br/>64% EV<br/>$93.00<br/>8.93¢/mi</div></label><label class="tank-link tank4" for="tab-tank4" title="Open Tank #4"><h3>Tank #4 →</h3><div class="mini-copy">852.2 mi<br/>52% EV<br/>$92.61<br/>10.87¢/mi</div></label><label class="tank-link tank5" for="tab-tank5" title="Open Tank #5"><h3>Tank #5 →</h3><div class="mini-copy">983.2 mi<br/>59% EV<br/>$103.00<br/>10.48¢/mi</div></label><label class="tank-link tank6" for="tab-tank6" title="Open Tank #6"><h3>Tank #6 →</h3><div class="mini-copy">855.4 mi<br/>57.4% EV<br/>$87.53<br/>10.23¢/mi</div></label></div>
 <div class="nextrow"><label for="tab-tank4">See Tank #4 →</label></div>
 </section>
 <section class="panel" id="tank4">
@@ -620,7 +603,7 @@ html{color-scheme:light}
 <div class="note tank4-context">Tank #4 context: EV-heavy local driving dominated the first part of the tank before a weekend road trip to Madison shifted the mix toward highway gasoline use. Public charging in Madison kept all 43 miles of local driving there electric.</div>
 <div style="height:20px"></div>
 <div class="section-title">Tank history</div>
-<div class="tank-strip history-strip"><label class="tank-link tank1" for="tab-tank1" title="Open Tank #1"><h3>Tank #1 →</h3><div class="mini-copy">2,020.1 mi<br/>82.6% EV<br/>$152.62<br/>7.56¢/mi</div></label><label class="tank-link tank2" for="tab-tank2" title="Open Tank #2"><h3>Tank #2 →</h3><div class="mini-copy">522.2 mi<br/>26.8% EV<br/>$61.62<br/>11.80¢/mi</div></label><label class="tank-link tank3" for="tab-tank3" title="Open Tank #3"><h3>Tank #3 →</h3><div class="mini-copy">1,041.8 mi<br/>64% EV<br/>$93.00<br/>8.93¢/mi</div></label><label class="tank-link tank4 current" for="tab-tank4" title="Open Tank #4"><h3>Tank #4 →</h3><div class="mini-copy">852.2 mi<br/>52% EV<br/>$92.61<br/>10.87¢/mi</div></label><label class="tank-link tank5" for="tab-tank5" title="Open Tank #5"><h3>Tank #5 →</h3><div class="mini-copy">983.2 mi<br/>59% EV<br/>$103.00<br/>10.48¢/mi</div></label><label class="tank-link tank6" for="tab-tank6" title="Open Tank #6"><h3>Tank #6 →</h3><div class="mini-copy">855.4 mi<br/>57.4% EV<br/>$87.53<br/>10.23¢/mi</div></label><label class="tank-link tank7" for="tab-tank7" title="Open Tank #7"><h3>Tank #7 →</h3><div class="mini-copy">1,600.7 mi<br/>68.7% EV<br/>$217.88<br/>13.61¢/mi</div></label><label class="tank-link tank8" for="tab-tank8" title="Open Tank #8"><h3>Tank #8 →</h3><div class="mini-copy">522.2 mi<br/>26.8% EV<br/>$61.62<br/>11.80¢/mi</div></label><label class="tank-link tank9" for="tab-tank9" title="Open Tank #9"><h3>Tank #9 →</h3><div class="mini-copy">1,041.8 mi<br/>64% EV<br/>$93.00<br/>8.93¢/mi</div></label><label class="tank-link tank10" for="tab-tank10" title="Open Tank #10"><h3>Tank #10 →</h3><div class="mini-copy">852.2 mi<br/>52% EV<br/>$92.61<br/>10.87¢/mi</div></label><label class="tank-link tank11" for="tab-tank11" title="Open Tank #11"><h3>Tank #11 →</h3><div class="mini-copy">983.2 mi<br/>59% EV<br/>$103.00<br/>10.48¢/mi</div></label><label class="tank-link tank12" for="tab-tank12" title="Open Tank #12"><h3>Tank #12 →</h3><div class="mini-copy">855.4 mi<br/>57.4% EV<br/>$87.53<br/>10.23¢/mi</div></label><label class="tank-link tank13" for="tab-tank13" title="Open Tank #13"><h3>Tank #13 →</h3><div class="mini-copy">1,600.7 mi<br/>68.7% EV<br/>$217.88<br/>13.61¢/mi</div></label></div>
+<div class="tank-strip history-strip"><label class="tank-link tank1" for="tab-tank1" title="Open Tank #1"><h3>Tank #1 →</h3><div class="mini-copy">2,020.1 mi<br/>82.6% EV<br/>$152.62<br/>7.56¢/mi</div></label><label class="tank-link tank2" for="tab-tank2" title="Open Tank #2"><h3>Tank #2 →</h3><div class="mini-copy">522.2 mi<br/>26.8% EV<br/>$61.62<br/>11.80¢/mi</div></label><label class="tank-link tank3" for="tab-tank3" title="Open Tank #3"><h3>Tank #3 →</h3><div class="mini-copy">1,041.8 mi<br/>64% EV<br/>$93.00<br/>8.93¢/mi</div></label><label class="tank-link tank4 current" for="tab-tank4" title="Open Tank #4"><h3>Tank #4 →</h3><div class="mini-copy">852.2 mi<br/>52% EV<br/>$92.61<br/>10.87¢/mi</div></label><label class="tank-link tank5" for="tab-tank5" title="Open Tank #5"><h3>Tank #5 →</h3><div class="mini-copy">983.2 mi<br/>59% EV<br/>$103.00<br/>10.48¢/mi</div></label><label class="tank-link tank6" for="tab-tank6" title="Open Tank #6"><h3>Tank #6 →</h3><div class="mini-copy">855.4 mi<br/>57.4% EV<br/>$87.53<br/>10.23¢/mi</div></label></div>
 <div class="nextrow"><label for="tab-tank5">See Tank #5 →</label></div>
 </section>
 <section class="panel" id="tank5">
@@ -668,7 +651,7 @@ html{color-scheme:light}
 <div class="note tank5-context">Tank #5 context: A North Shore road trip combined long highway stretches with charging opportunities along the route, while local driving before the trip kept the tank majority-electric overall.</div>
 <div style="height:20px"></div>
 <div class="section-title">Tank history</div>
-<div class="tank-strip history-strip"><label class="tank-link tank1" for="tab-tank1" title="Open Tank #1"><h3>Tank #1 →</h3><div class="mini-copy">2,020.1 mi<br/>82.6% EV<br/>$152.62<br/>7.56¢/mi</div></label><label class="tank-link tank2" for="tab-tank2" title="Open Tank #2"><h3>Tank #2 →</h3><div class="mini-copy">522.2 mi<br/>26.8% EV<br/>$61.62<br/>11.80¢/mi</div></label><label class="tank-link tank3" for="tab-tank3" title="Open Tank #3"><h3>Tank #3 →</h3><div class="mini-copy">1,041.8 mi<br/>64% EV<br/>$93.00<br/>8.93¢/mi</div></label><label class="tank-link tank4" for="tab-tank4" title="Open Tank #4"><h3>Tank #4 →</h3><div class="mini-copy">852.2 mi<br/>52% EV<br/>$92.61<br/>10.87¢/mi</div></label><label class="tank-link tank5 current" for="tab-tank5" title="Open Tank #5"><h3>Tank #5 →</h3><div class="mini-copy">983.2 mi<br/>59% EV<br/>$103.00<br/>10.48¢/mi</div></label><label class="tank-link tank6" for="tab-tank6" title="Open Tank #6"><h3>Tank #6 →</h3><div class="mini-copy">855.4 mi<br/>57.4% EV<br/>$87.53<br/>10.23¢/mi</div></label><label class="tank-link tank7" for="tab-tank7" title="Open Tank #7"><h3>Tank #7 →</h3><div class="mini-copy">1,600.7 mi<br/>68.7% EV<br/>$217.88<br/>13.61¢/mi</div></label><label class="tank-link tank8" for="tab-tank8" title="Open Tank #8"><h3>Tank #8 →</h3><div class="mini-copy">522.2 mi<br/>26.8% EV<br/>$61.62<br/>11.80¢/mi</div></label><label class="tank-link tank9" for="tab-tank9" title="Open Tank #9"><h3>Tank #9 →</h3><div class="mini-copy">1,041.8 mi<br/>64% EV<br/>$93.00<br/>8.93¢/mi</div></label><label class="tank-link tank10" for="tab-tank10" title="Open Tank #10"><h3>Tank #10 →</h3><div class="mini-copy">852.2 mi<br/>52% EV<br/>$92.61<br/>10.87¢/mi</div></label><label class="tank-link tank11" for="tab-tank11" title="Open Tank #11"><h3>Tank #11 →</h3><div class="mini-copy">983.2 mi<br/>59% EV<br/>$103.00<br/>10.48¢/mi</div></label><label class="tank-link tank12" for="tab-tank12" title="Open Tank #12"><h3>Tank #12 →</h3><div class="mini-copy">855.4 mi<br/>57.4% EV<br/>$87.53<br/>10.23¢/mi</div></label><label class="tank-link tank13" for="tab-tank13" title="Open Tank #13"><h3>Tank #13 →</h3><div class="mini-copy">1,600.7 mi<br/>68.7% EV<br/>$217.88<br/>13.61¢/mi</div></label></div>
+<div class="tank-strip history-strip"><label class="tank-link tank1" for="tab-tank1" title="Open Tank #1"><h3>Tank #1 →</h3><div class="mini-copy">2,020.1 mi<br/>82.6% EV<br/>$152.62<br/>7.56¢/mi</div></label><label class="tank-link tank2" for="tab-tank2" title="Open Tank #2"><h3>Tank #2 →</h3><div class="mini-copy">522.2 mi<br/>26.8% EV<br/>$61.62<br/>11.80¢/mi</div></label><label class="tank-link tank3" for="tab-tank3" title="Open Tank #3"><h3>Tank #3 →</h3><div class="mini-copy">1,041.8 mi<br/>64% EV<br/>$93.00<br/>8.93¢/mi</div></label><label class="tank-link tank4" for="tab-tank4" title="Open Tank #4"><h3>Tank #4 →</h3><div class="mini-copy">852.2 mi<br/>52% EV<br/>$92.61<br/>10.87¢/mi</div></label><label class="tank-link tank5 current" for="tab-tank5" title="Open Tank #5"><h3>Tank #5 →</h3><div class="mini-copy">983.2 mi<br/>59% EV<br/>$103.00<br/>10.48¢/mi</div></label><label class="tank-link tank6" for="tab-tank6" title="Open Tank #6"><h3>Tank #6 →</h3><div class="mini-copy">855.4 mi<br/>57.4% EV<br/>$87.53<br/>10.23¢/mi</div></label></div>
 <div class="nextrow"><label for="tab-tank6">See Tank #6 →</label></div>
 </section><section class="panel" id="tank6">
 <div class="section-title">Tank #6 — September 29 to October 16, 2026</div>
@@ -715,340 +698,11 @@ html{color-scheme:light}
 <div class="note tank6-context">Tank #6 context: A mix of electric-heavy local driving and longer day trips that relied primarily on gasoline.</div>
 <div style="height:20px"></div>
 <div class="section-title">Tank history</div>
-<div class="tank-strip history-strip"><label class="tank-link tank1" for="tab-tank1" title="Open Tank #1"><h3>Tank #1 →</h3><div class="mini-copy">2,020.1 mi<br/>82.6% EV<br/>$152.62<br/>7.56¢/mi</div></label><label class="tank-link tank2" for="tab-tank2" title="Open Tank #2"><h3>Tank #2 →</h3><div class="mini-copy">522.2 mi<br/>26.8% EV<br/>$61.62<br/>11.80¢/mi</div></label><label class="tank-link tank3" for="tab-tank3" title="Open Tank #3"><h3>Tank #3 →</h3><div class="mini-copy">1,041.8 mi<br/>64% EV<br/>$93.00<br/>8.93¢/mi</div></label><label class="tank-link tank4" for="tab-tank4" title="Open Tank #4"><h3>Tank #4 →</h3><div class="mini-copy">852.2 mi<br/>52% EV<br/>$92.61<br/>10.87¢/mi</div></label><label class="tank-link tank5" for="tab-tank5" title="Open Tank #5"><h3>Tank #5 →</h3><div class="mini-copy">983.2 mi<br/>59% EV<br/>$103.00<br/>10.48¢/mi</div></label><label class="tank-link tank6 current" for="tab-tank6" title="Open Tank #6"><h3>Tank #6 →</h3><div class="mini-copy">855.4 mi<br/>57.4% EV<br/>$87.53<br/>10.23¢/mi</div></label><label class="tank-link tank7" for="tab-tank7" title="Open Tank #7"><h3>Tank #7 →</h3><div class="mini-copy">1,600.7 mi<br/>68.7% EV<br/>$217.88<br/>13.61¢/mi</div></label><label class="tank-link tank8" for="tab-tank8" title="Open Tank #8"><h3>Tank #8 →</h3><div class="mini-copy">522.2 mi<br/>26.8% EV<br/>$61.62<br/>11.80¢/mi</div></label><label class="tank-link tank9" for="tab-tank9" title="Open Tank #9"><h3>Tank #9 →</h3><div class="mini-copy">1,041.8 mi<br/>64% EV<br/>$93.00<br/>8.93¢/mi</div></label><label class="tank-link tank10" for="tab-tank10" title="Open Tank #10"><h3>Tank #10 →</h3><div class="mini-copy">852.2 mi<br/>52% EV<br/>$92.61<br/>10.87¢/mi</div></label><label class="tank-link tank11" for="tab-tank11" title="Open Tank #11"><h3>Tank #11 →</h3><div class="mini-copy">983.2 mi<br/>59% EV<br/>$103.00<br/>10.48¢/mi</div></label><label class="tank-link tank12" for="tab-tank12" title="Open Tank #12"><h3>Tank #12 →</h3><div class="mini-copy">855.4 mi<br/>57.4% EV<br/>$87.53<br/>10.23¢/mi</div></label><label class="tank-link tank13" for="tab-tank13" title="Open Tank #13"><h3>Tank #13 →</h3><div class="mini-copy">1,600.7 mi<br/>68.7% EV<br/>$217.88<br/>13.61¢/mi</div></label></div>
-<div class="nextrow"><label for="tab-tank7">See Tank #7 →</label></div>
-</section><section class="panel" id="tank7">
-<div class="section-title">Tank #7 — October 16 to November 10, 2026</div>
-<div class="grid3">
-<div class="card rows">
-<h3 style="margin-top:0;color:var(--midnight)">Driving</h3>
-<div class="row"><span>Electric driving</span><b>1,100.3</b></div>
-<div class="row"><span>Gas‑engine miles</span><b>500.4</b></div>
-<div class="row"><span>Total miles</span><b>1,600.7</b></div>
-<div class="row"><span>Electric share</span><b>68.7%</b></div>
-</div>
-<div class="card rows">
-<h3 style="margin-top:0;color:var(--midnight)">Energy &amp; charging</h3>
-<div class="row"><span>Gasoline purchased</span><b>14.542 gal</b></div>
-<div class="row"><span>Home charging total</span><b>200.421 kWh</b></div>
-<div class="row"><span>Public charging total</span><b>32.400 kWh</b></div>
-<div class="row"><span>Total charging</span><b>232.821 kWh</b></div>
-</div>
-<div class="card">
-<div class="section-title">Tank result</div>
-<div class="big-number">13.61¢</div>
-<div style="font-size:1.25rem;font-weight:950;color:var(--midnight)">Energy cost per mile</div>
-<div style="font-size:.68rem;font-style:italic;color:var(--muted);margin-top:4px;line-height:1.25">$217.88 ÷ 1,600.7 miles</div>
-<p style="color:var(--muted);line-height:1.55">68.7% electric driving held energy cost to 13.61¢ per mile — 31.5% below the 2018 Pacifica benchmark.</p>
-</div>
-</div>
-<div style="height:18px"></div>
-<div class="grid2">
-<div class="card rows">
-<div class="section-title">Total energy cost</div>
-<div class="row"><span>Gasoline</span><b>$62.12</b></div>
-<div class="row"><span>Home charging</span><b>$140.33</b></div>
-<div class="row"><span>Public charging</span><b>$15.43</b></div>
-<div class="total"><span>TOTAL</span><strong>$217.88</strong></div>
-</div>
-<div class="card savings">
-<div class="section-title">Compared with 2018 Pacifica</div>
-<div class="amount">$100.08 saved</div>
-<div class="pct">31.5% lower energy cost</div>
-<p style="color:var(--soft-text);line-height:1.55;margin-bottom:0">2018 benchmark: $317.96 total, or 19.86¢/mile, using 22 MPG and the Twin Cities gas-price benchmark for October 16–November 10, 2026.</p>
-</div>
-</div>
-<div style="height:18px"></div>
-<div class="note tank6-context">Tank #7 context: </div>
-<div style="height:20px"></div>
-<div class="section-title">Tank history</div>
-<div class="tank-strip history-strip"><label class="tank-link tank1" for="tab-tank1" title="Open Tank #1"><h3>Tank #1 →</h3><div class="mini-copy">2,020.1 mi<br/>82.6% EV<br/>$152.62<br/>7.56¢/mi</div></label><label class="tank-link tank2" for="tab-tank2" title="Open Tank #2"><h3>Tank #2 →</h3><div class="mini-copy">522.2 mi<br/>26.8% EV<br/>$61.62<br/>11.80¢/mi</div></label><label class="tank-link tank3" for="tab-tank3" title="Open Tank #3"><h3>Tank #3 →</h3><div class="mini-copy">1,041.8 mi<br/>64% EV<br/>$93.00<br/>8.93¢/mi</div></label><label class="tank-link tank4" for="tab-tank4" title="Open Tank #4"><h3>Tank #4 →</h3><div class="mini-copy">852.2 mi<br/>52% EV<br/>$92.61<br/>10.87¢/mi</div></label><label class="tank-link tank5" for="tab-tank5" title="Open Tank #5"><h3>Tank #5 →</h3><div class="mini-copy">983.2 mi<br/>59% EV<br/>$103.00<br/>10.48¢/mi</div></label><label class="tank-link tank6" for="tab-tank6" title="Open Tank #6"><h3>Tank #6 →</h3><div class="mini-copy">855.4 mi<br/>57.4% EV<br/>$87.53<br/>10.23¢/mi</div></label><label class="tank-link tank7 current" for="tab-tank7" title="Open Tank #7"><h3>Tank #7 →</h3><div class="mini-copy">1,600.7 mi<br/>68.7% EV<br/>$217.88<br/>13.61¢/mi</div></label><label class="tank-link tank8" for="tab-tank8" title="Open Tank #8"><h3>Tank #8 →</h3><div class="mini-copy">522.2 mi<br/>26.8% EV<br/>$61.62<br/>11.80¢/mi</div></label><label class="tank-link tank9" for="tab-tank9" title="Open Tank #9"><h3>Tank #9 →</h3><div class="mini-copy">1,041.8 mi<br/>64% EV<br/>$93.00<br/>8.93¢/mi</div></label><label class="tank-link tank10" for="tab-tank10" title="Open Tank #10"><h3>Tank #10 →</h3><div class="mini-copy">852.2 mi<br/>52% EV<br/>$92.61<br/>10.87¢/mi</div></label><label class="tank-link tank11" for="tab-tank11" title="Open Tank #11"><h3>Tank #11 →</h3><div class="mini-copy">983.2 mi<br/>59% EV<br/>$103.00<br/>10.48¢/mi</div></label><label class="tank-link tank12" for="tab-tank12" title="Open Tank #12"><h3>Tank #12 →</h3><div class="mini-copy">855.4 mi<br/>57.4% EV<br/>$87.53<br/>10.23¢/mi</div></label><label class="tank-link tank13" for="tab-tank13" title="Open Tank #13"><h3>Tank #13 →</h3><div class="mini-copy">1,600.7 mi<br/>68.7% EV<br/>$217.88<br/>13.61¢/mi</div></label></div>
-<div class="nextrow"><label for="tab-tank8">See Tank #8 →</label></div>
-</section><section class="panel" id="tank8">
-<div class="section-title">Tank #8 — August 10 to August 12, 2026</div>
-<div class="grid3">
-<div class="card rows">
-<h3 style="margin-top:0;color:var(--midnight)">Driving</h3>
-<div class="row"><span>Electric driving</span><b>140.1</b></div>
-<div class="row"><span>Gas‑engine miles</span><b>382.1</b></div>
-<div class="row"><span>Total miles</span><b>522.2</b></div>
-<div class="row"><span>Electric share</span><b>26.8%</b></div>
-</div>
-<div class="card rows">
-<h3 style="margin-top:0;color:var(--midnight)">Energy &amp; charging</h3>
-<div class="row"><span>Gasoline purchased</span><b>15.329 gal</b></div>
-<div class="row"><span>Home charging total</span><b>16.298 kWh</b></div>
-<div class="row"><span>Public charging total</span><b>0 kWh</b></div>
-<div class="row"><span>Total charging</span><b>16.298 kWh</b></div>
-</div>
-<div class="card">
-<div class="section-title">Tank result</div>
-<div class="big-number">11.80¢</div>
-<div style="font-size:1.25rem;font-weight:950;color:var(--midnight)">Energy cost per mile</div>
-<div style="font-size:.68rem;font-style:italic;color:var(--muted);margin-top:4px;line-height:1.25">$61.62 ÷ 522.2 miles</div>
-<p style="color:var(--muted);line-height:1.55">26.8% electric driving held energy cost to 11.80¢ per mile — 35.7% below the 2018 Pacifica benchmark.</p>
-</div>
-</div>
-<div style="height:18px"></div>
-<div class="grid2">
-<div class="card rows">
-<div class="section-title">Total energy cost</div>
-<div class="row"><span>Gasoline</span><b>$59.00</b></div>
-<div class="row"><span>Home charging</span><b>$2.62</b></div>
-<div class="row"><span>Public charging</span><b>$0.00</b></div>
-<div class="total"><span>TOTAL</span><strong>$61.62</strong></div>
-</div>
-<div class="card savings">
-<div class="section-title">Compared with 2018 Pacifica</div>
-<div class="amount">$34.28 saved</div>
-<div class="pct">35.7% lower energy cost</div>
-<p style="color:var(--soft-text);line-height:1.55;margin-bottom:0">2018 benchmark: $95.90 total, or 18.36¢/mile, using 22 MPG and the Twin Cities gas-price benchmark for August 10–August 12, 2026.</p>
-</div>
-</div>
-<div style="height:18px"></div>
-<div class="note tank6-context">Tank #8 context: </div>
-<div style="height:20px"></div>
-<div class="section-title">Tank history</div>
-<div class="tank-strip history-strip"><label class="tank-link tank1" for="tab-tank1" title="Open Tank #1"><h3>Tank #1 →</h3><div class="mini-copy">2,020.1 mi<br/>82.6% EV<br/>$152.62<br/>7.56¢/mi</div></label><label class="tank-link tank2" for="tab-tank2" title="Open Tank #2"><h3>Tank #2 →</h3><div class="mini-copy">522.2 mi<br/>26.8% EV<br/>$61.62<br/>11.80¢/mi</div></label><label class="tank-link tank3" for="tab-tank3" title="Open Tank #3"><h3>Tank #3 →</h3><div class="mini-copy">1,041.8 mi<br/>64% EV<br/>$93.00<br/>8.93¢/mi</div></label><label class="tank-link tank4" for="tab-tank4" title="Open Tank #4"><h3>Tank #4 →</h3><div class="mini-copy">852.2 mi<br/>52% EV<br/>$92.61<br/>10.87¢/mi</div></label><label class="tank-link tank5" for="tab-tank5" title="Open Tank #5"><h3>Tank #5 →</h3><div class="mini-copy">983.2 mi<br/>59% EV<br/>$103.00<br/>10.48¢/mi</div></label><label class="tank-link tank6" for="tab-tank6" title="Open Tank #6"><h3>Tank #6 →</h3><div class="mini-copy">855.4 mi<br/>57.4% EV<br/>$87.53<br/>10.23¢/mi</div></label><label class="tank-link tank7" for="tab-tank7" title="Open Tank #7"><h3>Tank #7 →</h3><div class="mini-copy">1,600.7 mi<br/>68.7% EV<br/>$217.88<br/>13.61¢/mi</div></label><label class="tank-link tank8 current" for="tab-tank8" title="Open Tank #8"><h3>Tank #8 →</h3><div class="mini-copy">522.2 mi<br/>26.8% EV<br/>$61.62<br/>11.80¢/mi</div></label><label class="tank-link tank9" for="tab-tank9" title="Open Tank #9"><h3>Tank #9 →</h3><div class="mini-copy">1,041.8 mi<br/>64% EV<br/>$93.00<br/>8.93¢/mi</div></label><label class="tank-link tank10" for="tab-tank10" title="Open Tank #10"><h3>Tank #10 →</h3><div class="mini-copy">852.2 mi<br/>52% EV<br/>$92.61<br/>10.87¢/mi</div></label><label class="tank-link tank11" for="tab-tank11" title="Open Tank #11"><h3>Tank #11 →</h3><div class="mini-copy">983.2 mi<br/>59% EV<br/>$103.00<br/>10.48¢/mi</div></label><label class="tank-link tank12" for="tab-tank12" title="Open Tank #12"><h3>Tank #12 →</h3><div class="mini-copy">855.4 mi<br/>57.4% EV<br/>$87.53<br/>10.23¢/mi</div></label><label class="tank-link tank13" for="tab-tank13" title="Open Tank #13"><h3>Tank #13 →</h3><div class="mini-copy">1,600.7 mi<br/>68.7% EV<br/>$217.88<br/>13.61¢/mi</div></label></div>
-<div class="nextrow"><label for="tab-tank9">See Tank #9 →</label></div>
-</section><section class="panel" id="tank9">
-<div class="section-title">Tank #9 — August 12 to August 30, 2026</div>
-<div class="grid3">
-<div class="card rows">
-<h3 style="margin-top:0;color:var(--midnight)">Driving</h3>
-<div class="row"><span>Electric driving</span><b>666.5</b></div>
-<div class="row"><span>Gas‑engine miles</span><b>375.3</b></div>
-<div class="row"><span>Total miles</span><b>1,041.8</b></div>
-<div class="row"><span>Electric share</span><b>64%</b></div>
-</div>
-<div class="card rows">
-<h3 style="margin-top:0;color:var(--midnight)">Energy &amp; charging</h3>
-<div class="row"><span>Gasoline purchased</span><b>14.667 gal</b></div>
-<div class="row"><span>Home charging total</span><b>226.640 kWh</b></div>
-<div class="row"><span>Public charging total</span><b>0 kWh</b></div>
-<div class="row"><span>Total charging</span><b>226.640 kWh</b></div>
-</div>
-<div class="card">
-<div class="section-title">Tank result</div>
-<div class="big-number">8.93¢</div>
-<div style="font-size:1.25rem;font-weight:950;color:var(--midnight)">Energy cost per mile</div>
-<div style="font-size:.68rem;font-style:italic;color:var(--muted);margin-top:4px;line-height:1.25">$93.00 ÷ 1,041.8 miles</div>
-<p style="color:var(--muted);line-height:1.55">64% electric driving held energy cost to 8.93¢ per mile — 51.5% below the 2018 Pacifica benchmark.</p>
-</div>
-</div>
-<div style="height:18px"></div>
-<div class="grid2">
-<div class="card rows">
-<div class="section-title">Total energy cost</div>
-<div class="row"><span>Gasoline</span><b>$56.60</b></div>
-<div class="row"><span>Home charging</span><b>$36.40</b></div>
-<div class="row"><span>Public charging</span><b>$0.00</b></div>
-<div class="total"><span>TOTAL</span><strong>$93.00</strong></div>
-</div>
-<div class="card savings">
-<div class="section-title">Compared with 2018 Pacifica</div>
-<div class="amount">$98.79 saved</div>
-<div class="pct">51.5% lower energy cost</div>
-<p style="color:var(--soft-text);line-height:1.55;margin-bottom:0">2018 benchmark: $191.79 total, or 18.41¢/mile, using 22 MPG and the Twin Cities gas-price benchmark for August 12–August 30, 2026.</p>
-</div>
-</div>
-<div style="height:18px"></div>
-<div class="note tank6-context">Tank #9 context: </div>
-<div style="height:20px"></div>
-<div class="section-title">Tank history</div>
-<div class="tank-strip history-strip"><label class="tank-link tank1" for="tab-tank1" title="Open Tank #1"><h3>Tank #1 →</h3><div class="mini-copy">2,020.1 mi<br/>82.6% EV<br/>$152.62<br/>7.56¢/mi</div></label><label class="tank-link tank2" for="tab-tank2" title="Open Tank #2"><h3>Tank #2 →</h3><div class="mini-copy">522.2 mi<br/>26.8% EV<br/>$61.62<br/>11.80¢/mi</div></label><label class="tank-link tank3" for="tab-tank3" title="Open Tank #3"><h3>Tank #3 →</h3><div class="mini-copy">1,041.8 mi<br/>64% EV<br/>$93.00<br/>8.93¢/mi</div></label><label class="tank-link tank4" for="tab-tank4" title="Open Tank #4"><h3>Tank #4 →</h3><div class="mini-copy">852.2 mi<br/>52% EV<br/>$92.61<br/>10.87¢/mi</div></label><label class="tank-link tank5" for="tab-tank5" title="Open Tank #5"><h3>Tank #5 →</h3><div class="mini-copy">983.2 mi<br/>59% EV<br/>$103.00<br/>10.48¢/mi</div></label><label class="tank-link tank6" for="tab-tank6" title="Open Tank #6"><h3>Tank #6 →</h3><div class="mini-copy">855.4 mi<br/>57.4% EV<br/>$87.53<br/>10.23¢/mi</div></label><label class="tank-link tank7" for="tab-tank7" title="Open Tank #7"><h3>Tank #7 →</h3><div class="mini-copy">1,600.7 mi<br/>68.7% EV<br/>$217.88<br/>13.61¢/mi</div></label><label class="tank-link tank8" for="tab-tank8" title="Open Tank #8"><h3>Tank #8 →</h3><div class="mini-copy">522.2 mi<br/>26.8% EV<br/>$61.62<br/>11.80¢/mi</div></label><label class="tank-link tank9 current" for="tab-tank9" title="Open Tank #9"><h3>Tank #9 →</h3><div class="mini-copy">1,041.8 mi<br/>64% EV<br/>$93.00<br/>8.93¢/mi</div></label><label class="tank-link tank10" for="tab-tank10" title="Open Tank #10"><h3>Tank #10 →</h3><div class="mini-copy">852.2 mi<br/>52% EV<br/>$92.61<br/>10.87¢/mi</div></label><label class="tank-link tank11" for="tab-tank11" title="Open Tank #11"><h3>Tank #11 →</h3><div class="mini-copy">983.2 mi<br/>59% EV<br/>$103.00<br/>10.48¢/mi</div></label><label class="tank-link tank12" for="tab-tank12" title="Open Tank #12"><h3>Tank #12 →</h3><div class="mini-copy">855.4 mi<br/>57.4% EV<br/>$87.53<br/>10.23¢/mi</div></label><label class="tank-link tank13" for="tab-tank13" title="Open Tank #13"><h3>Tank #13 →</h3><div class="mini-copy">1,600.7 mi<br/>68.7% EV<br/>$217.88<br/>13.61¢/mi</div></label></div>
-<div class="nextrow"><label for="tab-tank10">See Tank #10 →</label></div>
-</section><section class="panel" id="tank10">
-<div class="section-title">Tank #10 — August 30 to September 13, 2026</div>
-<div class="grid3">
-<div class="card rows">
-<h3 style="margin-top:0;color:var(--midnight)">Driving</h3>
-<div class="row"><span>Electric driving</span><b>443.2</b></div>
-<div class="row"><span>Gas‑engine miles</span><b>409.0</b></div>
-<div class="row"><span>Total miles</span><b>852.2</b></div>
-<div class="row"><span>Electric share</span><b>52%</b></div>
-</div>
-<div class="card rows">
-<h3 style="margin-top:0;color:var(--midnight)">Energy &amp; charging</h3>
-<div class="row"><span>Gasoline purchased</span><b>15.247 gal</b></div>
-<div class="row"><span>Home charging total</span><b>122.888 kWh</b></div>
-<div class="row"><span>Public charging total</span><b>41.140 kWh</b></div>
-<div class="row"><span>Total charging</span><b>164.028 kWh</b></div>
-</div>
-<div class="card">
-<div class="section-title">Tank result</div>
-<div class="big-number">10.87¢</div>
-<div style="font-size:1.25rem;font-weight:950;color:var(--midnight)">Energy cost per mile</div>
-<div style="font-size:.68rem;font-style:italic;color:var(--muted);margin-top:4px;line-height:1.25">$92.61 ÷ 852.2 miles</div>
-<p style="color:var(--muted);line-height:1.55">52% electric driving held energy cost to 10.87¢ per mile — 41.7% below the 2018 Pacifica benchmark.</p>
-</div>
-</div>
-<div style="height:18px"></div>
-<div class="grid2">
-<div class="card rows">
-<div class="section-title">Total energy cost</div>
-<div class="row"><span>Gasoline</span><b>$64.02</b></div>
-<div class="row"><span>Home charging</span><b>$19.74</b></div>
-<div class="row"><span>Public charging</span><b>$8.85</b></div>
-<div class="total"><span>TOTAL</span><strong>$92.61</strong></div>
-</div>
-<div class="card savings">
-<div class="section-title">Compared with 2018 Pacifica</div>
-<div class="amount">$66.21 saved</div>
-<div class="pct">41.7% lower energy cost</div>
-<p style="color:var(--soft-text);line-height:1.55;margin-bottom:0">2018 benchmark: $158.82 total, or 18.64¢/mile, using 22 MPG and the Twin Cities gas-price benchmark for August 30–September 13, 2026.</p>
-</div>
-</div>
-<div style="height:18px"></div>
-<div class="note tank6-context">Tank #10 context: </div>
-<div style="height:20px"></div>
-<div class="section-title">Tank history</div>
-<div class="tank-strip history-strip"><label class="tank-link tank1" for="tab-tank1" title="Open Tank #1"><h3>Tank #1 →</h3><div class="mini-copy">2,020.1 mi<br/>82.6% EV<br/>$152.62<br/>7.56¢/mi</div></label><label class="tank-link tank2" for="tab-tank2" title="Open Tank #2"><h3>Tank #2 →</h3><div class="mini-copy">522.2 mi<br/>26.8% EV<br/>$61.62<br/>11.80¢/mi</div></label><label class="tank-link tank3" for="tab-tank3" title="Open Tank #3"><h3>Tank #3 →</h3><div class="mini-copy">1,041.8 mi<br/>64% EV<br/>$93.00<br/>8.93¢/mi</div></label><label class="tank-link tank4" for="tab-tank4" title="Open Tank #4"><h3>Tank #4 →</h3><div class="mini-copy">852.2 mi<br/>52% EV<br/>$92.61<br/>10.87¢/mi</div></label><label class="tank-link tank5" for="tab-tank5" title="Open Tank #5"><h3>Tank #5 →</h3><div class="mini-copy">983.2 mi<br/>59% EV<br/>$103.00<br/>10.48¢/mi</div></label><label class="tank-link tank6" for="tab-tank6" title="Open Tank #6"><h3>Tank #6 →</h3><div class="mini-copy">855.4 mi<br/>57.4% EV<br/>$87.53<br/>10.23¢/mi</div></label><label class="tank-link tank7" for="tab-tank7" title="Open Tank #7"><h3>Tank #7 →</h3><div class="mini-copy">1,600.7 mi<br/>68.7% EV<br/>$217.88<br/>13.61¢/mi</div></label><label class="tank-link tank8" for="tab-tank8" title="Open Tank #8"><h3>Tank #8 →</h3><div class="mini-copy">522.2 mi<br/>26.8% EV<br/>$61.62<br/>11.80¢/mi</div></label><label class="tank-link tank9" for="tab-tank9" title="Open Tank #9"><h3>Tank #9 →</h3><div class="mini-copy">1,041.8 mi<br/>64% EV<br/>$93.00<br/>8.93¢/mi</div></label><label class="tank-link tank10 current" for="tab-tank10" title="Open Tank #10"><h3>Tank #10 →</h3><div class="mini-copy">852.2 mi<br/>52% EV<br/>$92.61<br/>10.87¢/mi</div></label><label class="tank-link tank11" for="tab-tank11" title="Open Tank #11"><h3>Tank #11 →</h3><div class="mini-copy">983.2 mi<br/>59% EV<br/>$103.00<br/>10.48¢/mi</div></label><label class="tank-link tank12" for="tab-tank12" title="Open Tank #12"><h3>Tank #12 →</h3><div class="mini-copy">855.4 mi<br/>57.4% EV<br/>$87.53<br/>10.23¢/mi</div></label><label class="tank-link tank13" for="tab-tank13" title="Open Tank #13"><h3>Tank #13 →</h3><div class="mini-copy">1,600.7 mi<br/>68.7% EV<br/>$217.88<br/>13.61¢/mi</div></label></div>
-<div class="nextrow"><label for="tab-tank11">See Tank #11 →</label></div>
-</section><section class="panel" id="tank11">
-<div class="section-title">Tank #11 — September 13 to September 29, 2026</div>
-<div class="grid3">
-<div class="card rows">
-<h3 style="margin-top:0;color:var(--midnight)">Driving</h3>
-<div class="row"><span>Electric driving</span><b>580.0</b></div>
-<div class="row"><span>Gas‑engine miles</span><b>403.2</b></div>
-<div class="row"><span>Total miles</span><b>983.2</b></div>
-<div class="row"><span>Electric share</span><b>59%</b></div>
-</div>
-<div class="card rows">
-<h3 style="margin-top:0;color:var(--midnight)">Energy &amp; charging</h3>
-<div class="row"><span>Gasoline purchased</span><b>15.672 gal</b></div>
-<div class="row"><span>Home charging total</span><b>156.939 kWh</b></div>
-<div class="row"><span>Public charging total</span><b>46.578 kWh</b></div>
-<div class="row"><span>Total charging</span><b>203.517 kWh</b></div>
-</div>
-<div class="card">
-<div class="section-title">Tank result</div>
-<div class="big-number">10.48¢</div>
-<div style="font-size:1.25rem;font-weight:950;color:var(--midnight)">Energy cost per mile</div>
-<div style="font-size:.68rem;font-style:italic;color:var(--muted);margin-top:4px;line-height:1.25">$103.00 ÷ 983.2 miles</div>
-<p style="color:var(--muted);line-height:1.55">59% electric driving held energy cost to 10.48¢ per mile — 47.4% below the 2018 Pacifica benchmark.</p>
-</div>
-</div>
-<div style="height:18px"></div>
-<div class="grid2">
-<div class="card rows">
-<div class="section-title">Total energy cost</div>
-<div class="row"><span>Gasoline</span><b>$65.02</b></div>
-<div class="row"><span>Home charging</span><b>$25.21</b></div>
-<div class="row"><span>Public charging</span><b>$12.77</b></div>
-<div class="total"><span>TOTAL</span><strong>$103.00</strong></div>
-</div>
-<div class="card savings">
-<div class="section-title">Compared with 2018 Pacifica</div>
-<div class="amount">$92.75 saved</div>
-<div class="pct">47.4% lower energy cost</div>
-<p style="color:var(--soft-text);line-height:1.55;margin-bottom:0">2018 benchmark: $195.75 total, or 19.91¢/mile, using 22 MPG and the Twin Cities gas-price benchmark for September 13–September 29, 2026.</p>
-</div>
-</div>
-<div style="height:18px"></div>
-<div class="note tank6-context">Tank #11 context: </div>
-<div style="height:20px"></div>
-<div class="section-title">Tank history</div>
-<div class="tank-strip history-strip"><label class="tank-link tank1" for="tab-tank1" title="Open Tank #1"><h3>Tank #1 →</h3><div class="mini-copy">2,020.1 mi<br/>82.6% EV<br/>$152.62<br/>7.56¢/mi</div></label><label class="tank-link tank2" for="tab-tank2" title="Open Tank #2"><h3>Tank #2 →</h3><div class="mini-copy">522.2 mi<br/>26.8% EV<br/>$61.62<br/>11.80¢/mi</div></label><label class="tank-link tank3" for="tab-tank3" title="Open Tank #3"><h3>Tank #3 →</h3><div class="mini-copy">1,041.8 mi<br/>64% EV<br/>$93.00<br/>8.93¢/mi</div></label><label class="tank-link tank4" for="tab-tank4" title="Open Tank #4"><h3>Tank #4 →</h3><div class="mini-copy">852.2 mi<br/>52% EV<br/>$92.61<br/>10.87¢/mi</div></label><label class="tank-link tank5" for="tab-tank5" title="Open Tank #5"><h3>Tank #5 →</h3><div class="mini-copy">983.2 mi<br/>59% EV<br/>$103.00<br/>10.48¢/mi</div></label><label class="tank-link tank6" for="tab-tank6" title="Open Tank #6"><h3>Tank #6 →</h3><div class="mini-copy">855.4 mi<br/>57.4% EV<br/>$87.53<br/>10.23¢/mi</div></label><label class="tank-link tank7" for="tab-tank7" title="Open Tank #7"><h3>Tank #7 →</h3><div class="mini-copy">1,600.7 mi<br/>68.7% EV<br/>$217.88<br/>13.61¢/mi</div></label><label class="tank-link tank8" for="tab-tank8" title="Open Tank #8"><h3>Tank #8 →</h3><div class="mini-copy">522.2 mi<br/>26.8% EV<br/>$61.62<br/>11.80¢/mi</div></label><label class="tank-link tank9" for="tab-tank9" title="Open Tank #9"><h3>Tank #9 →</h3><div class="mini-copy">1,041.8 mi<br/>64% EV<br/>$93.00<br/>8.93¢/mi</div></label><label class="tank-link tank10" for="tab-tank10" title="Open Tank #10"><h3>Tank #10 →</h3><div class="mini-copy">852.2 mi<br/>52% EV<br/>$92.61<br/>10.87¢/mi</div></label><label class="tank-link tank11 current" for="tab-tank11" title="Open Tank #11"><h3>Tank #11 →</h3><div class="mini-copy">983.2 mi<br/>59% EV<br/>$103.00<br/>10.48¢/mi</div></label><label class="tank-link tank12" for="tab-tank12" title="Open Tank #12"><h3>Tank #12 →</h3><div class="mini-copy">855.4 mi<br/>57.4% EV<br/>$87.53<br/>10.23¢/mi</div></label><label class="tank-link tank13" for="tab-tank13" title="Open Tank #13"><h3>Tank #13 →</h3><div class="mini-copy">1,600.7 mi<br/>68.7% EV<br/>$217.88<br/>13.61¢/mi</div></label></div>
-<div class="nextrow"><label for="tab-tank12">See Tank #12 →</label></div>
-</section><section class="panel" id="tank12">
-<div class="section-title">Tank #12 — September 29 to October 16, 2026</div>
-<div class="grid3">
-<div class="card rows">
-<h3 style="margin-top:0;color:var(--midnight)">Driving</h3>
-<div class="row"><span>Electric driving</span><b>490.8</b></div>
-<div class="row"><span>Gas‑engine miles</span><b>364.6</b></div>
-<div class="row"><span>Total miles</span><b>855.4</b></div>
-<div class="row"><span>Electric share</span><b>57.4%</b></div>
-</div>
-<div class="card rows">
-<h3 style="margin-top:0;color:var(--midnight)">Energy &amp; charging</h3>
-<div class="row"><span>Gasoline purchased</span><b>14.748 gal</b></div>
-<div class="row"><span>Home charging total</span><b>167.312 kWh</b></div>
-<div class="row"><span>Public charging total</span><b>8.440 kWh</b></div>
-<div class="row"><span>Total charging</span><b>175.752 kWh</b></div>
-</div>
-<div class="card">
-<div class="section-title">Tank result</div>
-<div class="big-number">10.23¢</div>
-<div style="font-size:1.25rem;font-weight:950;color:var(--midnight)">Energy cost per mile</div>
-<div style="font-size:.68rem;font-style:italic;color:var(--muted);margin-top:4px;line-height:1.25">$87.53 ÷ 855.4 miles</div>
-<p style="color:var(--muted);line-height:1.55">57.4% electric driving held energy cost to 10.23¢ per mile — 47.5% below the 2018 Pacifica benchmark.</p>
-</div>
-</div>
-<div style="height:18px"></div>
-<div class="grid2">
-<div class="card rows">
-<div class="section-title">Total energy cost</div>
-<div class="row"><span>Gasoline</span><b>$60.01</b></div>
-<div class="row"><span>Home charging</span><b>$23.74</b></div>
-<div class="row"><span>Public charging</span><b>$3.78</b></div>
-<div class="total"><span>TOTAL</span><strong>$87.53</strong></div>
-</div>
-<div class="card savings">
-<div class="section-title">Compared with 2018 Pacifica</div>
-<div class="amount">$79.27 saved</div>
-<div class="pct">47.5% lower energy cost</div>
-<p style="color:var(--soft-text);line-height:1.55;margin-bottom:0">2018 benchmark: $166.80 total, or 19.50¢/mile, using 22 MPG and the Twin Cities gas-price benchmark for September 29–October 16, 2026.</p>
-</div>
-</div>
-<div style="height:18px"></div>
-<div class="note tank6-context">Tank #12 context: </div>
-<div style="height:20px"></div>
-<div class="section-title">Tank history</div>
-<div class="tank-strip history-strip"><label class="tank-link tank1" for="tab-tank1" title="Open Tank #1"><h3>Tank #1 →</h3><div class="mini-copy">2,020.1 mi<br/>82.6% EV<br/>$152.62<br/>7.56¢/mi</div></label><label class="tank-link tank2" for="tab-tank2" title="Open Tank #2"><h3>Tank #2 →</h3><div class="mini-copy">522.2 mi<br/>26.8% EV<br/>$61.62<br/>11.80¢/mi</div></label><label class="tank-link tank3" for="tab-tank3" title="Open Tank #3"><h3>Tank #3 →</h3><div class="mini-copy">1,041.8 mi<br/>64% EV<br/>$93.00<br/>8.93¢/mi</div></label><label class="tank-link tank4" for="tab-tank4" title="Open Tank #4"><h3>Tank #4 →</h3><div class="mini-copy">852.2 mi<br/>52% EV<br/>$92.61<br/>10.87¢/mi</div></label><label class="tank-link tank5" for="tab-tank5" title="Open Tank #5"><h3>Tank #5 →</h3><div class="mini-copy">983.2 mi<br/>59% EV<br/>$103.00<br/>10.48¢/mi</div></label><label class="tank-link tank6" for="tab-tank6" title="Open Tank #6"><h3>Tank #6 →</h3><div class="mini-copy">855.4 mi<br/>57.4% EV<br/>$87.53<br/>10.23¢/mi</div></label><label class="tank-link tank7" for="tab-tank7" title="Open Tank #7"><h3>Tank #7 →</h3><div class="mini-copy">1,600.7 mi<br/>68.7% EV<br/>$217.88<br/>13.61¢/mi</div></label><label class="tank-link tank8" for="tab-tank8" title="Open Tank #8"><h3>Tank #8 →</h3><div class="mini-copy">522.2 mi<br/>26.8% EV<br/>$61.62<br/>11.80¢/mi</div></label><label class="tank-link tank9" for="tab-tank9" title="Open Tank #9"><h3>Tank #9 →</h3><div class="mini-copy">1,041.8 mi<br/>64% EV<br/>$93.00<br/>8.93¢/mi</div></label><label class="tank-link tank10" for="tab-tank10" title="Open Tank #10"><h3>Tank #10 →</h3><div class="mini-copy">852.2 mi<br/>52% EV<br/>$92.61<br/>10.87¢/mi</div></label><label class="tank-link tank11" for="tab-tank11" title="Open Tank #11"><h3>Tank #11 →</h3><div class="mini-copy">983.2 mi<br/>59% EV<br/>$103.00<br/>10.48¢/mi</div></label><label class="tank-link tank12 current" for="tab-tank12" title="Open Tank #12"><h3>Tank #12 →</h3><div class="mini-copy">855.4 mi<br/>57.4% EV<br/>$87.53<br/>10.23¢/mi</div></label><label class="tank-link tank13" for="tab-tank13" title="Open Tank #13"><h3>Tank #13 →</h3><div class="mini-copy">1,600.7 mi<br/>68.7% EV<br/>$217.88<br/>13.61¢/mi</div></label></div>
-<div class="nextrow"><label for="tab-tank13">See Tank #13 →</label></div>
-</section><section class="panel" id="tank13">
-<div class="section-title">Tank #13 — October 16 to November 10, 2026</div>
-<div class="grid3">
-<div class="card rows">
-<h3 style="margin-top:0;color:var(--midnight)">Driving</h3>
-<div class="row"><span>Electric driving</span><b>1,100.3</b></div>
-<div class="row"><span>Gas‑engine miles</span><b>500.4</b></div>
-<div class="row"><span>Total miles</span><b>1,600.7</b></div>
-<div class="row"><span>Electric share</span><b>68.7%</b></div>
-</div>
-<div class="card rows">
-<h3 style="margin-top:0;color:var(--midnight)">Energy &amp; charging</h3>
-<div class="row"><span>Gasoline purchased</span><b>14.542 gal</b></div>
-<div class="row"><span>Home charging total</span><b>200.421 kWh</b></div>
-<div class="row"><span>Public charging total</span><b>32.400 kWh</b></div>
-<div class="row"><span>Total charging</span><b>232.821 kWh</b></div>
-</div>
-<div class="card">
-<div class="section-title">Tank result</div>
-<div class="big-number">13.61¢</div>
-<div style="font-size:1.25rem;font-weight:950;color:var(--midnight)">Energy cost per mile</div>
-<div style="font-size:.68rem;font-style:italic;color:var(--muted);margin-top:4px;line-height:1.25">$217.88 ÷ 1,600.7 miles</div>
-<p style="color:var(--muted);line-height:1.55">68.7% electric driving held energy cost to 13.61¢ per mile — 31.5% below the 2018 Pacifica benchmark.</p>
-</div>
-</div>
-<div style="height:18px"></div>
-<div class="grid2">
-<div class="card rows">
-<div class="section-title">Total energy cost</div>
-<div class="row"><span>Gasoline</span><b>$62.12</b></div>
-<div class="row"><span>Home charging</span><b>$140.33</b></div>
-<div class="row"><span>Public charging</span><b>$15.43</b></div>
-<div class="total"><span>TOTAL</span><strong>$217.88</strong></div>
-</div>
-<div class="card savings">
-<div class="section-title">Compared with 2018 Pacifica</div>
-<div class="amount">$100.08 saved</div>
-<div class="pct">31.5% lower energy cost</div>
-<p style="color:var(--soft-text);line-height:1.55;margin-bottom:0">2018 benchmark: $317.96 total, or 19.86¢/mile, using 22 MPG and the Twin Cities gas-price benchmark for October 16–November 10, 2026.</p>
-</div>
-</div>
-<div style="height:18px"></div>
-<div class="note tank6-context">Tank #13 context: </div>
-<div style="height:20px"></div>
-<div class="section-title">Tank history</div>
-<div class="tank-strip history-strip"><label class="tank-link tank1" for="tab-tank1" title="Open Tank #1"><h3>Tank #1 →</h3><div class="mini-copy">2,020.1 mi<br/>82.6% EV<br/>$152.62<br/>7.56¢/mi</div></label><label class="tank-link tank2" for="tab-tank2" title="Open Tank #2"><h3>Tank #2 →</h3><div class="mini-copy">522.2 mi<br/>26.8% EV<br/>$61.62<br/>11.80¢/mi</div></label><label class="tank-link tank3" for="tab-tank3" title="Open Tank #3"><h3>Tank #3 →</h3><div class="mini-copy">1,041.8 mi<br/>64% EV<br/>$93.00<br/>8.93¢/mi</div></label><label class="tank-link tank4" for="tab-tank4" title="Open Tank #4"><h3>Tank #4 →</h3><div class="mini-copy">852.2 mi<br/>52% EV<br/>$92.61<br/>10.87¢/mi</div></label><label class="tank-link tank5" for="tab-tank5" title="Open Tank #5"><h3>Tank #5 →</h3><div class="mini-copy">983.2 mi<br/>59% EV<br/>$103.00<br/>10.48¢/mi</div></label><label class="tank-link tank6" for="tab-tank6" title="Open Tank #6"><h3>Tank #6 →</h3><div class="mini-copy">855.4 mi<br/>57.4% EV<br/>$87.53<br/>10.23¢/mi</div></label><label class="tank-link tank7" for="tab-tank7" title="Open Tank #7"><h3>Tank #7 →</h3><div class="mini-copy">1,600.7 mi<br/>68.7% EV<br/>$217.88<br/>13.61¢/mi</div></label><label class="tank-link tank8" for="tab-tank8" title="Open Tank #8"><h3>Tank #8 →</h3><div class="mini-copy">522.2 mi<br/>26.8% EV<br/>$61.62<br/>11.80¢/mi</div></label><label class="tank-link tank9" for="tab-tank9" title="Open Tank #9"><h3>Tank #9 →</h3><div class="mini-copy">1,041.8 mi<br/>64% EV<br/>$93.00<br/>8.93¢/mi</div></label><label class="tank-link tank10" for="tab-tank10" title="Open Tank #10"><h3>Tank #10 →</h3><div class="mini-copy">852.2 mi<br/>52% EV<br/>$92.61<br/>10.87¢/mi</div></label><label class="tank-link tank11" for="tab-tank11" title="Open Tank #11"><h3>Tank #11 →</h3><div class="mini-copy">983.2 mi<br/>59% EV<br/>$103.00<br/>10.48¢/mi</div></label><label class="tank-link tank12" for="tab-tank12" title="Open Tank #12"><h3>Tank #12 →</h3><div class="mini-copy">855.4 mi<br/>57.4% EV<br/>$87.53<br/>10.23¢/mi</div></label><label class="tank-link tank13 current" for="tab-tank13" title="Open Tank #13"><h3>Tank #13 →</h3><div class="mini-copy">1,600.7 mi<br/>68.7% EV<br/>$217.88<br/>13.61¢/mi</div></label></div>
+<div class="tank-strip history-strip"><label class="tank-link tank1" for="tab-tank1" title="Open Tank #1"><h3>Tank #1 →</h3><div class="mini-copy">2,020.1 mi<br/>82.6% EV<br/>$152.62<br/>7.56¢/mi</div></label><label class="tank-link tank2" for="tab-tank2" title="Open Tank #2"><h3>Tank #2 →</h3><div class="mini-copy">522.2 mi<br/>26.8% EV<br/>$61.62<br/>11.80¢/mi</div></label><label class="tank-link tank3" for="tab-tank3" title="Open Tank #3"><h3>Tank #3 →</h3><div class="mini-copy">1,041.8 mi<br/>64% EV<br/>$93.00<br/>8.93¢/mi</div></label><label class="tank-link tank4" for="tab-tank4" title="Open Tank #4"><h3>Tank #4 →</h3><div class="mini-copy">852.2 mi<br/>52% EV<br/>$92.61<br/>10.87¢/mi</div></label><label class="tank-link tank5" for="tab-tank5" title="Open Tank #5"><h3>Tank #5 →</h3><div class="mini-copy">983.2 mi<br/>59% EV<br/>$103.00<br/>10.48¢/mi</div></label><label class="tank-link tank6 current" for="tab-tank6" title="Open Tank #6"><h3>Tank #6 →</h3><div class="mini-copy">855.4 mi<br/>57.4% EV<br/>$87.53<br/>10.23¢/mi</div></label></div>
 <div class="nextrow"><label for="tab-year">See project-to-date details →</label></div>
 </section>
 <section class="panel" id="costs">
-<div class="section-title">Cumulative real‑world energy cost — Through Tank #13</div>
+<div class="section-title">Cumulative real‑world energy cost — Through Tank #6</div>
 <div class="grid2">
 <div class="card rows cost-tank-card">
 <div class="cost-tank-scroll">
@@ -1057,31 +711,31 @@ html{color-scheme:light}
 
 
 
-<div class="row"><span>Tank #1</span><b>$152.62</b></div><div class="row"><span>Tank #2</span><b>$61.62</b></div><div class="row"><span>Tank #3</span><b>$93.00</b></div><div class="row"><span>Tank #4</span><b>$92.61</b></div><div class="row"><span>Tank #5</span><b>$103.00</b></div><div class="row"><span>Tank #6</span><b>$87.53</b></div><div class="row"><span>Tank #7</span><b>$217.88</b></div><div class="row"><span>Tank #8</span><b>$61.62</b></div><div class="row"><span>Tank #9</span><b>$93.00</b></div><div class="row"><span>Tank #10</span><b>$92.61</b></div><div class="row"><span>Tank #11</span><b>$103.00</b></div><div class="row"><span>Tank #12</span><b>$87.53</b></div><div class="row"><span>Tank #13</span><b>$217.88</b></div></div><div class="total"><span>TRACKED TOTAL</span><strong>$1,463.90</strong></div>
+<div class="row"><span>Tank #1</span><b>$152.62</b></div><div class="row"><span>Tank #2</span><b>$61.62</b></div><div class="row"><span>Tank #3</span><b>$93.00</b></div><div class="row"><span>Tank #4</span><b>$92.61</b></div><div class="row"><span>Tank #5</span><b>$103.00</b></div><div class="row"><span>Tank #6</span><b>$87.53</b></div></div><div class="total"><span>TRACKED TOTAL</span><strong>$590.38</strong></div>
 </div>
 <div class="card">
 <div class="section-title">Average energy cost per mile</div>
-<div class="big-number">10.66¢</div>
-<p style="font-size:.95rem;font-style:italic;font-weight:700;color:var(--midnight)">PHEV: $1,463.90 energy cost ÷ 13,731.1 tracked miles</p>
+<div class="big-number">9.41¢</div>
+<p style="font-size:.95rem;font-style:italic;font-weight:700;color:var(--midnight)">PHEV: $590.38 energy cost ÷ 6,274.9 tracked miles</p>
 <p style="color:var(--muted);line-height:1.6">The completed tanks now span plug-heavy local driving, road trips, mixed use, and a nearly even electric/gas split — showing how driving patterns and charging opportunities shape real-world energy cost.</p>
 </div>
 </div>
 <div style="height:18px"></div>
-<div class="section-title">Cumulative through Tank #13</div>
+<div class="section-title">Cumulative through Tank #6</div>
 <div class="grid3">
 <div class="card">
 <div class="section-title">Gasoline purchased</div>
-<div style="font-size:2.4rem;font-weight:950;color:var(--actual-gas)">194.303 <span style="font-size:1.15rem">gal</span></div>
-<p style="color:var(--muted);margin-bottom:0">Actual gasoline purchased across all 13 completed tanks.</p>
+<div style="font-size:2.4rem;font-weight:950;color:var(--actual-gas)">89.556 <span style="font-size:1.15rem">gal</span></div>
+<p style="color:var(--muted);margin-bottom:0">Actual gasoline purchased across all 6 completed tanks.</p>
 </div>
 <div class="card">
 <div class="section-title" style="color:var(--lake)">Estimated 2018 gasoline</div>
-<div style="font-size:2.4rem;font-weight:950;color:var(--lake)">624.1 <span style="font-size:1.15rem">gal</span></div>
-<p style="color:var(--muted);margin-bottom:0">Estimated gasoline a 2018 Pacifica at 22 MPG would have used across the same 13,731.1 miles.</p>
+<div style="font-size:2.4rem;font-weight:950;color:var(--lake)">285.2 <span style="font-size:1.15rem">gal</span></div>
+<p style="color:var(--muted);margin-bottom:0">Estimated gasoline a 2018 Pacifica at 22 MPG would have used across the same 6,274.9 miles.</p>
 </div>
 <div class="card savings">
 <div class="section-title">Estimated gallons avoided</div>
-<div style="font-size:2.4rem;font-weight:950;color:var(--gold-text)">429.8 <span style="font-size:1.15rem">gal</span></div>
+<div style="font-size:2.4rem;font-weight:950;color:var(--gold-text)">195.7 <span style="font-size:1.15rem">gal</span></div>
 <p style="color:var(--muted);margin-bottom:0">Estimated difference between the 2018 benchmark and actual PHEV gasoline purchased.</p>
 </div>
 </div>
@@ -1092,12 +746,12 @@ html{color-scheme:light}
 <table class="compare">
 <thead><tr><th>Metric</th><th>2025 PHEV<span class="est">*</span></th><th>2018 Pacifica benchmark<span class="est">*</span></th></tr></thead>
 <tbody>
-<tr><td>Tracked miles</td><td class="phev">13,731.1</td><td class="old">13,731.1</td></tr>
-<tr><td>Total energy cost</td><td class="phev">$1,463.90</td><td class="old">$2,605.71<span class="est">†</span></td></tr>
-<tr><td>Average energy cost per mile</td><td class="phev">10.66¢</td><td class="old">18.98¢<span class="est">†</span></td></tr>
-<tr><td>Gas fill‑ups</td><td class="phev">13</td><td class="old">about 33</td></tr>
-<tr><td>Difference</td><td class="phev"><span class="saved-stack">$1,141.81<span class="est">†</span><span class="saved-word">saved</span></span></td><td class="old">
-<span style="display:block">429.8<span class="est">†</span></span>
+<tr><td>Tracked miles</td><td class="phev">6,274.9</td><td class="old">6,274.9</td></tr>
+<tr><td>Total energy cost</td><td class="phev">$590.38</td><td class="old">$1,160.73<span class="est">†</span></td></tr>
+<tr><td>Average energy cost per mile</td><td class="phev">9.41¢</td><td class="old">18.50¢<span class="est">†</span></td></tr>
+<tr><td>Gas fill‑ups</td><td class="phev">6</td><td class="old">about 15</td></tr>
+<tr><td>Difference</td><td class="phev"><span class="saved-stack">$570.35<span class="est">†</span><span class="saved-word">saved</span></span></td><td class="old">
+<span style="display:block">195.7<span class="est">†</span></span>
 <span style="display:block;font-size:.72em;font-style:italic;font-weight:700;line-height:1.15;margin-top:2px">gallons avoided</span>
 <span style="display:block;font-size:.72em;font-style:italic;font-weight:700;line-height:1.15">vs. 2018</span>
 </td></tr>
@@ -1107,40 +761,40 @@ html{color-scheme:light}
 </div>
 <div style="height:18px"></div>
 <div class="grid2">
-<div class="card savings"><div class="amount">$1,141.81</div><div class="pct">saved through Tank #13</div></div>
-<div class="card"><div class="big-number">43.8%</div><p style="font-size:1.2rem;font-weight:950;margin:.4rem 0;color:var(--midnight)">lower energy cost</p><p style="color:var(--muted);margin:0">than the combined 2018 Pacifica benchmark across the same 13,731.1 miles.</p></div>
+<div class="card savings"><div class="amount">$570.35</div><div class="pct">saved through Tank #6</div></div>
+<div class="card"><div class="big-number">49.1%</div><p style="font-size:1.2rem;font-weight:950;margin:.4rem 0;color:var(--midnight)">lower energy cost</p><p style="color:var(--muted);margin:0">than the combined 2018 Pacifica benchmark across the same 6,274.9 miles.</p></div>
 </div>
 <div class="nextrow"><label for="tab-costs">See cumulative costs →</label></div>
 </section>
 <section class="panel" id="year">
-<div class="section-title">Project to Date — Through Tank #13</div>
+<div class="section-title">Project to Date — Through Tank #6</div>
 <div class="note">The tanks so far have covered everything from plug‑heavy local driving to road trips and mixed-use driving. That contrast is exactly what the year‑long tracker is designed to capture.</div>
 <div style="height:18px"></div>
 <div class="grid4">
-<div class="card metric ytd-metric"><div aria-hidden="true" class="metric-icon road"><svg fill="none" viewbox="0 0 32 32"><path d="M10 3 5 29M22 3l5 26" stroke="currentColor" stroke-linecap="round" stroke-width="3.2"></path><path d="M16 5v4m0 5v4m0 5v4" stroke="currentColor" stroke-linecap="round" stroke-width="2.8"></path></svg></div><strong>13,731.1</strong><span>Tracked miles</span></div>
-<div class="card metric green ytd-metric"><div aria-hidden="true" class="metric-icon bolt"><svg fill="currentColor" viewbox="0 0 32 32"><path d="M18.6 2 7.8 17h7.3L12.8 30 24.5 13h-7.1L18.6 2Z"></path></svg></div><strong>62%</strong><span>Electric driving</span></div>
-<div class="card metric ytd-metric"><div class="metric-icon money">$</div><strong>$1,463.90</strong><span>Total energy cost</span></div>
+<div class="card metric ytd-metric"><div aria-hidden="true" class="metric-icon road"><svg fill="none" viewbox="0 0 32 32"><path d="M10 3 5 29M22 3l5 26" stroke="currentColor" stroke-linecap="round" stroke-width="3.2"></path><path d="M16 5v4m0 5v4m0 5v4" stroke="currentColor" stroke-linecap="round" stroke-width="2.8"></path></svg></div><strong>6,274.9</strong><span>Tracked miles</span></div>
+<div class="card metric green ytd-metric"><div aria-hidden="true" class="metric-icon bolt"><svg fill="currentColor" viewbox="0 0 32 32"><path d="M18.6 2 7.8 17h7.3L12.8 30 24.5 13h-7.1L18.6 2Z"></path></svg></div><strong>63.6%</strong><span>Electric driving</span></div>
+<div class="card metric ytd-metric"><div class="metric-icon money">$</div><strong>$590.38</strong><span>Total energy cost</span></div>
 <div class="card metric green ytd-metric"><div aria-hidden="true" class="metric-icon"><svg aria-hidden="true" viewbox="0 0 32 32">
 <g fill="currentColor">
 <path d="M17.7 3.2h-2.6v2.1c-3.1.4-5 2.2-5 4.7 0 3.2 2.7 4.1 5.3 4.8 2.1.6 3.2 1 3.2 2.1 0 1.2-1.1 2-3 2-2 0-3.8-.8-5.2-2.1l-1.8 2.5c1.7 1.5 3.9 2.4 6.5 2.6v2.2h2.6v-2.3c3.2-.5 5.2-2.4 5.2-5 0-3.4-2.8-4.3-5.5-5-2-.6-3-1-3-2 0-1 .9-1.7 2.6-1.7 1.7 0 3.1.6 4.3 1.6l1.7-2.4c-1.5-1.2-3.2-1.9-5.3-2.1V3.2Z"></path>
 <path d="M3.2 22.1h7.1c1.3 0 2.4.4 3.4 1.1l1.5 1.1h5.1l6.4-3.3c1.1-.6 2.4-.2 3 .9.6 1.1.2 2.4-.9 3l-7.1 4c-.9.5-1.9.8-3 .8h-7.2c-1.3 0-2.6-.4-3.7-1.1l-4.6-3V22.1Z"></path>
 </g>
-</svg></div><strong>$1,141.81</strong><span>Estimated savings</span></div>
+</svg></div><strong>$570.35</strong><span>Estimated savings</span></div>
 </div>
 <div style="height:18px"></div>
 <div class="ytd-main">
 <div class="card rows">
 <div class="section-title">Driving totals</div>
-<div class="row"><span>Electric driving</span><b>8,510.5</b></div>
-<div class="row"><span>Gas‑engine miles</span><b>5,220.6</b></div>
-<div class="row"><span>Gasoline purchased</span><b>194.303 gal</b></div>
-<div class="row"><span>Average energy cost per mile<span style="display:block;font-size:.80rem;font-style:italic;color:var(--muted);margin-top:4px;line-height:1.25">$1,463.90 ÷ 13,731.1 miles</span></span><b>10.66¢</b></div>
+<div class="row"><span>Electric driving</span><b>3,989.3</b></div>
+<div class="row"><span>Gas‑engine miles</span><b>2,285.6</b></div>
+<div class="row"><span>Gasoline purchased</span><b>89.556 gal</b></div>
+<div class="row"><span>Average energy cost per mile<span style="display:block;font-size:.80rem;font-style:italic;color:var(--muted);margin-top:4px;line-height:1.25">$590.38 ÷ 6,274.9 miles</span></span><b>9.41¢</b></div>
 </div>
 <div class="card chart-card">
 <div class="section-title">Energy cost per mile by tank</div>
 <div class="chart-swipe-hint" style="display:none">Swipe to see more →</div>
 <div class="chart-wrap">
-<svg aria-label="Line chart showing PHEV and 2018 benchmark energy cost per mile for Tanks 1 through 13" role="img" viewbox="0 0 1350 270"><line stroke="var(--chart-grid)" x1="58" x2="1310" y1="240" y2="240"></line><text fill="var(--chart-axis)" font-size="12" text-anchor="end" x="47" y="244">5¢</text><line stroke="var(--chart-grid)" x1="58" x2="1310" y1="190" y2="190"></line><text fill="var(--chart-axis)" font-size="12" text-anchor="end" x="47" y="194">9¢</text><line stroke="var(--chart-grid)" x1="58" x2="1310" y1="140" y2="140"></line><text fill="var(--chart-axis)" font-size="12" text-anchor="end" x="47" y="144">13¢</text><line stroke="var(--chart-grid)" x1="58" x2="1310" y1="90" y2="90"></line><text fill="var(--chart-axis)" font-size="12" text-anchor="end" x="47" y="94">17¢</text><line stroke="var(--chart-grid)" x1="58" x2="1310" y1="40" y2="40"></line><text fill="var(--chart-axis)" font-size="12" text-anchor="end" x="47" y="44">21¢</text><text fill="var(--chart-axis)" font-size="12" text-anchor="middle" x="75" y="260">Tank #1</text><text fill="var(--chart-axis)" font-size="12" text-anchor="middle" x="175" y="260">Tank #2</text><text fill="var(--chart-axis)" font-size="12" text-anchor="middle" x="275" y="260">Tank #3</text><text fill="var(--chart-axis)" font-size="12" text-anchor="middle" x="375" y="260">Tank #4</text><text fill="var(--chart-axis)" font-size="12" text-anchor="middle" x="475" y="260">Tank #5</text><text fill="var(--chart-axis)" font-size="12" text-anchor="middle" x="575" y="260">Tank #6</text><text fill="var(--chart-axis)" font-size="12" text-anchor="middle" x="675" y="260">Tank #7</text><text fill="var(--chart-axis)" font-size="12" text-anchor="middle" x="775" y="260">Tank #8</text><text fill="var(--chart-axis)" font-size="12" text-anchor="middle" x="875" y="260">Tank #9</text><text fill="var(--chart-axis)" font-size="12" text-anchor="middle" x="975" y="260">Tank #10</text><text fill="var(--chart-axis)" font-size="12" text-anchor="middle" x="1075" y="260">Tank #11</text><text fill="var(--chart-axis)" font-size="12" text-anchor="middle" x="1175" y="260">Tank #12</text><text fill="var(--chart-axis)" font-size="12" text-anchor="middle" x="1275" y="260">Tank #13</text><polyline fill="none" points="75,208.1 175,155.0 275,190.9 375,166.7 475,171.6 575,174.6 675,132.4 775,155.0 875,190.9 975,166.7 1075,171.6 1175,174.6 1275,132.4" stroke="var(--aurora)" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"></polyline><circle cx="75" cy="208.1" fill="var(--aurora)" r="7" stroke="var(--panel)" stroke-width="3"></circle><circle cx="175" cy="155.0" fill="var(--aurora)" r="7" stroke="var(--panel)" stroke-width="3"></circle><circle cx="275" cy="190.9" fill="var(--aurora)" r="7" stroke="var(--panel)" stroke-width="3"></circle><circle cx="375" cy="166.7" fill="var(--aurora)" r="7" stroke="var(--panel)" stroke-width="3"></circle><circle cx="475" cy="171.6" fill="var(--aurora)" r="7" stroke="var(--panel)" stroke-width="3"></circle><circle cx="575" cy="174.6" fill="var(--aurora)" r="7" stroke="var(--panel)" stroke-width="3"></circle><circle cx="675" cy="132.4" fill="var(--aurora)" r="7" stroke="var(--panel)" stroke-width="3"></circle><circle cx="775" cy="155.0" fill="var(--aurora)" r="7" stroke="var(--panel)" stroke-width="3"></circle><circle cx="875" cy="190.9" fill="var(--aurora)" r="7" stroke="var(--panel)" stroke-width="3"></circle><circle cx="975" cy="166.7" fill="var(--aurora)" r="7" stroke="var(--panel)" stroke-width="3"></circle><circle cx="1075" cy="171.6" fill="var(--aurora)" r="7" stroke="var(--panel)" stroke-width="3"></circle><circle cx="1175" cy="174.6" fill="var(--aurora)" r="7" stroke="var(--panel)" stroke-width="3"></circle><circle cx="1275" cy="132.4" fill="var(--aurora)" r="7" stroke="var(--panel)" stroke-width="3"></circle><polyline fill="none" points="75,84.9 175,72.9 275,72.4 375,69.5 475,53.6 575,58.8 675,54.2 775,72.9 875,72.4 975,69.5 1075,53.6 1175,58.8 1275,54.2" stroke="var(--lake)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></polyline><circle cx="75" cy="84.9" fill="var(--lake)" r="6" stroke="var(--panel)" stroke-width="3"></circle><circle cx="175" cy="72.9" fill="var(--lake)" r="6" stroke="var(--panel)" stroke-width="3"></circle><circle cx="275" cy="72.4" fill="var(--lake)" r="6" stroke="var(--panel)" stroke-width="3"></circle><circle cx="375" cy="69.5" fill="var(--lake)" r="6" stroke="var(--panel)" stroke-width="3"></circle><circle cx="475" cy="53.6" fill="var(--lake)" r="6" stroke="var(--panel)" stroke-width="3"></circle><circle cx="575" cy="58.8" fill="var(--lake)" r="6" stroke="var(--panel)" stroke-width="3"></circle><circle cx="675" cy="54.2" fill="var(--lake)" r="6" stroke="var(--panel)" stroke-width="3"></circle><circle cx="775" cy="72.9" fill="var(--lake)" r="6" stroke="var(--panel)" stroke-width="3"></circle><circle cx="875" cy="72.4" fill="var(--lake)" r="6" stroke="var(--panel)" stroke-width="3"></circle><circle cx="975" cy="69.5" fill="var(--lake)" r="6" stroke="var(--panel)" stroke-width="3"></circle><circle cx="1075" cy="53.6" fill="var(--lake)" r="6" stroke="var(--panel)" stroke-width="3"></circle><circle cx="1175" cy="58.8" fill="var(--lake)" r="6" stroke="var(--panel)" stroke-width="3"></circle><circle cx="1275" cy="54.2" fill="var(--lake)" r="6" stroke="var(--panel)" stroke-width="3"></circle><text fill="var(--chart-label)" font-size="12" font-weight="800" text-anchor="middle" x="75" y="195.1">7.56¢</text><text fill="var(--chart-label)" font-size="12" font-weight="800" text-anchor="middle" x="175" y="142.0">11.80¢</text><text fill="var(--chart-label)" font-size="12" font-weight="800" text-anchor="middle" x="275" y="177.9">8.93¢</text><text fill="var(--chart-label)" font-size="12" font-weight="800" text-anchor="middle" x="375" y="153.7">10.87¢</text><text fill="var(--chart-label)" font-size="12" font-weight="800" text-anchor="middle" x="475" y="158.6">10.48¢</text><text fill="var(--chart-label)" font-size="12" font-weight="800" text-anchor="middle" x="575" y="161.6">10.23¢</text><text fill="var(--chart-label)" font-size="12" font-weight="800" text-anchor="middle" x="675" y="119.4">13.61¢</text><text fill="var(--chart-label)" font-size="12" font-weight="800" text-anchor="middle" x="775" y="142.0">11.80¢</text><text fill="var(--chart-label)" font-size="12" font-weight="800" text-anchor="middle" x="875" y="177.9">8.93¢</text><text fill="var(--chart-label)" font-size="12" font-weight="800" text-anchor="middle" x="975" y="153.7">10.87¢</text><text fill="var(--chart-label)" font-size="12" font-weight="800" text-anchor="middle" x="1075" y="158.6">10.48¢</text><text fill="var(--chart-label)" font-size="12" font-weight="800" text-anchor="middle" x="1175" y="161.6">10.23¢</text><text fill="var(--chart-label)" font-size="12" font-weight="800" text-anchor="middle" x="1275" y="119.4">13.61¢</text></svg>
+<svg aria-label="Line chart showing PHEV and 2018 benchmark energy cost per mile for Tanks 1 through 6" role="img" viewbox="0 0 650 270"><line stroke="var(--chart-grid)" x1="58" x2="610" y1="240" y2="240"></line><text fill="var(--chart-axis)" font-size="12" text-anchor="end" x="47" y="244">5¢</text><line stroke="var(--chart-grid)" x1="58" x2="610" y1="190" y2="190"></line><text fill="var(--chart-axis)" font-size="12" text-anchor="end" x="47" y="194">9¢</text><line stroke="var(--chart-grid)" x1="58" x2="610" y1="140" y2="140"></line><text fill="var(--chart-axis)" font-size="12" text-anchor="end" x="47" y="144">13¢</text><line stroke="var(--chart-grid)" x1="58" x2="610" y1="90" y2="90"></line><text fill="var(--chart-axis)" font-size="12" text-anchor="end" x="47" y="94">17¢</text><line stroke="var(--chart-grid)" x1="58" x2="610" y1="40" y2="40"></line><text fill="var(--chart-axis)" font-size="12" text-anchor="end" x="47" y="44">21¢</text><text fill="var(--chart-axis)" font-size="12" text-anchor="middle" x="75" y="260">Tank #1</text><text fill="var(--chart-axis)" font-size="12" text-anchor="middle" x="175" y="260">Tank #2</text><text fill="var(--chart-axis)" font-size="12" text-anchor="middle" x="275" y="260">Tank #3</text><text fill="var(--chart-axis)" font-size="12" text-anchor="middle" x="375" y="260">Tank #4</text><text fill="var(--chart-axis)" font-size="12" text-anchor="middle" x="475" y="260">Tank #5</text><text fill="var(--chart-axis)" font-size="12" text-anchor="middle" x="575" y="260">Tank #6</text><polyline fill="none" points="75,208.1 175,155.0 275,190.9 375,166.7 475,171.6 575,174.6" stroke="var(--aurora)" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"></polyline><circle cx="75" cy="208.1" fill="var(--aurora)" r="7" stroke="var(--panel)" stroke-width="3"></circle><circle cx="175" cy="155.0" fill="var(--aurora)" r="7" stroke="var(--panel)" stroke-width="3"></circle><circle cx="275" cy="190.9" fill="var(--aurora)" r="7" stroke="var(--panel)" stroke-width="3"></circle><circle cx="375" cy="166.7" fill="var(--aurora)" r="7" stroke="var(--panel)" stroke-width="3"></circle><circle cx="475" cy="171.6" fill="var(--aurora)" r="7" stroke="var(--panel)" stroke-width="3"></circle><circle cx="575" cy="174.6" fill="var(--aurora)" r="7" stroke="var(--panel)" stroke-width="3"></circle><polyline fill="none" points="75,84.9 175,72.9 275,72.4 375,69.5 475,53.6 575,58.8" stroke="var(--lake)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></polyline><circle cx="75" cy="84.9" fill="var(--lake)" r="6" stroke="var(--panel)" stroke-width="3"></circle><circle cx="175" cy="72.9" fill="var(--lake)" r="6" stroke="var(--panel)" stroke-width="3"></circle><circle cx="275" cy="72.4" fill="var(--lake)" r="6" stroke="var(--panel)" stroke-width="3"></circle><circle cx="375" cy="69.5" fill="var(--lake)" r="6" stroke="var(--panel)" stroke-width="3"></circle><circle cx="475" cy="53.6" fill="var(--lake)" r="6" stroke="var(--panel)" stroke-width="3"></circle><circle cx="575" cy="58.8" fill="var(--lake)" r="6" stroke="var(--panel)" stroke-width="3"></circle><text fill="var(--chart-label)" font-size="12" font-weight="800" text-anchor="middle" x="75" y="195.1">7.56¢</text><text fill="var(--chart-label)" font-size="12" font-weight="800" text-anchor="middle" x="175" y="142.0">11.80¢</text><text fill="var(--chart-label)" font-size="12" font-weight="800" text-anchor="middle" x="275" y="177.9">8.93¢</text><text fill="var(--chart-label)" font-size="12" font-weight="800" text-anchor="middle" x="375" y="153.7">10.87¢</text><text fill="var(--chart-label)" font-size="12" font-weight="800" text-anchor="middle" x="475" y="158.6">10.48¢</text><text fill="var(--chart-label)" font-size="12" font-weight="800" text-anchor="middle" x="575" y="161.6">10.23¢</text></svg>
 </div>
 <div class="chart-legend"><span class="chart-key"><i class="chart-line phev"></i>2025 PHEV</span><span class="chart-key"><i class="chart-line old"></i>2018 Pacifica benchmark</span></div>
 <div class="chart-foot">2018 benchmark uses 22 MPG and the Twin Cities average gas-price benchmark for each tank period.</div>
@@ -1149,7 +803,7 @@ html{color-scheme:light}
 <div style="height:18px"></div>
 <div class="card">
 <div class="section-title">Tank board</div>
-<div class="tank-strip tank-board"><label class="tank-link tank1" for="tab-tank1" title="Open Tank #1"><h3>Tank #1 →</h3><div class="mini-copy">Jun 18–Aug 10<br/>2,020.1 mi<br/>82.6% EV<br/>$152.62</div></label><label class="tank-link tank2" for="tab-tank2" title="Open Tank #2"><h3>Tank #2 →</h3><div class="mini-copy">Aug 10–Aug 12<br/>522.2 mi<br/>26.8% EV<br/>$61.62</div></label><label class="tank-link tank3" for="tab-tank3" title="Open Tank #3"><h3>Tank #3 →</h3><div class="mini-copy">Aug 12–Aug 30<br/>1,041.8 mi<br/>64% EV<br/>$93.00</div></label><label class="tank-link tank4" for="tab-tank4" title="Open Tank #4"><h3>Tank #4 →</h3><div class="mini-copy">Aug 30–Sep 13<br/>852.2 mi<br/>52% EV<br/>$92.61</div></label><label class="tank-link tank5" for="tab-tank5" title="Open Tank #5"><h3>Tank #5 →</h3><div class="mini-copy">Sep 13–Sep 29<br/>983.2 mi<br/>59% EV<br/>$103.00</div></label><label class="tank-link tank6" for="tab-tank6" title="Open Tank #6"><h3>Tank #6 →</h3><div class="mini-copy">Sep 29–Oct 16<br/>855.4 mi<br/>57.4% EV<br/>$87.53</div></label><label class="tank-link tank7" for="tab-tank7" title="Open Tank #7"><h3>Tank #7 →</h3><div class="mini-copy">Oct 16–Nov 10<br/>1,600.7 mi<br/>68.7% EV<br/>$217.88</div></label><label class="tank-link tank8" for="tab-tank8" title="Open Tank #8"><h3>Tank #8 →</h3><div class="mini-copy">Aug 10–Aug 12<br/>522.2 mi<br/>26.8% EV<br/>$61.62</div></label><label class="tank-link tank9" for="tab-tank9" title="Open Tank #9"><h3>Tank #9 →</h3><div class="mini-copy">Aug 12–Aug 30<br/>1,041.8 mi<br/>64% EV<br/>$93.00</div></label><label class="tank-link tank10" for="tab-tank10" title="Open Tank #10"><h3>Tank #10 →</h3><div class="mini-copy">Aug 30–Sep 13<br/>852.2 mi<br/>52% EV<br/>$92.61</div></label><label class="tank-link tank11" for="tab-tank11" title="Open Tank #11"><h3>Tank #11 →</h3><div class="mini-copy">Sep 13–Sep 29<br/>983.2 mi<br/>59% EV<br/>$103.00</div></label><label class="tank-link tank12" for="tab-tank12" title="Open Tank #12"><h3>Tank #12 →</h3><div class="mini-copy">Sep 29–Oct 16<br/>855.4 mi<br/>57.4% EV<br/>$87.53</div></label><label class="tank-link tank13" for="tab-tank13" title="Open Tank #13"><h3>Tank #13 →</h3><div class="mini-copy">Oct 16–Nov 10<br/>1,600.7 mi<br/>68.7% EV<br/>$217.88</div></label></div>
+<div class="tank-strip tank-board"><label class="tank-link tank1" for="tab-tank1" title="Open Tank #1"><h3>Tank #1 →</h3><div class="mini-copy">Jun 18–Aug 10<br/>2,020.1 mi<br/>82.6% EV<br/>$152.62</div></label><label class="tank-link tank2" for="tab-tank2" title="Open Tank #2"><h3>Tank #2 →</h3><div class="mini-copy">Aug 10–Aug 12<br/>522.2 mi<br/>26.8% EV<br/>$61.62</div></label><label class="tank-link tank3" for="tab-tank3" title="Open Tank #3"><h3>Tank #3 →</h3><div class="mini-copy">Aug 12–Aug 30<br/>1,041.8 mi<br/>64% EV<br/>$93.00</div></label><label class="tank-link tank4" for="tab-tank4" title="Open Tank #4"><h3>Tank #4 →</h3><div class="mini-copy">Aug 30–Sep 13<br/>852.2 mi<br/>52% EV<br/>$92.61</div></label><label class="tank-link tank5" for="tab-tank5" title="Open Tank #5"><h3>Tank #5 →</h3><div class="mini-copy">Sep 13–Sep 29<br/>983.2 mi<br/>59% EV<br/>$103.00</div></label><label class="tank-link tank6" for="tab-tank6" title="Open Tank #6"><h3>Tank #6 →</h3><div class="mini-copy">Sep 29–Oct 16<br/>855.4 mi<br/>57.4% EV<br/>$87.53</div></label></div>
 <div class="ytd-quick">
 <label class="quick-btn detail" for="tab-compare"><span class="ico"><svg fill="currentColor" viewbox="0 0 24 24"><rect height="8" rx="1" width="3" x="4" y="12"></rect><rect height="12" rx="1" width="3" x="10.5" y="8"></rect><rect height="16" rx="1" width="3" x="17" y="4"></rect></svg></span>vs. 2018</label>
 <label class="quick-btn detail" for="tab-costs"><span class="ico"><svg fill="none" viewbox="0 0 24 24"><path d="M12 3v18M16 7.5c0-1.7-1.8-3-4-3s-4 1.3-4 3 1.8 3 4 3 4 1.3 4 3-1.8 3-4 3-4-1.3-4-3" stroke="currentColor" stroke-linecap="round" stroke-width="2"></path></svg></span>Costs</label>
@@ -1167,14 +821,32 @@ html{color-scheme:light}
 <div class="method"><div aria-hidden="true" class="symbol"><svg viewbox="0 0 32 32"><path d="M7 25V10"></path><path d="M14 25V6"></path><path d="M21 25V14"></path><path d="M28 25V9"></path><path d="M5 25h24"></path></svg></div><strong>2018 benchmark</strong><p>The same miles are modeled at 22 MPG using the Twin Cities average gas-price benchmark for each tank period.</p></div>
 </div>
 <div style="height:20px"></div>
-<div class="card"><div class="section-title">Seasonal electricity rates</div><p style="margin:0;color:var(--muted);line-height:1.65">The project uses 16.0608¢/kWh in summer and a provisional 14.0391¢/kWh in winter. Tank #6 home charging is split between September 30 (12.112 kWh at the summer rate) and October 1–15 (155.200 kWh at the winter rate). The winter rate will be checked against the first bill showing October usage.</p></div>
+<div class="card"><div class="section-title">Home charging electricity rates</div><p style="margin:0;color:var(--muted);line-height:1.65">Home charging energy costs are estimated using the Xcel Energy residential rate structure in effect when charging occurred. Before October 18, 2026, the project uses seasonal rates of 16.0608¢/kWh in summer and a provisional 14.0391¢/kWh in winter. Tank #6 charging is split between September 30 (12.112 kWh at the summer rate) and October 1–15 (155.200 kWh at the winter rate). On October 18, 2026, the household switched to Time-of-Use (TOU) billing; subsequent home charging is valued using the applicable TOU period rate. Earlier tank costs are not recalculated for the switch. These are attributed charging energy costs, not necessarily the household's net electricity bill after solar generation and net-metering credits. The provisional winter rate will be checked against the first bill reflecting October usage.</p></div>
 <div style="height:18px"></div>
 <div class="card"><div class="section-title">What this project is measuring</div><p style="margin:0;color:var(--muted);line-height:1.65">The focus is operating energy cost: actual gasoline plus actual paid public charging plus home electricity valued at the applicable residential rate, compared with estimated operating costs for a 2018 Chrysler Pacifica. Home charging costs reflect the applicable Xcel Energy residential electricity charges during each tank period, including standard or Time-of-Use rates as applicable. Solar production and net-metering credits are excluded.</p></div>
 <div class="nextrow"><label for="tab-overview">← Back to overview</label></div>
 </section>
 </div>
 </div>
-<div class="footer">Pacifica PHEV real‑world cost tracker through Tank #13 • November 10, 2026</div>
+<div class="footer">Pacifica PHEV real‑world cost tracker through Tank #6 • October 16, 2026</div>
 </div>
+<script>
+(function () {
+  function setupTankCue() {
+    var list = document.querySelector('#overview .quick-tanks');
+    var cue = document.querySelector('#overview .quick-scroll-cue');
+    if (!list || !cue) return;
+    function refresh() {
+      var hiddenBelow = list.scrollHeight - list.clientHeight - list.scrollTop > 2;
+      cue.classList.toggle('is-visible', hiddenBelow);
+    }
+    list.addEventListener('scroll', refresh, {passive:true});
+    window.addEventListener('resize', refresh);
+    refresh();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setupTankCue);
+  else setupTankCue();
+})();
+</script>
 </body>
 </html>
