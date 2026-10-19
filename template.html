@@ -170,12 +170,22 @@ h1{font-size:clamp(2.25rem,5vw,4.8rem);line-height:.93;letter-spacing:-.045em;ma
   display:flex;
   flex-wrap:wrap;
   justify-content:center;
+  align-content:flex-start;
   gap:10px 14px;
+  max-height:138px; /* Two 64px rows, with a 10px gap */
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  scrollbar-gutter:stable;
+  padding-right:6px;
 }
 .quick-tanks .quick-btn.tank{
   flex:0 0 138px;
   width:138px;
 }
+/* Only show the cue when tank navigation has more rows below. */
+.quick-scroll-cue{display:none;text-align:center;color:var(--muted);font-size:.77rem;font-weight:750;line-height:1.4;margin:4px 0 0;}
+.quick-scroll-cue.is-visible{display:block;}
+
 .quick-details{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
@@ -218,8 +228,8 @@ html,body{max-width:100%;overflow-x:hidden}
 .tank-board .tank-link{min-width:0;width:100%}
 .ytd-main{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:18px}
 .chart-card{overflow:hidden}
-.chart-wrap{width:100%;margin-top:4px}
-.chart-wrap svg{display:block;width:100%;height:auto;overflow:visible}
+.chart-wrap{width:100%;margin-top:4px;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;scrollbar-width:thin;padding-bottom:7px}
+.chart-wrap svg{display:block;width:100%;max-width:none;height:auto;overflow:visible}
 .chart-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;font-size:.86rem;color:var(--muted);font-weight:800}
 .chart-key{display:inline-flex;align-items:center;gap:6px}.chart-line{width:22px;height:3px;border-radius:999px;display:inline-block}.chart-line.phev{background:var(--aurora)}.chart-line.old{background:var(--lake)}
 .chart-foot{font-size:.76rem;color:var(--muted);font-style:italic;margin-top:8px;line-height:1.4}
@@ -396,6 +406,7 @@ html{color-scheme:light}
 <label class="quick-btn tank" for="tab-tank3"><span class="ico"><svg fill="none" viewbox="0 0 24 24"><path d="M7 3h8a2 2 0 0 1 2 2v16H5V5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2"></path><path d="M8 7h6v5H8V7Zm9 3h2l2 2v5a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg></span><span class="tank-label"><span>Tank</span><span>#3</span></span></label>
 <label class="quick-btn tank" for="tab-tank4"><span class="ico"><svg fill="none" viewbox="0 0 24 24"><path d="M7 3h8a2 2 0 0 1 2 2v16H5V5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2"></path><path d="M8 7h6v5H8V7Zm9 3h2l2 2v5a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg></span><span class="tank-label"><span>Tank</span><span>#4</span></span></label><label class="quick-btn tank" for="tab-tank5"><span class="ico"><svg fill="none" viewbox="0 0 24 24"><path d="M7 3h8a2 2 0 0 1 2 2v16H5V5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2"></path><path d="M8 7h6v5H8V7Zm9 3h2l2 2v5a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg></span><span class="tank-label"><span>Tank</span><span>#5</span></span></label><label class="quick-btn tank" for="tab-tank6"><span class="ico"><svg fill="none" viewbox="0 0 24 24"><path d="M7 3h8a2 2 0 0 1 2 2v16H5V5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2"></path><path d="M8 7h6v5H8V7Zm9 3h2l2 2v5a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg></span><span class="tank-label"><span>Tank</span><span>#6</span></span></label>
 </div>
+<div class="quick-scroll-cue" aria-hidden="true">Scroll for more tanks ↓</div>
 <div class="quick-details">
 <label class="quick-btn detail" for="tab-compare"><span class="ico"><svg fill="currentColor" viewbox="0 0 24 24"><rect height="8" rx="1" width="3" x="4" y="12"></rect><rect height="12" rx="1" width="3" x="10.5" y="8"></rect><rect height="16" rx="1" width="3" x="17" y="4"></rect></svg></span>vs. 2018</label>
 <label class="quick-btn detail" for="tab-costs"><span class="ico"><svg fill="none" viewbox="0 0 24 24"><path d="M12 3v18M16 7.5c0-1.7-1.8-3-4-3s-4 1.3-4 3 1.8 3 4 3 4 1.3 4 3-1.8 3-4 3-4-1.3-4-3" stroke="currentColor" stroke-linecap="round" stroke-width="2"></path></svg></span>Costs</label>
@@ -857,7 +868,7 @@ html{color-scheme:light}
 <div class="method"><div aria-hidden="true" class="symbol"><svg viewbox="0 0 32 32"><path d="M7 25V10"></path><path d="M14 25V6"></path><path d="M21 25V14"></path><path d="M28 25V9"></path><path d="M5 25h24"></path></svg></div><strong>2018 benchmark</strong><p>The same miles are modeled at 22 MPG using the Twin Cities average gas-price benchmark for each tank period.</p></div>
 </div>
 <div style="height:20px"></div>
-<div class="card"><div class="section-title">Seasonal electricity rates</div><p style="margin:0;color:var(--muted);line-height:1.65">The project uses 16.0608¢/kWh in summer and a provisional 14.0391¢/kWh in winter. Tank #6 home charging is split between September 30 (12.112 kWh at the summer rate) and October 1–15 (155.200 kWh at the winter rate). The winter rate will be checked against the first bill showing October usage.</p></div>
+<div class="card"><div class="section-title">Home charging electricity rates</div><p style="margin:0;color:var(--muted);line-height:1.65">Home charging energy costs are estimated using the Xcel Energy residential rate structure in effect when charging occurred. Before October 18, 2026, the project uses seasonal rates of 16.0608¢/kWh in summer and a provisional 14.0391¢/kWh in winter. Tank #6 charging is split between September 30 (12.112 kWh at the summer rate) and October 1–15 (155.200 kWh at the winter rate). On October 18, 2026, the household switched to Time-of-Use (TOU) billing; subsequent home charging is valued using the applicable TOU period rate. Earlier tank costs are not recalculated for the switch. These are attributed charging energy costs, not necessarily the household's net electricity bill after solar generation and net-metering credits. The provisional winter rate will be checked against the first bill reflecting October usage.</p></div>
 <div style="height:18px"></div>
 <div class="card"><div class="section-title">What this project is measuring</div><p style="margin:0;color:var(--muted);line-height:1.65">The focus is operating energy cost: actual gasoline plus actual paid public charging plus home electricity valued at the applicable residential rate, compared with estimated operating costs for a 2018 Chrysler Pacifica. Home charging costs reflect the applicable Xcel Energy residential electricity charges during each tank period, including standard or Time-of-Use rates as applicable. Solar production and net-metering credits are excluded.</p></div>
 <div class="nextrow"><label for="tab-overview">← Back to overview</label></div>
@@ -866,5 +877,23 @@ html{color-scheme:light}
 </div>
 <div class="footer">Pacifica PHEV real‑world cost tracker through Tank #6 • October 16, 2026</div>
 </div>
+<script>
+(function () {
+  function setupTankCue() {
+    var list = document.querySelector('#overview .quick-tanks');
+    var cue = document.querySelector('#overview .quick-scroll-cue');
+    if (!list || !cue) return;
+    function refresh() {
+      var hiddenBelow = list.scrollHeight - list.clientHeight - list.scrollTop > 2;
+      cue.classList.toggle('is-visible', hiddenBelow);
+    }
+    list.addEventListener('scroll', refresh, {passive:true});
+    window.addEventListener('resize', refresh);
+    refresh();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setupTankCue);
+  else setupTankCue();
+})();
+</script>
 </body>
 </html>

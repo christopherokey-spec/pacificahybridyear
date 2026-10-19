@@ -197,6 +197,7 @@ def main():
  date=soup.select_one('.date-badge span');set_text(date,f'(data through {last["end"]})')
  # update chart mobile min width for larger chart
  css.append(f'\n@media(max-width:520px){{.chart-wrap svg{{width:{width}px}}}}')
+ if n>10:css.append(f'\n@media(min-width:521px){{.chart-wrap svg{{width:max(100%, {width}px)}}}}')
  (P/'index.html').write_text(str(soup),encoding='utf-8')
  print(f'Built index.html: {n} tanks, {fmt(miles,1)} miles, {money(cost)} cost, {money(saved)} saved')
 if __name__=='__main__':
