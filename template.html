@@ -111,6 +111,7 @@ h1{font-size:clamp(2.25rem,5vw,4.8rem);line-height:.93;letter-spacing:-.045em;ma
 .savings .estimate-qualifier{display:block;font-size:.78rem;line-height:1;color:var(--ink);font-style:italic;font-weight:650;letter-spacing:0;margin-top:0;margin-bottom:36px}
 .savings .pct{font-size:2rem;color:var(--midnight);font-weight:950;margin-top:5px}
 .cost-tank-scroll{max-height:410px;overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:stable;padding-right:8px}
+.cost-summary-grid{align-items:start}
 .cost-tank-card{display:flex;flex-direction:column;align-self:stretch}
 .cost-tank-card .total{flex-shrink:0}
 .rows .row{display:grid;grid-template-columns:1fr auto;gap:10px;padding:11px 0;border-bottom:1px dashed var(--row-line)}
@@ -731,7 +732,7 @@ html{color-scheme:light}
 </section>
 <section class="panel" id="costs">
 <div class="section-title">Cumulative real‑world energy cost — Through Tank #6</div>
-<div class="grid2">
+<div class="grid2 cost-summary-grid">
 <div class="card rows cost-tank-card">
 <div class="cost-tank-scroll">
 <div class="row"><span>Tank #1</span><b>$152.62</b></div>
